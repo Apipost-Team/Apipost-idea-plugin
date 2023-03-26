@@ -1,0 +1,43 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <id>com.wwr.apipost-idea-plugin</id>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
+    <name>Apipost-idea-plugin</name>
+
+    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+    <vendor email="support@yourcompany.com" url="https://www.yourcompany.com">apipost</vendor>
+
+    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
+    <description><![CDATA[
+        1.0 : 支持接口解析上传到apipost
+      ]]></description>
+
+    <idea-version since-build="192.6262.58"/>
+
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.java</depends>
+    <depends>com.intellij.properties</depends>
+
+    <!-- Extension points defined by the plugin.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <extensions defaultExtensionNs="com.intellij">
+        <!--  配置      -->
+        <applicationService serviceImplementation="com.wwr.apipost.handle.apipost.config.ApiPostSettings"/>
+        <applicationConfigurable instance="com.wwr.apipost.handle.apipost.config.APiPostSettingsConfiguration"/>
+    </extensions>
+    <actions>
+        <!--    上传动作      -->
+        <action id="apipost.ApiPostUploadAction" class="com.wwr.apipost.handle.apipost.action.ApiPostUploadAction">
+            <!--    动作所在位置     -->
+            <add-to-group group-id="EditorLangPopupMenu" anchor="after" relative-to-action="apipost.ApiPostUploadAction"/>
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+        </action>
+    </actions>
+</idea-plugin>
