@@ -6,6 +6,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.IconLoader;
 import com.wwr.apipost.action.AbstractAction;
 import com.wwr.apipost.config.ApiPostConfig;
 import com.wwr.apipost.config.domain.Api;
@@ -49,6 +50,11 @@ public class ApiPostUploadAction extends AbstractAction {
     // public static final String remoteUrl = "https://sync-project.apipost.cn/api/convert";
     public static final String remoteUrl = "http://127.0.0.1:8080/open/save";
 
+
+    @SuppressWarnings("unused all")
+    public ApiPostUploadAction() {
+        super(IconLoader.getIcon("/icons/upload.png"), true);
+    }
 
     @Override
     public boolean before(AnActionEvent event, ApiPostConfig config) {
@@ -103,5 +109,10 @@ public class ApiPostUploadAction extends AbstractAction {
     @Override
     public void update(@NotNull AnActionEvent e) {
         e.getPresentation().setText(ACTION_TEXT);
+    }
+
+    @Override
+    public void setDefaultIcon(boolean isDefaultIconSet) {
+        super.setDefaultIcon(isDefaultIconSet);
     }
 }

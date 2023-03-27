@@ -8,13 +8,13 @@
     <name>Apipost-idea-plugin</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
-    <vendor email="support@yourcompany.com" url="https://www.yourcompany.com">apipost</vendor>
+    <vendor email="1024567671@qq.com" url="https://www.yourcompany.com">apipost</vendor>
 
     <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description><![CDATA[
-        1.0 : 支持接口解析上传到apipost
+        1.0 : 支持接口解析上传到apipost，只解析有doc文档的或者有swagger注解的接口
       ]]></description>
 
     <idea-version since-build="192.6262.58"/>
@@ -34,7 +34,8 @@
     </extensions>
     <actions>
         <!--    上传动作      -->
-        <action id="apipost.ApiPostUploadAction" class="com.wwr.apipost.handle.apipost.action.ApiPostUploadAction">
+<!--        <action id="apipost.ApiPostUploadAction" icon="AllIcons.Actions.StepOut" class="com.wwr.apipost.handle.apipost.action.ApiPostUploadAction">-->
+        <action id="apipost.ApiPostUploadAction" icon="/icons/upload.png" class="com.wwr.apipost.handle.apipost.action.ApiPostUploadAction">
             <!--    动作所在位置     -->
             <add-to-group group-id="EditorLangPopupMenu" anchor="after" relative-to-action="apipost.ApiPostUploadAction"/>
             <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>

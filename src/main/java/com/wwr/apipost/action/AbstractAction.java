@@ -30,7 +30,9 @@ import com.wwr.apipost.util.psi.PsiFileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import javax.swing.*;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
@@ -55,6 +57,12 @@ public abstract class AbstractAction extends AnAction {
      * 配置文件是否必须
      */
     private final boolean requiredConfigFile;
+
+
+    public AbstractAction(@Nullable Icon icon, boolean requiredConfigFile) {
+        super(icon);
+        this.requiredConfigFile = requiredConfigFile;
+    }
 
     protected AbstractAction() {
         // this.requiredConfigFile = true;
