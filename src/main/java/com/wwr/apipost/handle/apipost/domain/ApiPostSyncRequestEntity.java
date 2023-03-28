@@ -1,5 +1,6 @@
 package com.wwr.apipost.handle.apipost.domain;
 
+import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -20,7 +21,7 @@ public class ApiPostSyncRequestEntity implements Serializable {
     private String projectId;
 
     @SerializedName("openapi")
-    private String openApi;
+    private JsonObject openApi;
 
 
     public String getProjectId() {
@@ -31,11 +32,11 @@ public class ApiPostSyncRequestEntity implements Serializable {
         this.projectId = projectId;
     }
 
-    public String getOpenApi() {
+    public JsonObject getOpenApi() {
         return openApi;
     }
 
-    public void setOpenApi(String openApi) {
+    public void setOpenApi(JsonObject openApi) {
         this.openApi = openApi;
     }
 

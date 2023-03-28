@@ -2,6 +2,7 @@ package com.wwr.apipost.handle.apipost.action;
 
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
+import com.google.gson.JsonObject;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.module.Module;
@@ -15,7 +16,6 @@ import com.wwr.apipost.handle.apipost.config.ApiPostSettingsDialog;
 import com.wwr.apipost.handle.apipost.domain.ApiPostSyncRequestEntity;
 import com.wwr.apipost.handle.apipost.domain.ApiPostSyncResponseVO;
 import com.wwr.apipost.openapi.OpenApiDataConvert;
-import com.wwr.apipost.openapi.OpenApiFileType;
 import com.wwr.apipost.openapi.OpenApiGenerator;
 import com.wwr.apipost.util.psi.PsiModuleUtils;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -47,13 +47,13 @@ public class ApiPostUploadAction extends AbstractAction {
     /**
      * 远端地址
      */
-    // public static final String remoteUrl = "https://sync-project.apipost.cn/api/convert";
-    public static final String remoteUrl = "http://127.0.0.1:8080/open/save";
+     public static final String remoteUrl = "https://sync-project.apipost.cn/api/convert";
+//    public static final String remoteUrl = "http://127.0.0.1:8080/open/save";
 
 
     @SuppressWarnings("unused all")
     public ApiPostUploadAction() {
-        super(IconLoader.getIcon("/icons/upload.png"), true);
+        super(IconLoader.getIcon("/icons/upload.png", ApiPostUploadAction.class.getClassLoader()), false);
     }
 
     @Override
@@ -75,14 +75,12 @@ public class ApiPostUploadAction extends AbstractAction {
         String token = settings.getToken();
         String projectId = settings.getProjectId();
 
-        OpenApiFileType fileType = OpenApiFileType.JSON;
-
         OpenAPI openApi = new OpenApiDataConvert().convert(apis);
         openApi.getInfo().setTitle(module.getName());
-        String content = new OpenApiGenerator().generate(fileType, openApi);
+        JsonObject apiJsonObject = new OpenApiGenerator().generate(openApi);
         // 上传到ApiPost
         ApiPostSyncRequestEntity entity = new ApiPostSyncRequestEntity();
-        entity.setOpenApi(content);
+        entity.setOpenApi(apiJsonObject);
         entity.setProjectId(projectId);
         String requestBodyJson = toJson(entity);
         String responseBody;
@@ -95,15 +93,14 @@ public class ApiPostUploadAction extends AbstractAction {
             responseBody = response.body();
         } catch (Exception e) {
             notifyError("upload error：network error！");
-            throw new RuntimeException("网络异常！");
+            return;
         }
         ApiPostSyncResponseVO responseVO = fromJson(responseBody, ApiPostSyncResponseVO.class);
         if (responseVO.isSuccess()) {
             notifyInfo("上传成功");
         } else {
-            notifyError("上传失败，请检查网络或配置");
+            notifyError("上传失败: " + responseVO.getMessage());
         }
-        System.out.println(responseVO);
     }
 
     @Override

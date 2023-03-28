@@ -15,7 +15,7 @@ public class ApiPostSyncResponseVO<T> {
 
     private Integer code;
 
-    private String msg;
+    private String message;
 
     private T data;
 
@@ -28,12 +28,12 @@ public class ApiPostSyncResponseVO<T> {
         this.code = code;
     }
 
-    public String getMsg() {
-        return msg;
+    public String getMessage() {
+        return message;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public T getData() {
@@ -54,7 +54,7 @@ public class ApiPostSyncResponseVO<T> {
     public String toString() {
         return "ApiPostSyncResponseVO{" +
                 "code=" + code +
-                ", msg='" + msg + '\'' +
+                ", msg='" + message + '\'' +
                 ", data=" + data +
                 '}';
     }

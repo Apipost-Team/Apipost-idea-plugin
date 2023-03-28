@@ -5,7 +5,7 @@
 
     <!-- Public plugin name should be written in Title Case.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
-    <name>Apipost-idea-plugin</name>
+    <name>ApiPost-idea-helper</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
     <vendor email="1024567671@qq.com" url="https://www.yourcompany.com">apipost</vendor>
@@ -14,7 +14,7 @@
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description><![CDATA[
-        1.0 : 支持接口解析上传到apipost，只解析有doc文档的或者有swagger注解的接口
+        1.0 : 支持接口解析上传到apipost，需要解析的地方请使用doc文档或者swagger注解
       ]]></description>
 
     <idea-version since-build="192.6262.58"/>

@@ -164,7 +164,7 @@ public class ApiParser {
      * 判断是否是控制类或接口
      */
     private boolean isParseTargetPsiClass(PsiClass psiClass) {
-        // 接口是为了满足接口继承的情况
+        // 是否有@RestController、@Controller注解
         boolean isController = psiClass.isInterface()
                 || PsiAnnotationUtils.getAnnotation(psiClass, SpringConstants.RestController) != null
                 || PsiAnnotationUtils.getAnnotation(psiClass, SpringConstants.Controller) != null;

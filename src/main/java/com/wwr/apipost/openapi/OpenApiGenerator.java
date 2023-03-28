@@ -1,10 +1,7 @@
 package com.wwr.apipost.openapi;
 
 import com.google.common.collect.Sets;
-import com.google.gson.ExclusionStrategy;
-import com.google.gson.FieldAttributes;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.*;
 import io.swagger.v3.oas.models.OpenAPI;
 import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.DumperOptions;
@@ -26,21 +23,13 @@ import java.util.Set;
 
 public class OpenApiGenerator {
 
-    public String generate(OpenApiFileType fileType, OpenAPI openApi) {
-        String content;
-        if (fileType == OpenApiFileType.JSON) {
-            Gson gson = new GsonBuilder()
-                    .setExclusionStrategies(new NamedExclusionStrategy(Sets.newHashSet("exampleSetFlag", "specVersion")))
-                    .setPrettyPrinting()
-                    .create();
-            content = gson.toJson(openApi);
-        } else {
-            Yaml yaml = buildYaml();
-            StringWriter stringWriter = new StringWriter();
-            yaml.dump(openApi, stringWriter);
-            content = stringWriter.toString();
-        }
-        return content;
+    public JsonObject generate(OpenAPI openApi) {
+        Gson gson = new GsonBuilder()
+                .setExclusionStrategies(new NamedExclusionStrategy(Sets.newHashSet("exampleSetFlag", "specVersion")))
+                .setPrettyPrinting()
+                .create();
+        JsonElement jsonElement = gson.toJsonTree(openApi);
+        return jsonElement.getAsJsonObject();
     }
 
     @NotNull
