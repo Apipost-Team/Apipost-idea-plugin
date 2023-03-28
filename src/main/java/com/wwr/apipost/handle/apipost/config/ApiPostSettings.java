@@ -27,9 +27,6 @@ import org.jetbrains.annotations.Nullable;
 @State(name = "ApiPostSettings", storages = @Storage("ApiPostSettings.xml"))
 public class ApiPostSettings implements PersistentStateComponent<ApiPostSettings> {
 
-    private static final String PASSWORD_KEY = "apiPost";
-
-
     /**
      * token
      */
