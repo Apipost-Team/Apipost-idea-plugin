@@ -96,7 +96,13 @@ public class EventData {
 
 
     public File getLocalDefaultFileCache() {
-        return Paths.get(new File(module.getModuleFilePath()).getParentFile().getPath(), DefaultConstants.DEFAULT_PROPERTY_FILE_CACHE).toFile();
+        File moduleRoot = new File(module.getModuleFilePath()).getParentFile();
+        String rootPath = moduleRoot.getPath();
+        String cachePath = ".idea";
+        if (!rootPath.contains(cachePath)) {
+            rootPath = rootPath + "/" + cachePath;
+        }
+        return Paths.get(rootPath, DefaultConstants.DEFAULT_PROPERTY_FILE_CACHE).toFile();
     }
 
 }

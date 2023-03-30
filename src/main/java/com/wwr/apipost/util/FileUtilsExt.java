@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
+import static com.wwr.apipost.parse.util.NotificationUtils.notifyInfo;
+
 @UtilityClass
 public class FileUtilsExt {
 

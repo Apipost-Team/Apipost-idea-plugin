@@ -49,6 +49,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+import static com.wwr.apipost.config.DefaultConstants.DEFAULT_PROPERTY_FILE_CACHE;
 import static com.wwr.apipost.parse.util.NotificationUtils.notifyError;
 import static com.wwr.apipost.parse.util.NotificationUtils.notifyInfo;
 import static java.lang.String.format;
@@ -197,7 +198,7 @@ public abstract class AbstractAction extends AnAction {
         if (requiredConfigFile && (file == null || !file.exists())) {
             ServiceManager.getService(ApiPostSettings.class).setProjectId(null);
             NotificationUtils.notify(NotificationType.WARNING, "",
-                    "Not found config file .default_property",
+                    "Not found config file " + DEFAULT_PROPERTY_FILE_CACHE,
                     new CreateConfigFileAction(data.getProject(), data.getModule(), "Create Config File"));
             return StepResult.stop();
         }

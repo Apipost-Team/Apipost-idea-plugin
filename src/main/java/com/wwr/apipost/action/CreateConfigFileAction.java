@@ -6,6 +6,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.wwr.apipost.config.DefaultConstants;
 import com.wwr.apipost.handle.apipost.config.ApiPostSettingsDialog;
 import com.wwr.apipost.parse.util.NotificationUtils;
@@ -17,6 +18,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.wwr.apipost.parse.util.NotificationUtils.notifyInfo;
 
 /**
  * 创建配置文件的通知动作
@@ -40,15 +42,21 @@ public class CreateConfigFileAction extends NotificationAction {
     public void actionPerformed(@NotNull AnActionEvent event, @NotNull Notification notification) {
         // 参数校验
         File moduleRoot = new File(module.getModuleFilePath()).getParentFile();
-        String rootPath = moduleRoot.getParentFile().getPath() + "/.idea";
+        String rootPath = moduleRoot.getPath();
+        String cachePath = ".idea";
+        if (!rootPath.contains(cachePath)) {
+            rootPath = rootPath + "/" + cachePath;
+        }
         File file = Paths.get(rootPath, DefaultConstants.DEFAULT_PROPERTY_FILE_CACHE).toFile();
         try {
             String content = FileUtilsExt.readTextInResource(TEMPLATE_FILE);
             FileUtilsExt.writeText(file, content);
-            Project project = event.getData(CommonDataKeys.PROJECT);
-            ApiPostSettingsDialog dialog = ApiPostSettingsDialog.show(project, event.getPresentation().getText());
         } catch (IOException ex) {
             NotificationUtils.notifyError("Create config file error: " + ex.getMessage());
+        }
+        finally {
+            Project project = event.getData(CommonDataKeys.PROJECT);
+            ApiPostSettingsDialog.show(project, event.getPresentation().getText());
         }
     }
 }
