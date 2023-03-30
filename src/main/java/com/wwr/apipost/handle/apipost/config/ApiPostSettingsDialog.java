@@ -57,15 +57,15 @@ public class ApiPostSettingsDialog extends DialogWrapper {
     @Override
     protected void doOKAction() {
         ApiPostSettings settings = form.get();
-        if (settings.isValidate()) {
-            ApiPostSettings.storeInstance(form.get());
-            super.doOKAction();
-        }
         if (StringUtils.isBlank(settings.getToken())) {
             setErrorText("token不能为空", form.getToken());
         }
         if (StringUtils.isBlank(settings.getProjectId())) {
             setErrorText("项目id不能为空", form.getProjectId());
+        }
+        if (settings.isValidate()) {
+            ApiPostSettings.storeInstance(form.get());
+            super.doOKAction();
         }
     }
 

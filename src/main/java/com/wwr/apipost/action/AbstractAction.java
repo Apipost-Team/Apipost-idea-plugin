@@ -7,6 +7,7 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.LangDataKeys;
+import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.module.Module;
@@ -21,6 +22,8 @@ import com.wwr.apipost.config.ApiPostConfig;
 import com.wwr.apipost.config.ApiPostConfigUtils;
 import com.wwr.apipost.config.DefaultConstants;
 import com.wwr.apipost.config.domain.Api;
+import com.wwr.apipost.config.domain.EventData;
+import com.wwr.apipost.handle.apipost.config.ApiPostSettings;
 import com.wwr.apipost.parse.ApiParser;
 import com.wwr.apipost.parse.model.ClassApiData;
 import com.wwr.apipost.parse.model.MethodApiData;
@@ -33,6 +36,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
+import java.io.File;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
@@ -65,8 +70,8 @@ public abstract class AbstractAction extends AnAction {
     }
 
     protected AbstractAction() {
-        // this.requiredConfigFile = true;
-        this.requiredConfigFile = false;
+         this.requiredConfigFile = true;
+//        this.requiredConfigFile = false;
     }
 
     protected AbstractAction(boolean requiredConfigFile) {
@@ -91,6 +96,9 @@ public abstract class AbstractAction extends AnAction {
         if (!before(event, config)) {
             return;
         }
+        if (!after(event, config, data)) {
+            return;
+        }
         // 3.解析文档
         StepResult<List<Api>> apisResult = parse(data, config);
         if (!apisResult.isContinue()) {
@@ -109,6 +117,13 @@ public abstract class AbstractAction extends AnAction {
     }
 
     /**
+     * 后置操作
+     */
+    public boolean after(AnActionEvent event, ApiPostConfig config, EventData data) {
+        return true;
+    }
+
+    /**
      * 文档处理
      */
     public abstract void handle(AnActionEvent event, ApiPostConfig config, List<Api> apis);
@@ -117,10 +132,10 @@ public abstract class AbstractAction extends AnAction {
      * 解析文档模型数据
      */
     private StepResult<List<Api>> parse(EventData data, ApiPostConfig config) {
-        ApiParser parser = new ApiParser(data.project, data.module, config);
+        ApiParser parser = new ApiParser(data.getProject(), data.getModule(), config);
         // 选中方法
-        if (data.selectedMethod != null) {
-            MethodApiData methodData = parser.parse(data.selectedMethod);
+        if (data.getSelectedMethod() != null) {
+            MethodApiData methodData = parser.parse(data.getSelectedMethod());
             if (!methodData.isValid()) {
                 NotificationUtils.notifyWarning(DefaultConstants.NAME,
                         "The current method is not a valid api or ignored");
@@ -134,8 +149,8 @@ public abstract class AbstractAction extends AnAction {
         }
 
         // 选中类
-        if (data.selectedClass != null) {
-            ClassApiData controllerData = parser.parse(data.selectedClass);
+        if (data.getSelectedClass() != null) {
+            ClassApiData controllerData = parser.parse(data.getSelectedClass());
             if (!controllerData.isValid()) {
                 NotificationUtils.notifyWarning(DefaultConstants.NAME,
                         "The current class is not a valid controller or ignored");
@@ -149,7 +164,7 @@ public abstract class AbstractAction extends AnAction {
         }
 
         // 批量
-        List<PsiClass> controllers = PsiFileUtils.getPsiClassByFile(data.selectedJavaFiles);
+        List<PsiClass> controllers = PsiFileUtils.getPsiClassByFile(data.getSelectedJavaFiles());
         if (controllers.isEmpty()) {
             NotificationUtils.notifyWarning(DefaultConstants.NAME, "Not found valid controller class");
             return StepResult.stop();
@@ -178,11 +193,12 @@ public abstract class AbstractAction extends AnAction {
      */
     private StepResult<ApiPostConfig> resolveConfig(EventData data) {
         // 配置文件解析
-        VirtualFile file = ApiPostConfigUtils.findConfigFile(data.project, data.module);
+        VirtualFile file = ApiPostConfigUtils.findConfigFile(data.getProject(), data.getModule());
         if (requiredConfigFile && (file == null || !file.exists())) {
+            ServiceManager.getService(ApiPostSettings.class).setProjectId(null);
             NotificationUtils.notify(NotificationType.WARNING, "",
-                    "Not found config file .yapix",
-                    new CreateConfigFileAction(data.project, data.module, "Create Config File"));
+                    "Not found config file .default_property",
+                    new CreateConfigFileAction(data.getProject(), data.getModule(), "Create Config File"));
             return StepResult.stop();
         }
         ApiPostConfig config = null;
@@ -197,7 +213,7 @@ public abstract class AbstractAction extends AnAction {
         if (config == null) {
             config = new ApiPostConfig();
         }
-        config = ApiPostConfig.getMergedInternalConfig(config);
+        config = ApiPostConfig.getMergedInternalConfig(config, data.getLocalDefaultFileCache());
         return StepResult.ok(config);
     }
 
@@ -295,72 +311,6 @@ public abstract class AbstractAction extends AnAction {
 
         public void setApiUrl(String apiUrl) {
             this.apiUrl = apiUrl;
-        }
-    }
-
-    static class EventData {
-
-        /**
-         * 源事件
-         */
-        AnActionEvent event;
-        /**
-         * 项目
-         */
-        Project project;
-
-        /**
-         * 模块
-         */
-        Module module;
-
-        /**
-         * 选择的文件
-         */
-        VirtualFile[] selectedFiles;
-
-        /**
-         * 选择的Java文件
-         */
-        List<PsiJavaFile> selectedJavaFiles;
-
-        /**
-         * 选择类
-         */
-        PsiClass selectedClass;
-
-        /**
-         * 选择方法
-         */
-        PsiMethod selectedMethod;
-
-        /**
-         * 是否应当继续解析处理
-         */
-        public boolean shouldHandle() {
-            return project != null && module != null && (selectedJavaFiles != null || selectedClass != null);
-        }
-
-        /**
-         * 从事件中解析需要的通用数据
-         */
-        public static EventData of(AnActionEvent event) {
-            EventData data = new EventData();
-            data.event = event;
-            data.project = event.getData(CommonDataKeys.PROJECT);
-            data.module = event.getData(LangDataKeys.MODULE);
-            data.selectedFiles = event.getData(CommonDataKeys.VIRTUAL_FILE_ARRAY);
-            if (data.project != null && data.selectedFiles != null) {
-                data.selectedJavaFiles = PsiFileUtils.getPsiJavaFiles(data.project, data.selectedFiles);
-            }
-            Editor editor = event.getDataContext().getData(CommonDataKeys.EDITOR);
-            PsiFile editorFile = event.getDataContext().getData(CommonDataKeys.PSI_FILE);
-            if (editor != null && editorFile != null) {
-                PsiElement referenceAt = editorFile.findElementAt(editor.getCaretModel().getOffset());
-                data.selectedClass = PsiTreeUtil.getContextOfType(referenceAt, PsiClass.class);
-                data.selectedMethod = PsiTreeUtil.getContextOfType(referenceAt, PsiMethod.class);
-            }
-            return data;
         }
     }
 

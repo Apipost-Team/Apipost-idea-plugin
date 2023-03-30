@@ -38,7 +38,8 @@ public class CreateConfigFileAction extends NotificationAction {
     public void actionPerformed(@NotNull AnActionEvent event, @NotNull Notification notification) {
         // 参数校验
         File moduleRoot = new File(module.getModuleFilePath()).getParentFile();
-        File file = Paths.get(moduleRoot.getPath(), DefaultConstants.FILE_NAME).toFile();
+        String rootPath = moduleRoot.getParentFile().getPath() + "/.idea";
+        File file = Paths.get(rootPath, DefaultConstants.DEFAULT_PROPERTY_FILE_CACHE).toFile();
         try {
             String content = FileUtilsExt.readTextInResource(TEMPLATE_FILE);
             FileUtilsExt.writeText(file, content);

@@ -7,10 +7,15 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.wwr.apipost.config.domain.BeanCustom;
 import com.wwr.apipost.config.domain.MockRule;
+import com.wwr.apipost.handle.apipost.config.ApiPostSettings;
+import com.wwr.apipost.parse.util.NotificationUtils;
+import com.wwr.apipost.util.FileUtilsExt;
 import com.wwr.apipost.util.PropertiesLoader;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.List;
@@ -19,8 +24,10 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.wwr.apipost.config.DefaultConstants.*;
+
 /**
- * 对应文件.yapix
+ * 对应文件.apipost
  */
 @Data
 public class ApiPostConfig {
@@ -119,6 +126,11 @@ public class ApiPostConfig {
      * 时间格式
      */
     private String timeFormat;
+
+    /**
+     * apiPost项目id
+     */
+    private String apiPostProjectId;
 
     private static final Pattern BEANS_PATTERN = Pattern.compile("^beans\\[(.+)]$");
 
@@ -222,9 +234,12 @@ public class ApiPostConfig {
     /**
      * 合并配置
      */
-    public static ApiPostConfig getMergedInternalConfig(ApiPostConfig settings) {
-        Properties properties = PropertiesLoader.getProperties(".yapix");
-        ApiPostConfig internal = ApiPostConfig.fromProperties(properties);
+    public static ApiPostConfig getMergedInternalConfig(ApiPostConfig settings, File fileCache) {
+        Properties customProperties = PropertiesLoader.getProperties(fileCache);
+        Properties defaultProperties = PropertiesLoader.getProperties(DEFAULT_PROPERTY_FILE);
+        ApiPostConfig internal = ApiPostConfig.fromProperties(defaultProperties);
+        // 自定义配置
+        ApiPostSettings customSetting = ApiPostSettings.getInstance();
 
         ApiPostConfig config = new ApiPostConfig();
         config.setStrict(settings.isStrict());
@@ -242,6 +257,15 @@ public class ApiPostConfig {
         config.setDateFormat(settings.getDateFormat());
         config.setTimeFormat(settings.getTimeFormat());
         config.setRequestBodyParamType(settings.getRequestBodyParamType());
+        config.setApiPostProjectId(customProperties.getProperty(API_POST_PROJECT_ID_PREFIX, ""));
+        if (StringUtils.isNotBlank(customSetting.getProjectId())) {
+            config.setApiPostProjectId(customSetting.getProjectId());
+            try {
+                FileUtilsExt.writeText(fileCache, API_POST_PROJECT_ID_PREFIX + "=" + customSetting.getProjectId());
+            } catch (IOException e) {
+                NotificationUtils.notifyError("apipost", "配置写入失败");
+            }
+        }
 
         // 时间格式
         if (StringUtils.isBlank(settings.getDateTimeFormatMvc())) {

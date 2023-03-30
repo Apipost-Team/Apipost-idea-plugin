@@ -24,7 +24,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Properties;
 
-import static com.wwr.apipost.config.DefaultConstants.FILE_NAME;
+import static com.wwr.apipost.config.DefaultConstants.DEFAULT_PROPERTY_FILE_CACHE;
 
 /**
  * 配置处理工具类.
@@ -44,11 +44,12 @@ public final class ApiPostConfigUtils {
         if (module != null) {
             VirtualFile[] moduleContentRoots = ModuleRootManager.getInstance(module).getContentRoots();
             if (moduleContentRoots.length > 0) {
-                yapiConfigFile = moduleContentRoots[0].findFileByRelativePath(FILE_NAME);
+                yapiConfigFile = moduleContentRoots[0].findFileByRelativePath(".idea/" + DEFAULT_PROPERTY_FILE_CACHE);
+//                yapiConfigFile = moduleContentRoots[0].findFileByRelativePath(FILE_NAME);
             }
         }
         if (yapiConfigFile == null || !yapiConfigFile.exists()) {
-            yapiConfigFile = project.getBaseDir().findFileByRelativePath(FILE_NAME);
+            yapiConfigFile = project.getBaseDir().findFileByRelativePath(DEFAULT_PROPERTY_FILE_CACHE);
         }
         return yapiConfigFile;
     }

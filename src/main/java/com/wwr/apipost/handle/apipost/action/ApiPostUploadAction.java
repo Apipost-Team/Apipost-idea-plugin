@@ -5,24 +5,31 @@ import cn.hutool.http.HttpResponse;
 import com.google.gson.JsonObject;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
+import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.IconLoader;
 import com.wwr.apipost.action.AbstractAction;
 import com.wwr.apipost.config.ApiPostConfig;
 import com.wwr.apipost.config.domain.Api;
+import com.wwr.apipost.config.domain.EventData;
 import com.wwr.apipost.handle.apipost.config.ApiPostSettings;
 import com.wwr.apipost.handle.apipost.config.ApiPostSettingsDialog;
 import com.wwr.apipost.handle.apipost.domain.ApiPostSyncRequestEntity;
 import com.wwr.apipost.handle.apipost.domain.ApiPostSyncResponseVO;
 import com.wwr.apipost.openapi.OpenApiDataConvert;
 import com.wwr.apipost.openapi.OpenApiGenerator;
+import com.wwr.apipost.parse.util.NotificationUtils;
+import com.wwr.apipost.util.FileUtilsExt;
 import com.wwr.apipost.util.psi.PsiModuleUtils;
 import io.swagger.v3.oas.models.OpenAPI;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.util.List;
 
+import static com.wwr.apipost.config.DefaultConstants.API_POST_PROJECT_ID_PREFIX;
 import static com.wwr.apipost.parse.util.NotificationUtils.notifyError;
 import static com.wwr.apipost.parse.util.NotificationUtils.notifyInfo;
 import static com.wwr.apipost.util.JsonUtils.fromJson;
@@ -53,16 +60,32 @@ public class ApiPostUploadAction extends AbstractAction {
 
     @SuppressWarnings("unused all")
     public ApiPostUploadAction() {
-        super(IconLoader.getIcon("/icons/upload.png", ApiPostUploadAction.class.getClassLoader()), false);
+        super(IconLoader.getIcon("/icons/upload.png", ApiPostUploadAction.class.getClassLoader()), true);
     }
 
     @Override
     public boolean before(AnActionEvent event, ApiPostConfig config) {
         Project project = event.getData(CommonDataKeys.PROJECT);
         ApiPostSettings settings = ApiPostSettings.getInstance();
+        settings.setProjectId(config.getApiPostProjectId());
         if (!settings.isValidate()) {
             ApiPostSettingsDialog dialog = ApiPostSettingsDialog.show(project, event.getPresentation().getText());
             return !dialog.isCanceled();
+        }
+        return true;
+    }
+
+    @Override
+    public boolean after(AnActionEvent event, ApiPostConfig config, EventData data) {
+        ApiPostSettings settings = ServiceManager.getService(ApiPostSettings.class);
+        if (StringUtils.isNotBlank(settings.getProjectId())) {
+            config.setApiPostProjectId(settings.getProjectId());
+            try {
+                FileUtilsExt.writeText(data.getLocalDefaultFileCache(), API_POST_PROJECT_ID_PREFIX + "=" + settings.getProjectId());
+            } catch (IOException e) {
+                NotificationUtils.notifyError("apipost", "配置写入失败");
+                return false;
+            }
         }
         return true;
     }
@@ -99,7 +122,10 @@ public class ApiPostUploadAction extends AbstractAction {
         if (responseVO.isSuccess()) {
             notifyInfo("上传成功");
         } else {
-            notifyError("上传失败: " + responseVO.getMessage());
+//            notifyInfo("上传失败！" + responseVO.getMessage());
+            System.out.println("上传失败！" + responseVO.getMessage());
+            notifyError("上传结果", "上传失败！" + responseVO.getMessage());
+            notifyError("上传结果", "上传失败！" + responseVO.getMessage());
         }
     }
 

@@ -52,6 +52,7 @@ public class APiPostSettingsConfiguration implements Configurable {
     @Override
     public void reset() {
         ApiPostSettings settings = ApiPostSettings.getInstance();
+        settings.setProjectId(null);
         form.set(settings);
     }
 

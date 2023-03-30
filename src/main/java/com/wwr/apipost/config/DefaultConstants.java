@@ -16,8 +16,15 @@ public interface DefaultConstants {
     String NAME = "ApiPost";
 
     /**
-     * 配置文件名
+     * 默认缓存配置文件名
      */
-    String FILE_NAME = ".yapix";
+    String DEFAULT_PROPERTY_FILE_CACHE = ".apipost";
+
+    /**
+     * 默认配置文件名
+     */
+    String DEFAULT_PROPERTY_FILE = ".default_property";
+
+    String API_POST_PROJECT_ID_PREFIX = "apiPostProjectId";
 
 }
