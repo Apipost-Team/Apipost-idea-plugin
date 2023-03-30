@@ -3,9 +3,11 @@ package com.wwr.apipost.action;
 import com.intellij.notification.Notification;
 import com.intellij.notification.NotificationAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.wwr.apipost.config.DefaultConstants;
+import com.wwr.apipost.handle.apipost.config.ApiPostSettingsDialog;
 import com.wwr.apipost.parse.util.NotificationUtils;
 import com.wwr.apipost.util.FileUtilsExt;
 import org.jetbrains.annotations.NotNull;
@@ -43,6 +45,8 @@ public class CreateConfigFileAction extends NotificationAction {
         try {
             String content = FileUtilsExt.readTextInResource(TEMPLATE_FILE);
             FileUtilsExt.writeText(file, content);
+            Project project = event.getData(CommonDataKeys.PROJECT);
+            ApiPostSettingsDialog dialog = ApiPostSettingsDialog.show(project, event.getPresentation().getText());
         } catch (IOException ex) {
             NotificationUtils.notifyError("Create config file error: " + ex.getMessage());
         }

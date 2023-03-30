@@ -120,11 +120,8 @@ public class ApiPostUploadAction extends AbstractAction {
         }
         ApiPostSyncResponseVO responseVO = fromJson(responseBody, ApiPostSyncResponseVO.class);
         if (responseVO.isSuccess()) {
-            notifyInfo("上传成功");
+            notifyInfo("上传结果","上传成功");
         } else {
-//            notifyInfo("上传失败！" + responseVO.getMessage());
-            System.out.println("上传失败！" + responseVO.getMessage());
-            notifyError("上传结果", "上传失败！" + responseVO.getMessage());
             notifyError("上传结果", "上传失败！" + responseVO.getMessage());
         }
     }
