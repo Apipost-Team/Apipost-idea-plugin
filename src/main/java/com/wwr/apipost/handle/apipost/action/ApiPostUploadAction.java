@@ -92,7 +92,7 @@ public class ApiPostUploadAction extends AbstractAction {
 
     @Override
     public void handle(AnActionEvent event, ApiPostConfig config, List<Api> apis) {
-        // 获取当前类所在模块名称
+        // 获取当前类所在模块名
         Module module = PsiModuleUtils.findModuleByEvent(event);
         ApiPostSettings settings = ApiPostSettings.getInstance();
         String token = settings.getToken();
@@ -115,14 +115,14 @@ public class ApiPostUploadAction extends AbstractAction {
                     .execute();
             responseBody = response.body();
         } catch (Exception e) {
-            notifyError("upload error：network error！");
+            notifyError("upload error：network error!");
             return;
         }
         ApiPostSyncResponseVO responseVO = fromJson(responseBody, ApiPostSyncResponseVO.class);
         if (responseVO.isSuccess()) {
             notifyInfo("上传结果","上传成功");
         } else {
-            notifyError("上传结果", "上传失败！" + responseVO.getMessage());
+            notifyError("上传结果", "上传失败!" + responseVO.getMessage());
         }
     }
 

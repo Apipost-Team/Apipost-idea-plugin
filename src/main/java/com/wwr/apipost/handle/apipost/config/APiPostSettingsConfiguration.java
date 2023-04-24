@@ -25,7 +25,7 @@ public class APiPostSettingsConfiguration implements Configurable {
     @Nls(capitalization = Capitalization.Title)
     @Override
     public String getDisplayName() {
-        return "ApiPost配置";
+        return "ApiPost Config";
     }
 
     @Override
