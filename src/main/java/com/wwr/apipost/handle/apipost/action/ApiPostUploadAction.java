@@ -100,6 +100,12 @@ public class ApiPostUploadAction extends AbstractAction {
         String remoteUrl = settings.getRemoteUrl();
 
         OpenAPI openApi = new OpenApiDataConvert().convert(apis);
+        int apiNum =  openApi.getPaths().size();
+        if (apiNum < 1){
+            notifyInfo("Upload Result","Api not found!");
+            return;
+        }
+
         openApi.getInfo().setTitle(module.getName());
         JsonObject apiJsonObject = new OpenApiGenerator().generate(openApi);
         // 上传到ApiPost
@@ -120,8 +126,9 @@ public class ApiPostUploadAction extends AbstractAction {
             return;
         }
         ApiPostSyncResponseVO responseVO = fromJson(responseBody, ApiPostSyncResponseVO.class);
+
         if (responseVO.isSuccess()) {
-            notifyInfo("Upload Result","Upload success!");
+            notifyInfo("Upload Result", String.format("Upload %d Api success!", apiNum));
         } else {
             notifyError("Upload Result", "Upload failed!" + responseVO.getMessage());
         }

@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.wwr"
-version = "1.1-SNAPSHOT"
+version = "1.6-SNAPSHOT"
 
 repositories {
   mavenCentral()
