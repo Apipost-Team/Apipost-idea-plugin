@@ -37,9 +37,19 @@ public class ApiPostSettings implements PersistentStateComponent<ApiPostSettings
      */
     private String projectId;
 
+    /**
+     * 远端地址
+     *
+     */
+    private String remoteUrl;
+
 
     public static ApiPostSettings getInstance() {
         ApiPostSettings settings = ServiceManager.getService(ApiPostSettings.class);
+        if (org.codehaus.plexus.util.StringUtils.isBlank(settings.getRemoteUrl())){
+            settings.setRemoteUrl("https://sync-project.apipost.cn/api/convert"); //设置默认值
+        }
+
         return settings;
     }
 

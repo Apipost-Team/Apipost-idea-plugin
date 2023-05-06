@@ -11,11 +11,13 @@ public class ApiPostSettingsForm extends JDialog {
     private JPanel contentPane;
     private JTextField token;
     private JTextField projectId;
+    private JTextField remoteUrl;
 
     public ApiPostSettings get() {
         ApiPostSettings settings = new ApiPostSettings();
         settings.setToken(token.getText().trim());
         settings.setProjectId(projectId.getText().trim());
+        settings.setRemoteUrl(remoteUrl.getText().trim());
         return settings;
     }
 
@@ -25,6 +27,9 @@ public class ApiPostSettingsForm extends JDialog {
         }
         if (StringUtils.isNotBlank(settings.getProjectId())) {
             projectId.setText(settings.getProjectId());
+        }
+        if (StringUtils.isNotBlank(settings.getRemoteUrl())){
+            remoteUrl.setText(settings.getRemoteUrl());
         }
     }
 }

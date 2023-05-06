@@ -54,7 +54,7 @@ public class ApiPostUploadAction extends AbstractAction {
     /**
      * 远端地址
      */
-     public static final String remoteUrl = "https://sync-project.apipost.cn/api/convert";
+//     public static final String remoteUrl = "https://sync-project.apipost.cn/api/convert";
 //    public static final String remoteUrl = "http://127.0.0.1:8080/open/save";
 
 
@@ -97,6 +97,7 @@ public class ApiPostUploadAction extends AbstractAction {
         ApiPostSettings settings = ApiPostSettings.getInstance();
         String token = settings.getToken();
         String projectId = settings.getProjectId();
+        String remoteUrl = settings.getRemoteUrl();
 
         OpenAPI openApi = new OpenApiDataConvert().convert(apis);
         openApi.getInfo().setTitle(module.getName());
@@ -115,14 +116,14 @@ public class ApiPostUploadAction extends AbstractAction {
                     .execute();
             responseBody = response.body();
         } catch (Exception e) {
-            notifyError("upload error：network error!");
+            notifyError("upload error: network error!");
             return;
         }
         ApiPostSyncResponseVO responseVO = fromJson(responseBody, ApiPostSyncResponseVO.class);
         if (responseVO.isSuccess()) {
-            notifyInfo("上传结果","上传成功");
+            notifyInfo("Upload Result","Upload success!");
         } else {
-            notifyError("上传结果", "上传失败!" + responseVO.getMessage());
+            notifyError("Upload Result", "Upload failed!" + responseVO.getMessage());
         }
     }
 
