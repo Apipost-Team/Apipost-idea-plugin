@@ -1,6 +1,11 @@
 ## 介绍
 - 解析接口数据同步到远程
 
+- 召集牛逼的Java攻城狮，教你做自己的IDEA插件
+![开源github活动海报](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/cec357e6-d7c0-4476-92d8-dcfd861002fe)
+
+-点击链接查看源码视频：
+
 ## 安装
 - 使用压缩包安装
 - 插件市场搜索安装
