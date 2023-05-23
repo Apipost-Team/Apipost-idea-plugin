@@ -15,3 +15,6 @@
 - action所在位置，groups和anchor配合使用，groups是分组，anchor是在分组中的位置
 - 动作配置：在plugin.xml中配置，配置的是动作的名称，描述，图标等
   ![img_3.png](img_3.png)
+  ## 联系我们
+  活动详情与报名，请扫码二维码↓
+  ![image](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/31d77f0d-ab63-4d1b-bf28-242fa8306069)
