@@ -13,14 +13,16 @@
 ![image](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/3f8a93fe-1fe8-4a96-ad0a-734dd003485b)
 ![image](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/3c48eaa4-64bf-4b71-b30a-41da287a1240)
 - 配置方法
-安装成功后要将 IDEA 内的项目与 Apipost的项目进相关联，需要配置令牌。进入设置界面 Preferences(Settings) > Apipost IDEA Helper 中填写 个人访问令牌、项目 ID：
 
-![image](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/6aafde6c-9349-4203-8b9b-d90785c0d011)
-![image](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/91b513c8-c964-474f-a72e-756e04ec854c)
+安装成功后要将 IDEA 内的项目与 Apipost的项目进行关联。在Apipost 「项目设置」>「对外能力」>「open API」中复制 API-token、项目ID，再进入IDEA设置界面 >「Apipost Config」 中填写 API-token、项目ID。
+![image](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/587886cb-e8e8-4138-b1d8-b1a3b1dabc53)
+
 
 - 上传文件
+
 后端研发在API代码编写、代码修改后右键点击“Upload to Apipost”，其他团队成员即可在 Apipost 中看到同步后的最新API文档，免去API设计环节。
-![image](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/814e53f5-d227-4da4-aa82-91f405d3589c)
+![image](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/217b3065-40a3-4472-9e02-c2c6f790fe3d)
+
 
 
 ## 如何开发
@@ -56,6 +58,6 @@ Apipost官方审核通过合并后，即为参与成功；
 - 活动详情与报名，请扫码二维码↓
 
 ![image](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/31d77f0d-ab63-4d1b-bf28-242fa8306069)
-
+   
    ## 进度更新
    ## 特别鸣谢
