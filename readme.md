@@ -27,6 +27,7 @@
 
 ## 如何开发
 - IDEA官网插件文档：https://plugins.jetbrains.com/docs/intellij/basic-action-system.html
+- 视频教程链接：https://pan.baidu.com/s/1g_gA9ZpV8GoRlGGZjxm-Yw   密码：post
 
 - sdk：必须使用idea的sdk，
 ![img.png](img.png)
