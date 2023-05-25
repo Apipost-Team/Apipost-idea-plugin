@@ -26,6 +26,8 @@
 
 
 ## 如何开发
+- IDEA官网插件文档：https://plugins.jetbrains.com/docs/intellij/basic-action-system.html
+
 - sdk：必须使用idea的sdk，
 ![img.png](img.png)
 - action：动作，可自定义，右键新建即可新建一个动作
