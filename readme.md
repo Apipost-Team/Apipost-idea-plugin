@@ -9,6 +9,10 @@
 
 
 ## 如何安装
+- 下载插件：（目前支持21.3以上版本安装使用哦）
+
+链接：https://pan.baidu.com/s/1XXKnB-OzBkXjis31bb0Ofw
+提取码：post
 - 使用压缩包安装
 ![image](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/3f8a93fe-1fe8-4a96-ad0a-734dd003485b)
 ![image](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/3c48eaa4-64bf-4b71-b30a-41da287a1240)
@@ -27,7 +31,7 @@
 
 ## 如何开发
 - IDEA官网插件文档：https://plugins.jetbrains.com/docs/intellij/basic-action-system.html
-- 视频教程链接：https://pan.baidu.com/s/1g_gA9ZpV8GoRlGGZjxm-Yw   密码：post
+- 视频教程链接：https://b23.tv/DuuDW6E
 
 - sdk：必须使用idea的sdk，
 ![img.png](img.png)
