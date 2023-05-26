@@ -50,7 +50,7 @@ public class ApiPostSettings implements PersistentStateComponent<ApiPostSettings
             settings.setRemoteUrl("https://sync-project.apipost.cn/api/convert"); //设置默认值
         }
 
-        return settings;
+        return settings.getState();
     }
 
     public static void storeInstance(@NotNull ApiPostSettings state) {
