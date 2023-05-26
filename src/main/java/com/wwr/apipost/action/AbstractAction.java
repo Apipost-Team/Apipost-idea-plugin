@@ -196,7 +196,7 @@ public abstract class AbstractAction extends AnAction {
         // 配置文件解析
         VirtualFile file = ApiPostConfigUtils.findConfigFile(data.getProject(), data.getModule());
         if (requiredConfigFile && (file == null || !file.exists())) {
-            ServiceManager.getService(ApiPostSettings.class).setProjectId(null);
+//            ServiceManager.getService(ApiPostSettings.class).setProjectId(null);
             NotificationUtils.notify(NotificationType.WARNING, "",
                     "Not found config file " + DEFAULT_PROPERTY_FILE_CACHE,
                     new CreateConfigFileAction(data.getProject(), data.getModule(), "Create Config File"));

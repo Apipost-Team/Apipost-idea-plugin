@@ -6,6 +6,7 @@ import org.jetbrains.annotations.Nls.Capitalization;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
+import java.util.Objects;
 
 /**
  * <p>
@@ -40,7 +41,14 @@ public class APiPostSettingsConfiguration implements Configurable {
     public boolean isModified() {
         ApiPostSettings settings = ApiPostSettings.getInstance();
         ApiPostSettings apiPostSettings = form.get();
-        return !settings.equals(apiPostSettings);
+        // 每个输入框逐一比对
+        if (!Objects.equals(settings.getRemoteUrl(), apiPostSettings.getRemoteUrl())) {
+            return Boolean.TRUE;
+        }
+        if (!Objects.equals(settings.getToken(), apiPostSettings.getToken())) {
+            return Boolean.TRUE;
+        }
+        return !Objects.equals(settings.getProjectId(), apiPostSettings.getProjectId());
     }
 
     @Override
@@ -52,7 +60,7 @@ public class APiPostSettingsConfiguration implements Configurable {
     @Override
     public void reset() {
         ApiPostSettings settings = ApiPostSettings.getInstance();
-        settings.setProjectId(null);
+//        settings.setProjectId(null);
         form.set(settings);
     }
 
