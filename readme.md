@@ -66,8 +66,11 @@ Apipost官方审核通过合并后，即为参与成功；
 
 ![image](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/31d77f0d-ab63-4d1b-bf28-242fa8306069)
    
-   ## 进度更新
-   - 已提交的Java攻城狮们，点击这里登记提交您的信息哦，我们会在进度中更新，审核合并后，会在特别鸣谢中公示；
-   - 信息登记：https://api-scrm-client.wxb.com/ques/auth?ques_code=8KU43PA1
+ ## 进度更新
+ - 已提交的Java攻城狮们，点击这里登记提交您的信息哦，我们会在进度中更新，审核合并后，会在特别鸣谢中公示；
+ - 信息登记：https://api-scrm-client.wxb.com/ques/auth?ques_code=8KU43PA1
+ 
+ - 2023/05/26 发布：合并Pr项目ID不能保存的问题----感谢Java攻城狮~Zhuoyuan1 
+
    
-   ## 特别鸣谢
+ ## 特别鸣谢
