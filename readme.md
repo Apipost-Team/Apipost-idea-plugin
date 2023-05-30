@@ -21,6 +21,7 @@
 安装成功后要将 IDEA 内的项目与 Apipost的项目进行关联。在Apipost 「项目设置」>「对外能力」>「open API」中复制 API-token、项目ID，再进入IDEA设置界面 >「Apipost Config」 中填写 API-token、项目ID。
 ![image](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/587886cb-e8e8-4138-b1d8-b1a3b1dabc53)
 
+如遇到云端地址没有或者不对情况，请填写：https://sync-project.apipost.cn/api/convert
 
 - 上传文件
 
