@@ -41,7 +41,7 @@ public class APiPostSettingsConfiguration implements Configurable {
     public boolean isModified() {
         ApiPostSettings settings = ApiPostSettings.getInstance();
         ApiPostSettings apiPostSettings = form.get();
-        // 每个输入框逐一比对
+        // 姣忎釜杈撳叆妗嗛�愪竴姣斿
         if (!Objects.equals(settings.getRemoteUrl(), apiPostSettings.getRemoteUrl())) {
             return Boolean.TRUE;
         }

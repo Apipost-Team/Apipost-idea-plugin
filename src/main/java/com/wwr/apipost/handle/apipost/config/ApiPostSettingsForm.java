@@ -4,7 +4,6 @@ import lombok.Getter;
 import org.codehaus.plexus.util.StringUtils;
 
 import javax.swing.*;
-import java.awt.event.*;
 
 @Getter
 public class ApiPostSettingsForm extends JDialog {
@@ -12,12 +11,14 @@ public class ApiPostSettingsForm extends JDialog {
     private JTextField token;
     private JTextField projectId;
     private JTextField remoteUrl;
+    private JTextField workDir;
 
     public ApiPostSettings get() {
         ApiPostSettings settings = new ApiPostSettings();
         settings.setToken(token.getText().trim());
         settings.setProjectId(projectId.getText().trim());
         settings.setRemoteUrl(remoteUrl.getText().trim());
+        settings.setWorkDir(workDir.getText().trim());
         return settings;
     }
 
@@ -30,6 +31,9 @@ public class ApiPostSettingsForm extends JDialog {
         }
         if (StringUtils.isNotBlank(settings.getRemoteUrl())){
             remoteUrl.setText(settings.getRemoteUrl());
+        }
+        if (StringUtils.isNotBlank(settings.getWorkDir())){
+            workDir.setText(settings.getWorkDir());
         }
     }
 }

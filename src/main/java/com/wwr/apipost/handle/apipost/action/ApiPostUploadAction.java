@@ -27,6 +27,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.wwr.apipost.config.DefaultConstants.API_POST_PROJECT_ID_PREFIX;
@@ -60,7 +61,7 @@ public class ApiPostUploadAction extends AbstractAction {
 
     @SuppressWarnings("unused all")
     public ApiPostUploadAction() {
-        super(IconLoader.getIcon("/icons/upload.png", ApiPostUploadAction.class.getClassLoader()), true);
+        super(IconLoader.getIcon("/icons/upload.png", ApiPostUploadAction.class), true);
     }
 
     @Override
@@ -98,14 +99,16 @@ public class ApiPostUploadAction extends AbstractAction {
         String token = settings.getToken();
         String projectId = settings.getProjectId();
         String remoteUrl = settings.getRemoteUrl();
-
+        String workDir = settings.getWorkDir();
+        for (Api api : apis) {
+            api.setCategory(workDir);
+        }
         OpenAPI openApi = new OpenApiDataConvert().convert(apis);
         int apiNum =  openApi.getPaths().size();
         if (apiNum < 1){
             notifyInfo("Upload Result","Api not found!");
             return;
         }
-
         openApi.getInfo().setTitle(module.getName());
         JsonObject apiJsonObject = new OpenApiGenerator().generate(openApi);
         // 上传到ApiPost
