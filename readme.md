@@ -45,12 +45,13 @@
   ![img_3.png](img_3.png)
   
 - 开发文档
+
 导入目录文档：https://console-docs.apipost.cn/preview/38ff26b7bfddc906/3f7ac8ce1fdfe8d0 
 
 ## 问题反馈
 - 现存问题：
 
-1、暂时不支持按目录导入
+1、暂时不支持按目录导入----已修复，感谢Java攻城狮~JouTao
 
 2、暂时不支持21.2以前版本安装，版本兼容问题
 
@@ -77,6 +78,6 @@ Apipost官方审核通过合并后，即为参与成功；
  - 信息登记：https://api-scrm-client.wxb.com/ques/auth?ques_code=8KU43PA1
  
  - 2023/05/26 发布：合并Pr项目ID不能保存的问题----感谢Java攻城狮~Zhuoyuan1 
-
+ - 2023/05/31 发布：支持目录导入的问题，已确认待合并----感谢Java攻城狮~JouTao
    
  ## 特别鸣谢
