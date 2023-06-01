@@ -48,6 +48,9 @@ public class APiPostSettingsConfiguration implements Configurable {
         if (!Objects.equals(settings.getToken(), apiPostSettings.getToken())) {
             return Boolean.TRUE;
         }
+        if (!Objects.equals(settings.getWorkDir(), apiPostSettings.getWorkDir())) {
+            return Boolean.TRUE;
+        }
         return !Objects.equals(settings.getProjectId(), apiPostSettings.getProjectId());
     }
 

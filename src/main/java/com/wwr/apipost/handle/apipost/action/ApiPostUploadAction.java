@@ -100,8 +100,10 @@ public class ApiPostUploadAction extends AbstractAction {
         String projectId = settings.getProjectId();
         String remoteUrl = settings.getRemoteUrl();
         String workDir = settings.getWorkDir();
-        for (Api api : apis) {
-            api.setCategory(workDir);
+        if(null!=workDir && !"".equals(workDir)){
+            for (Api api : apis) {
+                api.setCategory(workDir);
+            }
         }
         OpenAPI openApi = new OpenApiDataConvert().convert(apis);
         int apiNum =  openApi.getPaths().size();
