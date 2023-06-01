@@ -43,12 +43,16 @@
 - action所在位置，groups和anchor配合使用，groups是分组，anchor是在分组中的位置
 - 动作配置：在plugin.xml中配置，配置的是动作的名称，描述，图标等
   ![img_3.png](img_3.png)
+  
+- 开发文档
+导入目录文档：https://console-docs.apipost.cn/preview/38ff26b7bfddc906/3f7ac8ce1fdfe8d0 
+
 ## 问题反馈
 - 现存问题：
 
 1、暂时不支持按目录导入
 
-2、暂时不支持21.2以前版本安装
+2、暂时不支持21.2以前版本安装，版本兼容问题
 
 3、Api导入URL没有拼域名
 
