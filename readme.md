@@ -61,6 +61,8 @@
 
 5、暂时不支持导入Apipost已存在的目录中----已修复，可在Apipost中新建目录，从IDEA直接导入新建的目录中，感谢Java攻城狮~JouTao
 
+6、IDEA导入Api，参数格式是application/x-www-form-urlencoded，而不是From-data，需排查插件书写格式问题或者是否是个BUG；
+
 - 以上是我们个人使用用户反馈，欢迎牛逼的Java攻城狮，一起完善好产品，做出自己的IEDA插件，让开发测试更简单；
 ## 联系我们
 - 活动规则：
