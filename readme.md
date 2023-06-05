@@ -79,7 +79,7 @@ Apipost官方审核通过合并后，即为参与成功；
    
  ## 进度更新
  - 已提交的Java攻城狮们，点击这里登记提交您的信息哦，我们会在进度中更新，审核合并后，会在特别鸣谢中公示；
- - 信息登记：https://api-scrm-client.wxb.com/ques/auth?ques_code=8KU43PA1
+ - 信息登记：https://www.wjx.cn/vm/QCafRUd.aspx# 
  
  - 2023/05/26 发布：合并Pr项目ID不能保存的问题----感谢Java攻城狮~Zhuoyuan1 
  - 2023/05/31 发布：支持IDEA中新建目录导入的问题，已确认待合并----感谢Java攻城狮~JouTao
