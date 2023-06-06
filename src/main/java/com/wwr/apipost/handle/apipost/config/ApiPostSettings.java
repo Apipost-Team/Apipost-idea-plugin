@@ -11,6 +11,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Map;
+
 /**
  * <p>
  *
@@ -43,7 +45,10 @@ public class ApiPostSettings implements PersistentStateComponent<ApiPostSettings
      */
     private String remoteUrl;
 
-
+    /**
+     * 服务的URL
+     */
+    private Map<String, String> preMapUrl;
     public static ApiPostSettings getInstance() {
         ApiPostSettings settings = ServiceManager.getService(ApiPostSettings.class);
         if (org.codehaus.plexus.util.StringUtils.isBlank(settings.getRemoteUrl())){

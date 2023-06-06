@@ -34,6 +34,8 @@ public class ApiPostSettingsDialog extends DialogWrapper {
      */
     public static ApiPostSettingsDialog show(Project project, String title) {
         ApiPostSettingsDialog dialog = new ApiPostSettingsDialog(project, title);
+        //隐藏服务前置URL框
+        dialog.form.hiddenServerUrl();
         dialog.show();
         return dialog;
     }
