@@ -1,11 +1,14 @@
 package com.wwr.apipost.util;
 
 import cn.hutool.core.net.Ipv4Util;
+import cn.hutool.core.util.ReUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.wwr.apipost.handle.apipost.config.ApiPostSettings;
 import lombok.experimental.UtilityClass;
 import org.yaml.snakeyaml.Yaml;
 
@@ -27,11 +30,22 @@ public class CommonUtil {
 
     private static final String SERVER_DEFAULT_PORT = "8080";
 
+    public static String getServerPerUrl(Module module, ApiPostSettings settings) {
+        String preMapUrl = settings.getPreMapUrl();
+        String moduleName = module.getName();
 
-    public static String getServerPerUrl(Module module) {
-        return getServerIp() + ":" + getServerPort(module);
+        String regex = moduleName + "=[^\\r\\n\\s]+";
+        String preUrl = ReUtil.get(regex, preMapUrl, 0);
+        if (StrUtil.isNotBlank(preUrl)) {
+            return preUrl.split("=")[1];
+        }
+        String defaultPreUrl = getServerIp() + ":" + getServerPort(module);
+        if (!preMapUrl.endsWith("\r\n")) {
+            preMapUrl += "\r\n";
+        }
+        settings.setPreMapUrl(preMapUrl + moduleName + "=" + defaultPreUrl);
+        return defaultPreUrl;
     }
-
 
     /**
      * 获取服务端口号

@@ -32,7 +32,6 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -210,9 +209,7 @@ public abstract class AbstractAction extends AnAction {
             config = new ApiPostConfig();
         }
         ApiPostSettings settings = ApiPostSettings.getInstance();
-        Map<String, String> preMapUrl = settings.getPreMapUrl();
-        String currentUrl = preMapUrl.getOrDefault(data.getModule().getName(), getServerPerUrl(data.getModule()));
-        preMapUrl.putIfAbsent(data.getModule().getName(), currentUrl);
+        String currentUrl = getServerPerUrl(data.getModule(), settings);
 
         String currentPath = config.getPath();
         String updatedPath = StrUtil.isNotBlank(currentPath) ? currentUrl + currentPath : currentUrl;

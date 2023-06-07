@@ -1,13 +1,10 @@
 package com.wwr.apipost.handle.apipost.config;
 
-import cn.hutool.core.util.StrUtil;
 import lombok.Getter;
 import org.codehaus.plexus.util.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Getter
 public class ApiPostSettingsForm extends JDialog {
@@ -28,11 +25,7 @@ public class ApiPostSettingsForm extends JDialog {
         settings.setToken(token.getText().trim());
         settings.setProjectId(projectId.getText().trim());
         settings.setRemoteUrl(remoteUrl.getText().trim());
-        Map<String, String> stringMap = StrUtil.split(preUrlMap.getText().trim(), "\r\n")
-                .stream().map(String::trim).filter(StrUtil::isNotBlank)
-                .map(item -> item.split("="))
-                .collect(Collectors.toMap(split -> split[0], split -> split[1]));
-        settings.setPreMapUrl(stringMap);
+        settings.setPreMapUrl(preUrlMap.getText().trim());
         return settings;
     }
 
@@ -46,15 +39,8 @@ public class ApiPostSettingsForm extends JDialog {
         if (StringUtils.isNotBlank(settings.getRemoteUrl())) {
             remoteUrl.setText(settings.getRemoteUrl());
         }
-        Map<String, String> preMapUrl = settings.getPreMapUrl();
-        if (preMapUrl != null && preMapUrl.size() > 0) {
-            StringBuilder preUrlMapStr = new StringBuilder();
-            for (Map.Entry<String, String> entry : preMapUrl.entrySet()) {
-                String serverName = entry.getKey();
-                String serverUrl = entry.getValue();
-                preUrlMapStr.append(serverName).append("=").append(serverUrl).append("\r\n");
-            }
-            preUrlMap.setText(preUrlMapStr.toString());
+        if (StringUtils.isNotBlank(settings.getPreMapUrl())) {
+            preUrlMap.setText(settings.getPreMapUrl());
         }
     }
 
