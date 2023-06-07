@@ -3,23 +3,22 @@ package com.wwr.apipost.handle.apipost.config;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import com.google.gson.JsonObject;
-import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.ValidationInfo;
-import com.wwr.apipost.config.ApiPostConfig;
 import com.wwr.apipost.config.domain.Api;
 import com.wwr.apipost.handle.apipost.domain.ApiPostSyncRequestEntity;
 import com.wwr.apipost.handle.apipost.domain.ApiPostSyncResponseVO;
 import com.wwr.apipost.openapi.OpenApiDataConvert;
 import com.wwr.apipost.openapi.OpenApiGenerator;
 import io.swagger.v3.oas.models.OpenAPI;
-import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.wwr.apipost.parse.util.NotificationUtils.notifyError;
 import static com.wwr.apipost.parse.util.NotificationUtils.notifyInfo;
@@ -35,19 +34,26 @@ import static com.wwr.apipost.util.JsonUtils.toJson;
  */
 public class ApiPostWorkDirDialog extends DialogWrapper {
 
-    private ApiPostWorkDirForm form;
+    private static ApiPostWorkDirForm form;
 
-    ApiPostWorkDirDialog(@Nullable Project project, String title) {
+    private Module module;
+
+    private List<Api> apis;
+
+    ApiPostWorkDirDialog(@Nullable Project project, String title,Module m,List<Api> a){
         super(project);
         setTitle(title);
+        this.apis=a;
+        this.module=m;
         init();
+        this.form.buttonAction(project,title);
     }
 
     /**
      * 显示弹框
      */
-    public static ApiPostWorkDirDialog show(Project project, String title) {
-        ApiPostWorkDirDialog dialog = new ApiPostWorkDirDialog(project, title);
+    public static ApiPostWorkDirDialog show(Project project, String title,Module m,List<Api> a) {
+        ApiPostWorkDirDialog dialog = new ApiPostWorkDirDialog(project, title,m,a);
         dialog.show();
         return dialog;
     }
@@ -56,7 +62,7 @@ public class ApiPostWorkDirDialog extends DialogWrapper {
     protected void init() {
         super.init();
         ApiPostSettings setting = ApiPostSettings.getInstance();
-        form.set(setting.getWorkDir());
+        form.reSet(setting.getWorkDir());
     }
 
     @Nullable
@@ -70,15 +76,16 @@ public class ApiPostWorkDirDialog extends DialogWrapper {
 
     @Override
     protected void doOKAction() {
-        String workDir = form.get();
-        if (StringUtils.isBlank(workDir)){
-            setErrorText("请选择工作目录", form.getWorkDir());
-        }
         super.doOKAction();
+        Map<String, Object> map = doOKAction(module, apis);
+        if((boolean)map.get("isSuccess")){
+            notifyInfo((String) map.get("title"), (String) map.get("content"));
+        }else{
+            notifyError((String) map.get("title"), (String) map.get("content"));
+        }
     }
 
-    public void doOKAction(Module module,List<Api> apis) {
-        super.doOKAction();
+    public Map<String,Object> doOKAction(Module module, List<Api> apis) {
         String workDir = form.get();
         ApiPostSettings settings = ApiPostSettings.getInstance();
         String token = settings.getToken();
@@ -89,9 +96,12 @@ public class ApiPostWorkDirDialog extends DialogWrapper {
         }
         OpenAPI openApi = new OpenApiDataConvert().convert(apis);
         int apiNum =  openApi.getPaths().size();
+        Map<String,Object> map=new HashMap<>();
         if (apiNum < 1){
-            notifyInfo("Upload Result","Api not found!");
-            return;
+            map.put("title","Upload Result");
+            map.put("content","Api not found!");
+            map.put("isSuccess",true);
+            return map;
         }
         openApi.getInfo().setTitle(module.getName());
         JsonObject apiJsonObject = new OpenApiGenerator().generate(openApi);
@@ -109,24 +119,30 @@ public class ApiPostWorkDirDialog extends DialogWrapper {
                     .execute();
             responseBody = response.body();
         } catch (Exception e) {
-            notifyError("upload error: network error!");
-            return;
+            map.put("title","upload error");
+            map.put("content","network error!");
+            map.put("isSuccess",false);
+            return map;
         }
         ApiPostSyncResponseVO responseVO = fromJson(responseBody, ApiPostSyncResponseVO.class);
-
         if (responseVO.isSuccess()) {
-            notifyInfo("Upload Result", String.format("Upload %d Api success!", apiNum));
+            map.put("title","Upload Result");
+            map.put("content",String.format("Upload %d Api success!", apiNum));
+            map.put("isSuccess",true);
         } else {
-            notifyError("Upload Result", "Upload failed!" + responseVO.getMessage());
+            map.put("title","Upload Result");
+            map.put("content","Upload failed!" + responseVO.getMessage());
+            map.put("isSuccess",false);
         }
+        return map;
     }
 
     @Nullable
     @Override
     protected ValidationInfo doValidate() {
         String workDir = form.get();
-        if (StringUtils.isBlank(workDir)){
-            setErrorText("请选择工作目录", form.getWorkDir());
+        if(workDir.contains(",")){
+            return new ValidationInfo("工作目录请不要包含英文逗号！！！", form.getWorkDir());
         }
         return null;
     }
@@ -136,7 +152,7 @@ public class ApiPostWorkDirDialog extends DialogWrapper {
         super.doCancelAction();
     }
 
-    public boolean isCanceled() {
-        return this.getExitCode() == DialogWrapper.CANCEL_EXIT_CODE;
+    public static void editWorkDir(String workDirs) {
+        form.reSet(workDirs);
     }
 }

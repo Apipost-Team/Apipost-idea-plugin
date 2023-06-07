@@ -27,6 +27,9 @@ import io.swagger.v3.oas.models.OpenAPI;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.List;
 
@@ -94,8 +97,7 @@ public class ApiPostUploadAction extends AbstractAction {
         String remoteUrl = settings.getRemoteUrl();
         String workDir = settings.getWorkDir();
         if(null!=workDir&&!"".equals(workDir)&&workDir.contains(",")){
-            ApiPostWorkDirDialog dirDialog = ApiPostWorkDirDialog.show(event.getData(CommonDataKeys.PROJECT), event.getPresentation().getText());
-            dirDialog.doOKAction(module,apis);
+            ApiPostWorkDirDialog.show(event.getData(CommonDataKeys.PROJECT), event.getPresentation().getText(), module, apis);
         }else{
             if(null!=workDir && !"".equals(workDir)){
                 for (Api api : apis) {
