@@ -1,1 +1,1 @@
-rootProject.name = "apipost-idea-plugin"
+rootProject.name = "Apipost-idea-plugin"
