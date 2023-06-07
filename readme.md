@@ -11,8 +11,9 @@
 ## 如何安装
 - 下载插件：（目前支持21.3以上版本安装使用哦）
 
-链接：https://pan.baidu.com/s/1XXKnB-OzBkXjis31bb0Ofw
+链接：https://pan.baidu.com/s/1LT5rI_W_tlRhKEOsBHXj4w 
 提取码：post
+
 - 使用压缩包安装
 ![image](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/3f8a93fe-1fe8-4a96-ad0a-734dd003485b)
 ![image](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/3c48eaa4-64bf-4b71-b30a-41da287a1240)
