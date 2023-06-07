@@ -1,7 +1,6 @@
 package com.wwr.apipost.handle.apipost.config;
 
 import cn.hutool.core.util.StrUtil;
-import com.intellij.ui.JBColor;
 import lombok.Getter;
 import org.codehaus.plexus.util.StringUtils;
 
@@ -18,13 +17,10 @@ public class ApiPostSettingsForm extends JDialog {
     private JTextField remoteUrl;
     private JLabel serverUrl;
     private JTextArea preUrlMap;
+    private JScrollPane scrollPane;
 
     public ApiPostSettingsForm() {
         contentPane.setPreferredSize(new Dimension(400, 200));
-        preUrlMap.setBorder(BorderFactory.createLineBorder(JBColor.BLACK));
-        preUrlMap.setSelectedTextColor(JBColor.BLUE);
-//        preUrlMap.setBorder(BorderFactory.createEmptyBorder());
-//        preUrlMap.setFocusable(true);
     }
 
     public ApiPostSettings get() {
@@ -32,8 +28,8 @@ public class ApiPostSettingsForm extends JDialog {
         settings.setToken(token.getText().trim());
         settings.setProjectId(projectId.getText().trim());
         settings.setRemoteUrl(remoteUrl.getText().trim());
-        Map<String, String> stringMap = StrUtil.split(preUrlMap.getText().trim(), ";")
-                .stream().filter(StrUtil::isNotBlank)
+        Map<String, String> stringMap = StrUtil.split(preUrlMap.getText().trim(), "\r\n")
+                .stream().map(String::trim).filter(StrUtil::isNotBlank)
                 .map(item -> item.split("="))
                 .collect(Collectors.toMap(split -> split[0], split -> split[1]));
         settings.setPreMapUrl(stringMap);
@@ -56,16 +52,17 @@ public class ApiPostSettingsForm extends JDialog {
             for (Map.Entry<String, String> entry : preMapUrl.entrySet()) {
                 String serverName = entry.getKey();
                 String serverUrl = entry.getValue();
-                preUrlMapStr.append(serverName).append("=").append(serverUrl).append(";");
+                preUrlMapStr.append(serverName).append("=").append(serverUrl).append("\r\n");
             }
             preUrlMap.setText(preUrlMapStr.toString());
         }
     }
 
     /**
-     * 感觉没必要显示
+     * 在弹框中不显示
      */
     public void hiddenServerUrl() {
+        scrollPane.setVisible(false);
         serverUrl.setVisible(false);
         preUrlMap.setVisible(false);
     }

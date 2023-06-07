@@ -1,6 +1,5 @@
 package com.wwr.apipost.handle.apipost.action;
 
-import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import com.google.gson.JsonObject;
@@ -16,7 +15,6 @@ import com.wwr.apipost.config.domain.Api;
 import com.wwr.apipost.config.domain.EventData;
 import com.wwr.apipost.handle.apipost.config.ApiPostSettings;
 import com.wwr.apipost.handle.apipost.config.ApiPostSettingsDialog;
-import com.wwr.apipost.handle.apipost.config.PreUrlInputDialog;
 import com.wwr.apipost.handle.apipost.domain.ApiPostSyncRequestEntity;
 import com.wwr.apipost.handle.apipost.domain.ApiPostSyncResponseVO;
 import com.wwr.apipost.openapi.OpenApiDataConvert;
@@ -30,7 +28,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import static com.wwr.apipost.config.DefaultConstants.API_POST_PROJECT_ID_PREFIX;
 import static com.wwr.apipost.parse.util.NotificationUtils.notifyError;
@@ -55,11 +52,6 @@ public class ApiPostUploadAction extends AbstractAction {
     public static final String ACTION_TEXT = "Upload To ApiPost";
 
     /**
-     * 默认的前置URL
-     */
-    public static final String DEFAULT_PRE_URL = "http://127.0.0.1:8080";
-
-    /**
      * 远端地址
      */
 //     public static final String remoteUrl = "https://sync-project.apipost.cn/api/convert";
@@ -74,35 +66,11 @@ public class ApiPostUploadAction extends AbstractAction {
     @Override
     public boolean before(AnActionEvent event, ApiPostConfig config) {
         Project project = event.getData(CommonDataKeys.PROJECT);
-        ApiPostSettings settings = ApiPostSettings.getInstance();
+        ApiPostSettings settings = ServiceManager.getService(ApiPostSettings.class);
         settings.setProjectId(config.getApiPostProjectId());
         if (!settings.isValidate()) {
             ApiPostSettingsDialog dialog = ApiPostSettingsDialog.show(project, event.getPresentation().getText());
             return !dialog.isCanceled();
-        }
-        Module module = PsiModuleUtils.findModuleByEvent(event);
-        Map<String, String> preMapUrl = settings.getPreMapUrl();
-        if (module != null) {
-            if (!preMapUrl.containsKey(module.getName())) {
-                //不包含时，需要用户输入
-                PreUrlInputDialog inputDialog = new PreUrlInputDialog(StrUtil.utf8Str(module.getName() + "服务的前置URL"));
-                inputDialog.show();
-                if (inputDialog.isOK()) {
-                    //保存用户输入
-                    String textFieldText = inputDialog.getTextFieldText();
-                    if (StrUtil.isNotBlank(textFieldText)) {
-                        preMapUrl.put(module.getName(), textFieldText);
-                    }
-                }
-            }
-            //设置前缀
-            String currentPath = config.getPath();
-            if (StrUtil.isNotBlank(currentPath)) {
-                String updatedPath = preMapUrl.getOrDefault(module.getName(), DEFAULT_PRE_URL) + currentPath;
-                config.setPath(updatedPath);
-            } else {
-                config.setPath(preMapUrl.getOrDefault(module.getName(), DEFAULT_PRE_URL));
-            }
         }
         return true;
     }

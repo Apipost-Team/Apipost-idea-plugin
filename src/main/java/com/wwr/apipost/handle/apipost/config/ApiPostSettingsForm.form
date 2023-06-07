@@ -79,20 +79,32 @@
               <text value="服务URL"/>
             </properties>
           </component>
-          <component id="966c" class="javax.swing.JTextArea" binding="preUrlMap">
+          <scrollpane id="17e2d" binding="scrollPane">
             <constraints>
-              <grid row="7" column="0" row-span="1" col-span="5" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                <preferred-size width="150" height="50"/>
+              <grid row="7" column="0" row-span="1" col-span="5" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <preferred-size width="-1" height="50"/>
               </grid>
             </constraints>
             <properties>
-              <focusCycleRoot value="false"/>
-              <focusTraversalPolicyProvider value="false"/>
-              <focusable value="true"/>
-              <text value=""/>
-              <wrapStyleWord value="false"/>
+              <horizontalScrollBarPolicy value="30"/>
+              <verticalScrollBarPolicy value="22"/>
             </properties>
-          </component>
+            <border type="none"/>
+            <children>
+              <component id="966c" class="javax.swing.JTextArea" binding="preUrlMap">
+                <constraints/>
+                <properties>
+                  <focusCycleRoot value="false"/>
+                  <focusTraversalPolicyProvider value="false"/>
+                  <focusable value="true"/>
+                  <lineWrap value="true"/>
+                  <rows value="3"/>
+                  <text value=""/>
+                  <wrapStyleWord value="false"/>
+                </properties>
+              </component>
+            </children>
+          </scrollpane>
         </children>
       </grid>
     </children>
