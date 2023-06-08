@@ -41,14 +41,17 @@ public class APiPostSettingsConfiguration implements Configurable {
     public boolean isModified() {
         ApiPostSettings settings = ApiPostSettings.getInstance();
         ApiPostSettings apiPostSettings = form.get();
-        // Ã¿¸öÊäÈë¿òÖðÒ»±È¶Ô
+        // Ã¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½È¶ï¿½
         if (!Objects.equals(settings.getRemoteUrl(), apiPostSettings.getRemoteUrl())) {
             return Boolean.TRUE;
         }
         if (!Objects.equals(settings.getToken(), apiPostSettings.getToken())) {
             return Boolean.TRUE;
         }
-        return !Objects.equals(settings.getProjectId(), apiPostSettings.getProjectId());
+        if (!Objects.equals(settings.getProjectId(), apiPostSettings.getProjectId())) {
+            return Boolean.TRUE;
+        }
+        return !Objects.equals(settings.getPreMapUrl(), apiPostSettings.getPreMapUrl());
     }
 
     @Override

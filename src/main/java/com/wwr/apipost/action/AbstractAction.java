@@ -1,23 +1,18 @@
 package com.wwr.apipost.action;
 
+import cn.hutool.core.util.StrUtil;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.AtomicDouble;
 import com.intellij.notification.NotificationType;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.CommonDataKeys;
-import com.intellij.openapi.actionSystem.LangDataKeys;
-import com.intellij.openapi.components.ServiceManager;
-import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
-import com.intellij.openapi.module.Module;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.*;
-import com.intellij.psi.util.PsiTreeUtil;
+import com.intellij.psi.PsiClass;
 import com.wwr.apipost.config.ApiPostConfig;
 import com.wwr.apipost.config.ApiPostConfigUtils;
 import com.wwr.apipost.config.DefaultConstants;
@@ -36,8 +31,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import java.io.File;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
@@ -52,6 +45,7 @@ import java.util.stream.Collectors;
 import static com.wwr.apipost.config.DefaultConstants.DEFAULT_PROPERTY_FILE_CACHE;
 import static com.wwr.apipost.parse.util.NotificationUtils.notifyError;
 import static com.wwr.apipost.parse.util.NotificationUtils.notifyInfo;
+import static com.wwr.apipost.util.CommonUtil.getServerPerUrl;
 import static java.lang.String.format;
 
 /**
@@ -214,6 +208,12 @@ public abstract class AbstractAction extends AnAction {
         if (config == null) {
             config = new ApiPostConfig();
         }
+        ApiPostSettings settings = ApiPostSettings.getInstance();
+        String currentUrl = getServerPerUrl(data.getModule(), settings);
+
+        String currentPath = config.getPath();
+        String updatedPath = StrUtil.isNotBlank(currentPath) ? currentUrl + currentPath : currentUrl;
+        config.setPath(updatedPath);
         config = ApiPostConfig.getMergedInternalConfig(config, data.getLocalDefaultFileCache());
         return StepResult.ok(config);
     }

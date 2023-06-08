@@ -43,7 +43,10 @@ public class ApiPostSettings implements PersistentStateComponent<ApiPostSettings
      */
     private String remoteUrl;
 
-
+    /**
+     * 服务的URL
+     */
+    private String preMapUrl;
     public static ApiPostSettings getInstance() {
         ApiPostSettings settings = ServiceManager.getService(ApiPostSettings.class);
         if (org.codehaus.plexus.util.StringUtils.isBlank(settings.getRemoteUrl())){

@@ -26,12 +26,14 @@ dependencies {
 
   implementation ("cn.hutool:hutool-http:5.8.15")
   implementation ("cn.hutool:hutool-json:5.8.15")
+
+  implementation ("org.yaml:snakeyaml:1.29")
 }
 
 // Configure Gradle IntelliJ Plugin
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
-  version.set("2022.1.4")
+  version.set("2023.1")
   type.set("IC") // Target IDE Platform
   sandboxDir.set("${project.rootDir}/.sandbox")
   updateSinceUntilBuild.set(false)
