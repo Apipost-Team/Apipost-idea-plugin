@@ -11,7 +11,7 @@
 ## 如何安装
 - 下载插件：（目前支持21.3以上版本安装使用哦）
 
-链接：https://pan.baidu.com/s/1LT5rI_W_tlRhKEOsBHXj4w 
+链接：https://pan.baidu.com/s/19lDXn6Nrgj3M-Rmyix3XYA 
 提取码：post
 
 - 使用压缩包安装
