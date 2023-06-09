@@ -64,6 +64,8 @@
 
 6、IDEA导入Api，参数格式是application/x-www-form-urlencoded，而不是From-data，需排查插件书写格式问题或者是否是个BUG；
 
+7、支持注释提取注释；
+
 - 以上是我们个人使用用户反馈，欢迎牛逼的Java攻城狮，一起完善好产品，做出自己的IEDA插件，让开发测试更简单；
 ## 联系我们
 - 活动规则：
