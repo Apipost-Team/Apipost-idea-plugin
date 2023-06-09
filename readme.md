@@ -24,11 +24,15 @@
 
 如遇到云端地址没有或者不对情况，请填写：https://sync-project.apipost.cn/api/convert
 
+最新版本已更新可以导入前置URL域名拼接，示意图如下：
+![导入前置URL0](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/87bc4306-8486-40b2-99cc-c145c8efcf42)
+
+
+
 - 上传文件
 
 后端研发在API代码编写、代码修改后右键点击“Upload to Apipost”，其他团队成员即可在 Apipost 中看到同步后的最新API文档，免去API设计环节。
 ![image](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/217b3065-40a3-4472-9e02-c2c6f790fe3d)
-
 
 
 ## 如何开发
