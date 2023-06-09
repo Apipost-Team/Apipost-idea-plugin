@@ -100,7 +100,7 @@ public class CommonUtil {
             if (server != null) {
                 return server.getStr("port");
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
