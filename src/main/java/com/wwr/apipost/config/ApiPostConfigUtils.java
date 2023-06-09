@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ModuleRootManager;
+import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.wwr.apipost.config.domain.MockRule;
 import com.wwr.apipost.util.JsonUtils;
@@ -22,6 +23,7 @@ import java.io.StringReader;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 
 import static com.wwr.apipost.config.DefaultConstants.DEFAULT_PROPERTY_FILE_CACHE;
@@ -42,14 +44,22 @@ public final class ApiPostConfigUtils {
     public static VirtualFile findConfigFile(Project project, Module module) {
         VirtualFile yapiConfigFile = null;
         if (module != null) {
-            VirtualFile[] moduleContentRoots = ModuleRootManager.getInstance(module).getContentRoots();
-            if (moduleContentRoots.length > 0) {
-                yapiConfigFile = moduleContentRoots[0].findFileByRelativePath(".idea/" + DEFAULT_PROPERTY_FILE_CACHE);
-//                yapiConfigFile = moduleContentRoots[0].findFileByRelativePath(FILE_NAME);
+            VirtualFile[] moduleContentRoots = Optional.ofNullable(ModuleRootManager.getInstance(module).getContentRoots()).orElse(new VirtualFile[0]);
+            for (VirtualFile moduleContentRoot : moduleContentRoots) {
+                yapiConfigFile = moduleContentRoot.findFileByRelativePath(".idea/" + DEFAULT_PROPERTY_FILE_CACHE);
+                if (yapiConfigFile != null && yapiConfigFile.exists()) {
+                    break;
+                }
             }
         }
-        if (yapiConfigFile == null || !yapiConfigFile.exists()) {
-            yapiConfigFile = project.getBaseDir().findFileByRelativePath(DEFAULT_PROPERTY_FILE_CACHE);
+        if ((yapiConfigFile == null || !yapiConfigFile.exists()) && project != null) {
+            VirtualFile[] projectContentRoots = Optional.ofNullable(ProjectRootManager.getInstance(project).getContentRoots()).orElse(new VirtualFile[0]);
+            for (VirtualFile projectContentRoot : projectContentRoots) {
+                yapiConfigFile = projectContentRoot.findFileByRelativePath(".idea/" + DEFAULT_PROPERTY_FILE_CACHE);
+                if (yapiConfigFile != null && yapiConfigFile.exists()) {
+                    break;
+                }
+            }
         }
         return yapiConfigFile;
     }
