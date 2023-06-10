@@ -57,6 +57,18 @@ public class ApiPostSettings implements PersistentStateComponent<ApiPostSettings
      */
     private Map<String, String> projectMap = new LinkedHashMap<>();
 
+    public static String getFinalProjectId(ApiPostSettings settings, String projectName){
+        String projectId = settings.getProjectId();
+        Map<String, String> projectMap1 = settings.getProjectMap();
+        if (!org.codehaus.plexus.util.StringUtils.isBlank(projectName)){
+            projectId = projectMap1.get(projectName);
+            if (org.codehaus.plexus.util.StringUtils.isBlank(projectId)){
+                projectId = "";
+            }
+        }
+        return projectId;
+    }
+
     /**
      * 强制把文件中项目设置为当前
      * @param projectName
@@ -64,8 +76,9 @@ public class ApiPostSettings implements PersistentStateComponent<ApiPostSettings
     public static void syncProjectName(String projectName){
         ApiPostSettings settings = ServiceManager.getService(ApiPostSettings.class);
         String projectName1 = settings.getProjectName();
-        if (!projectName1.equals(projectName)){
-            settings.setProjectName(projectName1);
+        if (!projectName.equals(projectName1)){
+            settings.setProjectName(projectName);
+            settings.setProjectId(getFinalProjectId(settings, projectName));
             storeInstance(settings);
         }
     }
@@ -77,9 +90,9 @@ public class ApiPostSettings implements PersistentStateComponent<ApiPostSettings
         }
 
         String projectName1 = settings.getProjectName();
-        Map<String, String> projectMap1 = settings.getProjectMap();
+
         if (!org.codehaus.plexus.util.StringUtils.isBlank(projectName1)){
-            String projectId = projectMap1.get(projectName1);
+            String projectId = getFinalProjectId(settings,projectName1);
             if (org.codehaus.plexus.util.StringUtils.isBlank(projectId)){
                 settings.setProjectId(null);
             }else{
@@ -103,7 +116,7 @@ public class ApiPostSettings implements PersistentStateComponent<ApiPostSettings
 
     @Override
     public void loadState(@NotNull ApiPostSettings apiPostSettings) {
-        String projectId = apiPostSettings.getProjectId();
+        String projectId =  apiPostSettings.getProjectId();
         if (!org.codehaus.plexus.util.StringUtils.isBlank(projectId)){
             String projectName = apiPostSettings.getProjectName();
             if (!org.codehaus.plexus.util.StringUtils.isBlank(projectName)){
@@ -113,6 +126,17 @@ public class ApiPostSettings implements PersistentStateComponent<ApiPostSettings
             }
         }
         XmlSerializerUtil.copyBean(apiPostSettings, this);
+    }
+
+    /**
+     * 更新projectmap
+     * @param projectName
+     * @param projectId
+     */
+    public void updateProjectMap(String projectName, String projectId){
+        if (!org.codehaus.plexus.util.StringUtils.isBlank(projectName)){
+            projectMap.put(projectName, projectId);
+        }
     }
 
     /**
