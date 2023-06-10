@@ -66,8 +66,10 @@ public class ApiPostUploadAction extends AbstractAction {
     @Override
     public boolean before(AnActionEvent event, ApiPostConfig config) {
         Project project = event.getData(CommonDataKeys.PROJECT);
+        if (null != project)
+            ApiPostSettings.syncProjectName(project.getName()); //强制刷新项目名称
         ApiPostSettings settings = ApiPostSettings.getInstance();
-        settings.setProjectId(config.getApiPostProjectId());
+//        settings.setProjectId(config.getApiPostProjectId());
         if (!settings.isValidate()) {
             ApiPostSettingsDialog dialog = ApiPostSettingsDialog.show(project, event.getPresentation().getText());
             return !dialog.isCanceled();
@@ -77,16 +79,16 @@ public class ApiPostUploadAction extends AbstractAction {
 
     @Override
     public boolean after(AnActionEvent event, ApiPostConfig config, EventData data) {
-        ApiPostSettings settings = ServiceManager.getService(ApiPostSettings.class);
-        if (StringUtils.isNotBlank(settings.getProjectId())) {
-            config.setApiPostProjectId(settings.getProjectId());
-            try {
-                FileUtilsExt.writeText(data.getLocalDefaultFileCache(), API_POST_PROJECT_ID_PREFIX + "=" + settings.getProjectId());
-            } catch (IOException e) {
-                NotificationUtils.notifyError("apipost", "配置写入失败");
-                return false;
-            }
-        }
+//        ApiPostSettings settings = ServiceManager.getService(ApiPostSettings.class);
+//        if (StringUtils.isNotBlank(settings.getProjectId())) {
+//            config.setApiPostProjectId(settings.getProjectId());
+//            try {
+//                FileUtilsExt.writeText(data.getLocalDefaultFileCache(), API_POST_PROJECT_ID_PREFIX + "=" + settings.getProjectId());
+//            } catch (IOException e) {
+//                NotificationUtils.notifyError("apipost", "配置写入失败");
+//                return false;
+//            }
+//        }
         return true;
     }
 

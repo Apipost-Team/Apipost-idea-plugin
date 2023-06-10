@@ -27,6 +27,8 @@ public class ApiPostSettingsDialog extends DialogWrapper {
         super(project);
         setTitle(title);
         init();
+        if (null != project)
+            form.setProjectName(project.getName());
     }
 
     /**

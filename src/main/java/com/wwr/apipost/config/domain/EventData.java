@@ -80,6 +80,9 @@ public class EventData {
         data.event = event;
         data.project = event.getData(CommonDataKeys.PROJECT);
         data.module = event.getData(LangDataKeys.MODULE);
+
+
+
         data.selectedFiles = event.getData(CommonDataKeys.VIRTUAL_FILE_ARRAY);
         if (data.project != null && data.selectedFiles != null) {
             data.selectedJavaFiles = PsiFileUtils.getPsiJavaFiles(data.project, data.selectedFiles);

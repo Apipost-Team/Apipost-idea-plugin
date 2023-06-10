@@ -90,6 +90,9 @@ public class ApiParser {
         }
         info.setCategory(parseHelper.getDeclareApiCategory(psiClass));
         info.setDeclareCategory(info.getCategory());
+        if (StringUtils.isEmpty(info.getDeclareCategory())) {
+            info.setDeclareCategory(parseHelper.getDefaultApiCategory(psiClass));
+        }
         if (StringUtils.isEmpty(info.getCategory())) {
             info.setCategory(parseHelper.getDefaultApiCategory(psiClass));
         }

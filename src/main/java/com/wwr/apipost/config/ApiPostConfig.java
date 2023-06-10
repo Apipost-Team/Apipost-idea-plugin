@@ -257,15 +257,15 @@ public class ApiPostConfig {
         config.setDateFormat(settings.getDateFormat());
         config.setTimeFormat(settings.getTimeFormat());
         config.setRequestBodyParamType(settings.getRequestBodyParamType());
-        config.setApiPostProjectId(customProperties.getProperty(API_POST_PROJECT_ID_PREFIX, ""));
-        if (StringUtils.isNotBlank(customSetting.getProjectId())) {
-            config.setApiPostProjectId(customSetting.getProjectId());
-            try {
-                FileUtilsExt.writeText(fileCache, API_POST_PROJECT_ID_PREFIX + "=" + customSetting.getProjectId());
-            } catch (IOException e) {
-                NotificationUtils.notifyError("apipost", "≈‰÷√–¥»Î ß∞‹");
-            }
-        }
+//        config.setApiPostProjectId(customProperties.getProperty(API_POST_PROJECT_ID_PREFIX, ""));
+//        if (StringUtils.isNotBlank(customSetting.getProjectId())) {
+//            config.setApiPostProjectId(customSetting.getProjectId());
+//            try {
+//                FileUtilsExt.writeText(fileCache, API_POST_PROJECT_ID_PREFIX + "=" + customSetting.getProjectId());
+//            } catch (IOException e) {
+//                NotificationUtils.notifyError("apipost", "≈‰÷√–¥»Î ß∞‹");
+//            }
+//        }
 
         //  ±º‰∏Ò Ω
         if (StringUtils.isBlank(settings.getDateTimeFormatMvc())) {
