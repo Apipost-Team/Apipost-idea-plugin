@@ -1,10 +1,12 @@
 package com.wwr.apipost.handle.apipost.config;
 
+import cn.hutool.core.util.ObjectUtil;
 import lombok.Getter;
 import org.codehaus.plexus.util.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ItemEvent;
 
 @Getter
 public class ApiPostSettingsForm extends JDialog {
@@ -12,12 +14,28 @@ public class ApiPostSettingsForm extends JDialog {
     private JTextField token;
     private JTextField projectId;
     private JTextField remoteUrl;
-    private JLabel serverUrl;
+    private JCheckBox serverUrlCheckBox;
     private JTextArea preUrlMap;
     private JScrollPane scrollPane;
+    /**
+     * serverUrlCheckBox 选中状态
+     */
+    private Boolean suCheckBoxState;
 
     public ApiPostSettingsForm() {
         contentPane.setPreferredSize(new Dimension(400, 200));
+        serverUrlCheckBox.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                // 当 serverUrlCheckBox 被选中时，显示 scrollPane
+                scrollPane.setVisible(true);
+                this.suCheckBoxState = true;
+            } else {
+                // 当 serverUrlCheckBox 取消选中时，隐藏 scrollPane
+                scrollPane.setVisible(false);
+                this.suCheckBoxState = false;
+            }
+        });
+
     }
 
     public ApiPostSettings get() {
@@ -26,6 +44,7 @@ public class ApiPostSettingsForm extends JDialog {
         settings.setProjectId(projectId.getText().trim());
         settings.setRemoteUrl(remoteUrl.getText().trim());
         settings.setPreMapUrl(preUrlMap.getText().trim());
+        settings.setSuCheckBoxState(suCheckBoxState);
         return settings;
     }
 
@@ -42,6 +61,10 @@ public class ApiPostSettingsForm extends JDialog {
         if (StringUtils.isNotBlank(settings.getPreMapUrl())) {
             preUrlMap.setText(settings.getPreMapUrl());
         }
+        if(ObjectUtil.isNotNull(settings.getSuCheckBoxState())){
+            suCheckBoxState = settings.getSuCheckBoxState();
+            serverUrlCheckBox.setSelected(settings.getSuCheckBoxState());
+        }
     }
 
     /**
@@ -49,7 +72,10 @@ public class ApiPostSettingsForm extends JDialog {
      */
     public void hiddenServerUrl() {
         scrollPane.setVisible(false);
-        serverUrl.setVisible(false);
+        serverUrlCheckBox.setVisible(false);
         preUrlMap.setVisible(false);
     }
+
+
+
 }

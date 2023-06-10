@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.net.InetAddress;
 import java.nio.file.Files;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Properties;
 
 /**
@@ -31,7 +32,7 @@ public class CommonUtil {
     private static final String SERVER_DEFAULT_PORT = "8080";
 
     public static String getServerPerUrl(Module module, ApiPostSettings settings) {
-        String preMapUrl = settings.getPreMapUrl();
+        String preMapUrl = Optional.ofNullable(settings.getPreMapUrl()).orElse("");
         String moduleName = module.getName();
 
         String regex = moduleName + "=[^\\r\\n\\s]+";

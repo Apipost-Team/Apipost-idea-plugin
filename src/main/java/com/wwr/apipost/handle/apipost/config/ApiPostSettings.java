@@ -11,6 +11,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Optional;
+
 /**
  * <p>
  *
@@ -47,6 +49,12 @@ public class ApiPostSettings implements PersistentStateComponent<ApiPostSettings
      * 服务的URL
      */
     private String preMapUrl;
+
+    /**
+     * 服务的URL勾选状态
+     */
+    private Boolean suCheckBoxState;
+
     public static ApiPostSettings getInstance() {
         ApiPostSettings settings = ServiceManager.getService(ApiPostSettings.class);
         if (org.codehaus.plexus.util.StringUtils.isBlank(settings.getRemoteUrl())){
@@ -77,5 +85,13 @@ public class ApiPostSettings implements PersistentStateComponent<ApiPostSettings
      */
     public boolean isValidate() {
         return StringUtils.isNotEmpty(token) && StringUtils.isNotEmpty(projectId);
+    }
+
+    /**
+     * 是否开启服务URL
+     * @return boolean
+     */
+    public boolean isEnableServerUrl(){
+        return Optional.ofNullable(getSuCheckBoxState()).orElse(false);
     }
 }

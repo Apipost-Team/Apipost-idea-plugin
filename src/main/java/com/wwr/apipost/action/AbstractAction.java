@@ -209,11 +209,13 @@ public abstract class AbstractAction extends AnAction {
             config = new ApiPostConfig();
         }
         ApiPostSettings settings = ApiPostSettings.getInstance();
-        String currentUrl = getServerPerUrl(data.getModule(), settings);
-
-        String currentPath = config.getPath();
-        String updatedPath = StrUtil.isNotBlank(currentPath) ? currentUrl + currentPath : currentUrl;
-        config.setPath(updatedPath);
+        boolean isEnableServerUrl = settings.isEnableServerUrl();
+        if (isEnableServerUrl) {
+            String currentUrl = getServerPerUrl(data.getModule(), settings);
+            String currentPath = config.getPath();
+            String updatedPath = StrUtil.isNotBlank(currentPath) ? currentUrl + currentPath : currentUrl;
+            config.setPath(updatedPath);
+        }
         config = ApiPostConfig.getMergedInternalConfig(config, data.getLocalDefaultFileCache());
         return StepResult.ok(config);
     }

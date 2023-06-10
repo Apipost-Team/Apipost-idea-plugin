@@ -51,6 +51,9 @@ public class APiPostSettingsConfiguration implements Configurable {
         if (!Objects.equals(settings.getProjectId(), apiPostSettings.getProjectId())) {
             return Boolean.TRUE;
         }
+        if(!Objects.equals(settings.getSuCheckBoxState(), apiPostSettings.getSuCheckBoxState())){
+            return Boolean.TRUE;
+        }
         return !Objects.equals(settings.getPreMapUrl(), apiPostSettings.getPreMapUrl());
     }
 
