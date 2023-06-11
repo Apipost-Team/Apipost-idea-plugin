@@ -1,5 +1,6 @@
 package com.wwr.apipost.handle.apipost.config;
 
+import com.wwr.apipost.handle.apipost.config.prefix.ApiPostPrefixUrlSettingsForm;
 import lombok.Getter;
 import org.codehaus.plexus.util.StringUtils;
 
@@ -12,24 +13,23 @@ public class ApiPostSettingsForm extends JDialog {
     private JTextField token;
     private JTextField projectId;
     private JTextField remoteUrl;
-    private JLabel serverUrl;
-    private JTextArea preUrlMap;
-    private JScrollPane scrollPane;
 
     public ApiPostSettingsForm() {
         contentPane.setPreferredSize(new Dimension(400, 200));
     }
 
-    public ApiPostSettings get() {
+    public ApiPostSettings get(ApiPostPrefixUrlSettingsForm urlSettingsForm) {
         ApiPostSettings settings = new ApiPostSettings();
         settings.setToken(token.getText().trim());
         settings.setProjectId(projectId.getText().trim());
         settings.setRemoteUrl(remoteUrl.getText().trim());
-        settings.setPreMapUrl(preUrlMap.getText().trim());
+        if (urlSettingsForm != null) {
+            urlSettingsForm.get(settings);
+        }
         return settings;
     }
 
-    public void set(ApiPostSettings settings) {
+    public void set(ApiPostSettings settings, ApiPostPrefixUrlSettingsForm urlSettingsForm) {
         if (StringUtils.isNotBlank(settings.getToken())) {
             token.setText(settings.getToken());
         }
@@ -39,17 +39,8 @@ public class ApiPostSettingsForm extends JDialog {
         if (StringUtils.isNotBlank(settings.getRemoteUrl())) {
             remoteUrl.setText(settings.getRemoteUrl());
         }
-        if (StringUtils.isNotBlank(settings.getPreMapUrl())) {
-            preUrlMap.setText(settings.getPreMapUrl());
+        if (urlSettingsForm != null) {
+            urlSettingsForm.set(settings);
         }
-    }
-
-    /**
-     * 在弹框中不显示
-     */
-    public void hiddenServerUrl() {
-        scrollPane.setVisible(false);
-        serverUrl.setVisible(false);
-        preUrlMap.setVisible(false);
     }
 }

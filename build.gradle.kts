@@ -26,8 +26,6 @@ dependencies {
 
   implementation ("cn.hutool:hutool-http:5.8.15")
   implementation ("cn.hutool:hutool-json:5.8.15")
-
-  implementation ("org.yaml:snakeyaml:1.29")
 }
 
 // Configure Gradle IntelliJ Plugin
