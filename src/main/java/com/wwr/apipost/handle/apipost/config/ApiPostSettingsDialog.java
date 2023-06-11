@@ -34,8 +34,6 @@ public class ApiPostSettingsDialog extends DialogWrapper {
      */
     public static ApiPostSettingsDialog show(Project project, String title) {
         ApiPostSettingsDialog dialog = new ApiPostSettingsDialog(project, title);
-        //隐藏服务前置URL框
-        dialog.form.hiddenServerUrl();
         dialog.show();
         return dialog;
     }
@@ -44,7 +42,7 @@ public class ApiPostSettingsDialog extends DialogWrapper {
     protected void init() {
         super.init();
         ApiPostSettings setting = ApiPostSettings.getInstance();
-        form.set(setting);
+        form.set(setting, null);
     }
 
     @Nullable
@@ -58,7 +56,7 @@ public class ApiPostSettingsDialog extends DialogWrapper {
 
     @Override
     protected void doOKAction() {
-        ApiPostSettings settings = form.get();
+        ApiPostSettings settings = form.get(null);
         if (StringUtils.isBlank(settings.getToken())) {
             setErrorText("token不能为空", form.getToken());
         }
@@ -66,7 +64,7 @@ public class ApiPostSettingsDialog extends DialogWrapper {
             setErrorText("项目id不能为空", form.getProjectId());
         }
         if (settings.isValidate()) {
-            ApiPostSettings.storeInstance(form.get());
+            ApiPostSettings.storeInstance(form.get(null));
             super.doOKAction();
         }
     }
@@ -74,7 +72,7 @@ public class ApiPostSettingsDialog extends DialogWrapper {
     @Nullable
     @Override
     protected ValidationInfo doValidate() {
-        ApiPostSettings data = form.get();
+        ApiPostSettings data = form.get(null);
         if (StringUtils.isEmpty(data.getToken())) {
             return new ValidationInfo("Token不能为空", form.getToken());
         }
