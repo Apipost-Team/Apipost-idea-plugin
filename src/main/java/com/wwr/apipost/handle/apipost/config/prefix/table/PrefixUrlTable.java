@@ -3,7 +3,6 @@ package com.wwr.apipost.handle.apipost.config.prefix.table;
 import com.intellij.ui.table.JBTable;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -11,7 +10,6 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.EventObject;
-import java.util.Optional;
 
 /**
  *
@@ -43,20 +41,6 @@ public class PrefixUrlTable extends JBTable{
                 }
             }
         });
-    }
-
-    @Override
-    public void valueChanged(ListSelectionEvent e) {
-        if (!e.getValueIsAdjusting()) {
-            int selectedRow = getSelectedRow();
-            int selectedColumn = getSelectedColumn();
-            if (selectedRow > -1 && selectedColumn > -1) {
-                Object cellValue = getValueAt(selectedRow, selectedColumn);
-                DefaultTableModel model = (DefaultTableModel) getModel();
-                model.setValueAt(Optional.ofNullable(cellValue).orElse(""), selectedRow, selectedColumn);
-            }
-        }
-        super.valueChanged(e);
     }
 
     public static DefaultTableModel defaultTableModel() {
