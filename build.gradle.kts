@@ -26,8 +26,6 @@ dependencies {
 
   implementation ("cn.hutool:hutool-http:5.8.15")
   implementation ("cn.hutool:hutool-json:5.8.15")
-
-  implementation ("org.yaml:snakeyaml:1.29")
 }
 
 // Configure Gradle IntelliJ Plugin
@@ -50,6 +48,10 @@ tasks {
   patchPluginXml {
     sinceBuild.set("213")
     untilBuild.set("231.*")
+  }
+
+  buildSearchableOptions {
+    enabled= false
   }
 
   signPlugin {
