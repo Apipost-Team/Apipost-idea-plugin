@@ -11,7 +11,7 @@
 ## 如何安装
 - 下载插件：（目前支持21.3以上版本安装使用哦）
 
-链接：https://pan.baidu.com/s/19lDXn6Nrgj3M-Rmyix3XYA 
+链接：https://pan.baidu.com/s/1wBuMxQFw2ba-a7zldXuB5A 
 提取码：post
 
 - 使用压缩包安装
@@ -25,9 +25,7 @@
 如遇到云端地址没有或者不对情况，请填写：https://sync-project.apipost.cn/api/convert
 
 最新版本已更新可以导入前置URL域名拼接，示意图如下：
-![导入前置URL0](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/87bc4306-8486-40b2-99cc-c145c8efcf42)
-
-
+![导入前置URL0612](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/37547479-0eae-45a7-a7ea-2687a95b5fca)
 
 - 上传文件
 
@@ -92,6 +90,6 @@ Apipost官方审核通过合并后，即为参与成功；
  - 2023/05/31 发布：支持IDEA中新建目录导入的问题，已确认待合并----感谢Java攻城狮~JouTao
  - 2023/06/01 发布：支持在Apipost中新建目录，从IDEA直接导入新建的目录中，已确认待合并----感谢Java攻城狮~JouTao
  - 2023/06/08 发布：合并Pr项目支持Api导入URL拼域名----感谢Java攻城狮~Linyuan
- - 
+ - 2023/06/12 发布：BUG修复，待验证合并----感谢Java攻城狮~Liuhaoduoduo
    
  ## 特别鸣谢
