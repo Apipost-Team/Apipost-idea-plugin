@@ -63,7 +63,7 @@ public class ApiPostUploadAction extends AbstractAction {
     @Override
     public boolean before(AnActionEvent event, ApiPostConfig config) {
         Project project = event.getData(CommonDataKeys.PROJECT);
-        ApiPostSettings settings = ApiPostSettings.getInstance();
+        ApiPostSettings settings = ServiceManager.getService(ApiPostSettings.class);
         settings.setProjectId(config.getApiPostProjectId());
         if (!settings.isValidate()) {
             ApiPostSettingsDialog dialog = ApiPostSettingsDialog.show(project, event.getPresentation().getText());

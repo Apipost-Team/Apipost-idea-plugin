@@ -1,5 +1,6 @@
 package com.wwr.apipost.action;
 
+import cn.hutool.core.util.StrUtil;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.AtomicDouble;
 import com.intellij.notification.NotificationType;
@@ -43,6 +44,7 @@ import java.util.stream.Collectors;
 import static com.wwr.apipost.config.DefaultConstants.DEFAULT_PROPERTY_FILE_CACHE;
 import static com.wwr.apipost.parse.util.NotificationUtils.notifyError;
 import static com.wwr.apipost.parse.util.NotificationUtils.notifyInfo;
+import static com.wwr.apipost.util.CommonUtil.getServerPerUrl;
 import static java.lang.String.format;
 
 /**
@@ -204,6 +206,13 @@ public abstract class AbstractAction extends AnAction {
         }
         if (config == null) {
             config = new ApiPostConfig();
+        }
+        ApiPostSettings settings = ApiPostSettings.getInstance();
+        String currentUrl = getServerPerUrl(data.getModule(), settings);
+        if (StrUtil.isNotBlank(currentUrl)) {
+            String currentPath = config.getPath();
+            String updatedPath = StrUtil.isNotBlank(currentPath) ? currentUrl + currentPath : currentUrl;
+            config.setPath(updatedPath);
         }
         config = ApiPostConfig.getMergedInternalConfig(config, data.getLocalDefaultFileCache());
         return StepResult.ok(config);
