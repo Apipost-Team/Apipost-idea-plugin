@@ -5,14 +5,11 @@ import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.util.xmlb.XmlSerializerUtil;
-import com.wwr.apipost.config.domain.PrefixUrl;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
 
 /**
  * <p>
@@ -47,9 +44,11 @@ public class ApiPostSettings implements PersistentStateComponent<ApiPostSettings
     private String remoteUrl;
 
     /**
-     * 配置服务前置URL
+     * 自定义目录
+     *
      */
-    private List<PrefixUrl> prefixUrlList;
+    private String workDir;
+
 
     public static ApiPostSettings getInstance() {
         ApiPostSettings settings = ServiceManager.getService(ApiPostSettings.class);

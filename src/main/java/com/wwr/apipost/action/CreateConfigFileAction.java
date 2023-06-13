@@ -6,7 +6,6 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
 import com.wwr.apipost.config.DefaultConstants;
 import com.wwr.apipost.handle.apipost.config.ApiPostSettingsDialog;
 import com.wwr.apipost.parse.util.NotificationUtils;
@@ -18,7 +17,6 @@ import java.io.IOException;
 import java.nio.file.Paths;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.wwr.apipost.parse.util.NotificationUtils.notifyInfo;
 
 /**
  * 创建配置文件的通知动作

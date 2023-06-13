@@ -85,7 +85,7 @@ public class OpenApiDataConvert {
         Operation operation = new Operation();
         operation.setSummary(api.getSummary());
         // todo: 设置tag，这里考虑放的是分类，可以根据自己的需求变更
-//        operation.setTags(Lists.newArrayList(api.getCategory()));
+        operation.setTags(Lists.newArrayList(api.getCategory()));
         operation.setParameters(buildParameters(api));
         operation.setRequestBody(buildRequestBody(api));
         operation.setResponses(buildResponses(api));

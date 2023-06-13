@@ -27,108 +27,108 @@ import java.util.regex.Pattern;
 import static com.wwr.apipost.config.DefaultConstants.*;
 
 /**
- * ¶ÔÓ¦ÎÄ¼ş.apipost
+ * å¯¹åº”æ–‡ä»¶.apipost
  */
 @Data
 public class ApiPostConfig {
 
     /**
-     * ÑÏ¸ñÄ£Ê½: Î´Ö¸¶¨·ÖÀà¡¢½Ó¿ÚÃû²»´¦Àí
+     * ä¸¥æ ¼æ¨¡å¼: æœªæŒ‡å®šåˆ†ç±»ã€æ¥å£åä¸å¤„ç†
      */
     private boolean strict = true;
 
     /**
-     * Â·¾¶Ç°×º
+     * è·¯å¾„å‰ç¼€
      */
     private String path;
 
     /**
-     * yapiÏîÄ¿id
+     * yapié¡¹ç›®id
      */
     private String yapiProjectId;
 
     /**
-     * rap2ÏîÄ¿id
+     * rap2é¡¹ç›®id
      */
     private String rap2ProjectId;
 
     /**
-     * eolinkÏîÄ¿hashKey
+     * eolinké¡¹ç›®hashKey
      */
     private String eolinkProjectId;
 
     /**
-     * showdocÏîÄ¿id
+     * showdocé¡¹ç›®id
      */
     private String showdocProjectId;
 
     /**
-     * apifoxÏîÄ¿id
+     * apifoxé¡¹ç›®id
      */
     private String apifoxProjectId;
 
     /**
-     * YApi·şÎñµØÖ·: ÓÃÓÚÍ³Ò»µÇÂ¼³¡¾°
+     * YApiæœåŠ¡åœ°å€: ç”¨äºç»Ÿä¸€ç™»å½•åœºæ™¯
      */
     private String yapiUrl;
 
     /**
-     * YApiÏîÄ¿token: ÓÃÓÚÍ³Ò»µÇÂ¼³¡¾°
+     * YApié¡¹ç›®token: ç”¨äºç»Ÿä¸€ç™»å½•åœºæ™¯
      */
     private String yapiProjectToken;
 
     /**
-     * ·µ»ØÖµ°ü×°Àà
+     * è¿”å›å€¼åŒ…è£…ç±»
      */
     private String returnWrapType;
 
     /**
-     * ·µ»ØÖµ½â°ü×°Àà
+     * è¿”å›å€¼è§£åŒ…è£…ç±»
      */
     private List<String> returnUnwrapTypes;
 
     /**
-     * ²ÎÊıºöÂÔÀà
+     * å‚æ•°å¿½ç•¥ç±»
      */
     private List<String> parameterIgnoreTypes;
 
     /**
-     * ×Ô¶¨ÒåbeanÅäÖÃ
+     * è‡ªå®šä¹‰beané…ç½®
      */
     private Map<String, BeanCustom> beans;
 
     /**
-     * ÖÇÄÜmock¹æÔò
+     * æ™ºèƒ½mockè§„åˆ™
      */
     private List<MockRule> mockRules;
 
     /**
-     * ×Ô¶¨Òå×¢½âÖµ£¬¼ò»¯@RequestBody×¢½â
+     * è‡ªå®šä¹‰æ³¨è§£å€¼ï¼Œç®€åŒ–@RequestBodyæ³¨è§£
      */
     private RequestBodyParamType requestBodyParamType;
 
     /**
-     * Ê±¼ä¸ñÊ½: ²éÑ¯²ÎÊıºÍ±íµ¥
+     * æ—¶é—´æ ¼å¼: æŸ¥è¯¢å‚æ•°å’Œè¡¨å•
      */
     private String dateTimeFormatMvc;
 
     /**
-     * Ê±¼ä¸ñÊ½: Json
+     * æ—¶é—´æ ¼å¼: Json
      */
     private String dateTimeFormatJson;
 
     /**
-     * ÈÕÆÚ¸ñÊ½
+     * æ—¥æœŸæ ¼å¼
      */
     private String dateFormat;
 
     /**
-     * Ê±¼ä¸ñÊ½
+     * æ—¶é—´æ ¼å¼
      */
     private String timeFormat;
 
     /**
-     * apiPostÏîÄ¿id
+     * apiPosté¡¹ç›®id
      */
     private String apiPostProjectId;
 
@@ -137,12 +137,12 @@ public class ApiPostConfig {
     @Data
     public static class RequestBodyParamType {
         /**
-         * ×¢½âÀàĞÍ
+         * æ³¨è§£ç±»å‹
          */
         private String annotation;
 
         /**
-         * ×¢½âÊôĞÔ
+         * æ³¨è§£å±æ€§
          */
         private String property;
 
@@ -158,7 +158,7 @@ public class ApiPostConfig {
     }
 
     /**
-     * ½âÎöÅäÖÃ
+     * è§£æé…ç½®
      */
     public static ApiPostConfig fromProperties(Properties properties) {
         Splitter splitter = Splitter.on(",").trimResults().omitEmptyStrings();
@@ -204,7 +204,7 @@ public class ApiPostConfig {
             config.requestBodyParamType = new RequestBodyParamType(requestBodyParamType);
         }
 
-        // ½âÎö×Ô¶¨ÒåbeanÅäÖÃ: beans[xxx].json=xxx
+        // è§£æè‡ªå®šä¹‰beané…ç½®: beans[xxx].json=xxx
         Gson gson = new Gson();
         Map<String, BeanCustom> beans = Maps.newHashMap();
         config.setBeans(beans);
@@ -222,7 +222,7 @@ public class ApiPostConfig {
             beans.put(beanType, beanCustom);
         }
 
-        // ÖÇÄÜmock¹æÔò
+        // æ™ºèƒ½mockè§„åˆ™
         if (StringUtils.isNotEmpty(mockRules)) {
             Type type = new TypeToken<List<MockRule>>() {
             }.getType();
@@ -232,13 +232,13 @@ public class ApiPostConfig {
     }
 
     /**
-     * ºÏ²¢ÅäÖÃ
+     * åˆå¹¶é…ç½®
      */
     public static ApiPostConfig getMergedInternalConfig(ApiPostConfig settings, File fileCache) {
         Properties customProperties = PropertiesLoader.getProperties(fileCache);
         Properties defaultProperties = PropertiesLoader.getProperties(DEFAULT_PROPERTY_FILE);
         ApiPostConfig internal = ApiPostConfig.fromProperties(defaultProperties);
-        // ×Ô¶¨ÒåÅäÖÃ
+        // è‡ªå®šä¹‰é…ç½®
         ApiPostSettings customSetting = ApiPostSettings.getInstance();
 
         ApiPostConfig config = new ApiPostConfig();
@@ -263,11 +263,11 @@ public class ApiPostConfig {
             try {
                 FileUtilsExt.writeText(fileCache, API_POST_PROJECT_ID_PREFIX + "=" + customSetting.getProjectId());
             } catch (IOException e) {
-                NotificationUtils.notifyError("apipost", "ÅäÖÃĞ´ÈëÊ§°Ü");
+                NotificationUtils.notifyError("apipost", "é…ç½®å†™å…¥å¤±è´¥");
             }
         }
 
-        // Ê±¼ä¸ñÊ½
+        // æ—¶é—´æ ¼å¼
         if (StringUtils.isBlank(settings.getDateTimeFormatMvc())) {
             config.setDateTimeFormatMvc(internal.getDateTimeFormatMvc());
         }
@@ -281,7 +281,7 @@ public class ApiPostConfig {
             config.setTimeFormat(internal.getTimeFormat());
         }
 
-        // ½â°ü×°ÀàĞÍ
+        // è§£åŒ…è£…ç±»å‹
         List<String> returnUnwrapTypes = Lists.newArrayList();
         returnUnwrapTypes.addAll(internal.getReturnUnwrapTypes());
         if (settings.getReturnUnwrapTypes() != null) {
@@ -289,7 +289,7 @@ public class ApiPostConfig {
         }
         config.setReturnUnwrapTypes(returnUnwrapTypes);
 
-        // ºöÂÔ²ÎÊıÀàĞÍ
+        // å¿½ç•¥å‚æ•°ç±»å‹
         List<String> parameterIgnoreTypes = Lists.newArrayList();
         if (settings.getParameterIgnoreTypes() != null) {
             config.setReturnUnwrapTypes(returnUnwrapTypes);
@@ -298,7 +298,7 @@ public class ApiPostConfig {
         parameterIgnoreTypes.addAll(internal.getParameterIgnoreTypes());
         config.setParameterIgnoreTypes(parameterIgnoreTypes);
 
-        // ×Ô¶¨ÒåbeanÅäÖÃ
+        // è‡ªå®šä¹‰beané…ç½®
         Map<String, BeanCustom> beans = Maps.newHashMap();
         if (internal.getBeans() != null) {
             beans.putAll(internal.getBeans());
@@ -308,7 +308,7 @@ public class ApiPostConfig {
         }
         config.setBeans(beans);
 
-        // mock¹æÔò
+        // mockè§„åˆ™
         List<MockRule> mockRules = Lists.newArrayList();
         if (settings.getMockRules() != null) {
             mockRules.addAll(settings.getMockRules());
