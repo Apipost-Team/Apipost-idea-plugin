@@ -1,6 +1,5 @@
 package com.wwr.apipost.action;
 
-import cn.hutool.core.util.StrUtil;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.AtomicDouble;
 import com.intellij.notification.NotificationType;
@@ -12,12 +11,13 @@ import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.*;
+import com.intellij.psi.PsiClass;
 import com.wwr.apipost.config.ApiPostConfig;
 import com.wwr.apipost.config.ApiPostConfigUtils;
 import com.wwr.apipost.config.DefaultConstants;
 import com.wwr.apipost.config.domain.Api;
 import com.wwr.apipost.config.domain.EventData;
+import com.wwr.apipost.handle.apipost.config.ApiPostSettings;
 import com.wwr.apipost.parse.ApiParser;
 import com.wwr.apipost.parse.model.ClassApiData;
 import com.wwr.apipost.parse.model.MethodApiData;
@@ -209,9 +209,9 @@ public abstract class AbstractAction extends AnAction {
         }
         ApiPostSettings settings = ApiPostSettings.getInstance();
         String currentUrl = getServerPerUrl(data.getModule(), settings);
-        if (StrUtil.isNotBlank(currentUrl)) {
+        if (StringUtils.isNotBlank(currentUrl)) {
             String currentPath = config.getPath();
-            String updatedPath = StrUtil.isNotBlank(currentPath) ? currentUrl + currentPath : currentUrl;
+            String updatedPath = StringUtils.isNotBlank(currentPath) ? currentUrl + currentPath : currentUrl;
             config.setPath(updatedPath);
         }
         config = ApiPostConfig.getMergedInternalConfig(config, data.getLocalDefaultFileCache());
