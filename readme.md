@@ -87,11 +87,12 @@ Apipost官方审核通过合并后，即为参与成功；
  - 信息登记：https://www.wjx.cn/vm/QCafRUd.aspx# 
  
  - 2023/05/26 发布：合并Pr项目ID不能保存的问题----感谢Java攻城狮~Zhuoyuan1 
- - 2023/05/31 发布：支持IDEA中新建目录导入的问题，已确认待合并----感谢Java攻城狮~JouTao
- - 2023/06/01 发布：支持在Apipost中新建目录，从IDEA直接导入新建的目录中，已确认待合并----感谢Java攻城狮~JouTao
+ - 2023/05/31 发布：合并支持IDEA中新建目录导入的问题----感谢Java攻城狮~JouTao
+ - 2023/06/01 发布：合并支持在Apipost中新建目录，从IDEA直接导入新建的目录中----感谢Java攻城狮~JouTao
  - 2023/06/08 发布：合并Pr项目支持Api导入URL拼域名----感谢Java攻城狮~Linyuan
  - 2023/06/12 发布：BUG修复，待验证合并----感谢Java攻城狮~Liuhaoduoduo
  - 2023/06/13 感谢：前置URL优化项目提议和Pr推送，攻城狮Linyuan已优化好，虽未被采纳，但十分感谢----感谢Java攻城狮~heart-flowing
+ - 2023/06/14 发布：合并目录导入和前置URL功能，修复合并BUG----感谢Java攻城狮~Linyuan
  - 
    
  ## 特别鸣谢
