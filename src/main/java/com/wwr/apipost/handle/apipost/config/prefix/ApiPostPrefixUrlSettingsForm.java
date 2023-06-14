@@ -28,10 +28,10 @@ public class ApiPostPrefixUrlSettingsForm {
         addButton.addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent e) {
+                super.focusLost(e);
                 if (!Objects.equals(removeButton, e.getOppositeComponent())) {
                     prefixUrlTable.clearSelection();
                 }
-                super.focusLost(e);
             }
         });
         removeButton.addActionListener(new RemoveAction(prefixUrlTable));
@@ -45,10 +45,10 @@ public class ApiPostPrefixUrlSettingsForm {
         prefixUrlTable.addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent e) {
+                super.focusLost(e);
                 if (!Objects.equals(removeButton, e.getOppositeComponent())) {
                     prefixUrlTable.clearSelection();
                 }
-                super.focusLost(e);
             }
         });
     }
@@ -66,7 +66,7 @@ public class ApiPostPrefixUrlSettingsForm {
                 Object url = prefixUrlTable.getModel().getValueAt(i, 1);
                 PrefixUrl prefixUrl = new PrefixUrl();
                 prefixUrl.setModuleName(name.toString());
-                prefixUrl.setPrefixUrl(Optional.of(url).map(Object::toString).orElse(""));
+                prefixUrl.setPrefixUrl(Optional.ofNullable(url).map(Object::toString).orElse(""));
                 prefixUrl.setRowIndex(i);
                 prefixUrlList.add(prefixUrl);
             }
