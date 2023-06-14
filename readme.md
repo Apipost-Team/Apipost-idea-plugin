@@ -9,9 +9,9 @@
 
 
 ## 如何安装
-- 下载插件：（目前支持21.3以上版本安装使用哦）
+- 下载插件：（目前支持23.1以上版本安装使用哦）
 
-链接：https://pan.baidu.com/s/1wBuMxQFw2ba-a7zldXuB5A 
+最新插件更新链接：https://pan.baidu.com/s/1wBuMxQFw2ba-a7zldXuB5A 
 提取码：post
 
 - 使用压缩包安装
@@ -24,8 +24,12 @@
 
 如遇到云端地址没有或者不对情况，请填写：https://sync-project.apipost.cn/api/convert
 
-最新版本已更新可以导入前置URL域名拼接，示意图如下：
+已更新可以导入前置URL域名拼接，示意图如下：
 ![导入前置URL0612](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/37547479-0eae-45a7-a7ea-2687a95b5fca)
+使用流程：点击Add，选择文件目录，填写前置URL，如http://127.0.0.1:8080等，点击旁边空白处，在点击Apply（必操作项），在点击确认，即可保存前置URL；
+
+已更新可以按目录导入，多目录选择导入等
+使用流程：1、在自定义目录中，直接写要上传的目录名称；2、在Apipost先新建目录或者查看已有目录，将目录名写入自定义目录中；点击upgrade后，可以筛选导入的目录中；
 
 - 上传文件
 
