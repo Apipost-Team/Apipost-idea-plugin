@@ -127,13 +127,18 @@ public class ApiPostUploadAction extends AbstractAction {
             notifyError("upload error: network error!");
             return;
         }
-        ApiPostSyncResponseVO responseVO = fromJson(responseBody, ApiPostSyncResponseVO.class);
+        try {
+            ApiPostSyncResponseVO responseVO = fromJson(responseBody, ApiPostSyncResponseVO.class);
 
-        if (responseVO.isSuccess()) {
-            notifyInfo("Upload Result", String.format("Upload %d Api success!", apiNum));
-        } else {
-            notifyError("Upload Result", "Upload failed!" + responseVO.getMessage());
+            if (responseVO.isSuccess()) {
+                notifyInfo("Upload Result", String.format("Upload %d Api success!", apiNum));
+            } else {
+                notifyError("Upload Result", "Upload failed!" + responseVO.getMessage());
+            }            
+        }catch (Exception e){
+            notifyError("Upload Result", "Upload failed!" + e.getMessage() + "responseBody:" + responseBody);
         }
+
     }
 
     @Override
