@@ -1,6 +1,5 @@
 package com.wwr.apipost.handle.apipost.config.prefix;
 
-import cn.hutool.core.util.StrUtil;
 import com.wwr.apipost.config.domain.PrefixUrl;
 import com.wwr.apipost.handle.apipost.config.ApiPostSettings;
 import com.wwr.apipost.handle.apipost.config.prefix.button.AddAction;
@@ -26,6 +25,15 @@ public class ApiPostPrefixUrlSettingsForm {
 
     public ApiPostPrefixUrlSettingsForm() {
         addButton.addActionListener(new AddAction(prefixUrlTable));
+        addButton.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                super.focusLost(e);
+                if (!Objects.equals(removeButton, e.getOppositeComponent())) {
+                    prefixUrlTable.clearSelection();
+                }
+            }
+        });
         removeButton.addActionListener(new RemoveAction(prefixUrlTable));
 
         ListSelectionModel selectionModel = prefixUrlTable.getSelectionModel();
@@ -37,10 +45,9 @@ public class ApiPostPrefixUrlSettingsForm {
         prefixUrlTable.addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent e) {
-                if (e.getOppositeComponent() != null &&
-                        !Objects.equals(removeButton.getInputContext(), e.getOppositeComponent().getInputContext())) {
+                super.focusLost(e);
+                if (!Objects.equals(removeButton, e.getOppositeComponent())) {
                     prefixUrlTable.clearSelection();
-                    removeButton.setEnabled(false);
                 }
             }
         });
@@ -55,11 +62,11 @@ public class ApiPostPrefixUrlSettingsForm {
         int rowCount = prefixUrlTable.getRowCount();
         for (int i = 0; i < rowCount; i++) {
             Object name = prefixUrlTable.getModel().getValueAt(i, 0);
-            if (!StrUtil.isBlankIfStr(name)) {
+            if (name != null && !"".equals(name)) {
                 Object url = prefixUrlTable.getModel().getValueAt(i, 1);
                 PrefixUrl prefixUrl = new PrefixUrl();
                 prefixUrl.setModuleName(name.toString());
-                prefixUrl.setPrefixUrl(Optional.of(url).map(Object::toString).orElse(""));
+                prefixUrl.setPrefixUrl(Optional.ofNullable(url).map(Object::toString).orElse(""));
                 prefixUrl.setRowIndex(i);
                 prefixUrlList.add(prefixUrl);
             }
