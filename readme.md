@@ -11,8 +11,9 @@
 ## 如何安装
 - 下载插件：（目前支持21.3以上版本安装使用哦）
 
-链接：https://pan.baidu.com/s/1XXKnB-OzBkXjis31bb0Ofw
+链接：https://pan.baidu.com/s/1wBuMxQFw2ba-a7zldXuB5A 
 提取码：post
+
 - 使用压缩包安装
 ![image](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/3f8a93fe-1fe8-4a96-ad0a-734dd003485b)
 ![image](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/3c48eaa4-64bf-4b71-b30a-41da287a1240)
@@ -23,11 +24,13 @@
 
 如遇到云端地址没有或者不对情况，请填写：https://sync-project.apipost.cn/api/convert
 
+最新版本已更新可以导入前置URL域名拼接，示意图如下：
+![导入前置URL0612](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/37547479-0eae-45a7-a7ea-2687a95b5fca)
+
 - 上传文件
 
 后端研发在API代码编写、代码修改后右键点击“Upload to Apipost”，其他团队成员即可在 Apipost 中看到同步后的最新API文档，免去API设计环节。
 ![image](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/217b3065-40a3-4472-9e02-c2c6f790fe3d)
-
 
 
 ## 如何开发
@@ -55,13 +58,15 @@
 
 2、暂时不支持21.2以前版本安装，版本兼容问题
 
-3、Api导入URL没有拼域名
+3、Api导入URL没有拼域名----已修复，可在IDEA中按服务输入前缀URL并拼入接口URL中，感谢Java攻城狮~Linyuan
 
 4、项目ID不能保存----已修复，感谢Java攻城狮~Zhuoyuan1 
 
 5、暂时不支持导入Apipost已存在的目录中----已修复，可在Apipost中新建目录，从IDEA直接导入新建的目录中，感谢Java攻城狮~JouTao
 
 6、IDEA导入Api，参数格式是application/x-www-form-urlencoded，而不是From-data，需排查插件书写格式问题或者是否是个BUG；
+
+7、不支持注释提取注释；
 
 - 以上是我们个人使用用户反馈，欢迎牛逼的Java攻城狮，一起完善好产品，做出自己的IEDA插件，让开发测试更简单；
 ## 联系我们
@@ -84,5 +89,9 @@ Apipost官方审核通过合并后，即为参与成功；
  - 2023/05/26 发布：合并Pr项目ID不能保存的问题----感谢Java攻城狮~Zhuoyuan1 
  - 2023/05/31 发布：支持IDEA中新建目录导入的问题，已确认待合并----感谢Java攻城狮~JouTao
  - 2023/06/01 发布：支持在Apipost中新建目录，从IDEA直接导入新建的目录中，已确认待合并----感谢Java攻城狮~JouTao
+ - 2023/06/08 发布：合并Pr项目支持Api导入URL拼域名----感谢Java攻城狮~Linyuan
+ - 2023/06/12 发布：BUG修复，待验证合并----感谢Java攻城狮~Liuhaoduoduo
+ - 2023/06/13 感谢：前置URL优化项目提议和Pr推送，攻城狮Linyuan已优化好，虽未被采纳，但十分感谢----感谢Java攻城狮~heart-flowing
+ - 
    
  ## 特别鸣谢

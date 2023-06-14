@@ -43,6 +43,12 @@ public class ApiPostSettings implements PersistentStateComponent<ApiPostSettings
      */
     private String remoteUrl;
 
+    /**
+     * 自定义目录
+     *
+     */
+    private String workDir;
+
 
     public static ApiPostSettings getInstance() {
         ApiPostSettings settings = ServiceManager.getService(ApiPostSettings.class);
