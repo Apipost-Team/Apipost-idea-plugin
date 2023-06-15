@@ -94,9 +94,8 @@ Apipost官方审核通过合并后，即为参与成功；
  - 2023/05/31 发布：合并支持IDEA中新建目录导入的问题----感谢Java攻城狮~JouTao
  - 2023/06/01 发布：合并支持在Apipost中新建目录，从IDEA直接导入新建的目录中----感谢Java攻城狮~JouTao
  - 2023/06/08 发布：合并Pr项目支持Api导入URL拼域名----感谢Java攻城狮~Linyuan
- - 2023/06/12 发布：BUG修复，待验证合并----感谢Java攻城狮~Liuhaoduoduo
  - 2023/06/13 感谢：前置URL优化项目提议和Pr推送，攻城狮Linyuan已优化好，虽未被采纳，但十分感谢----感谢Java攻城狮~heart-flowing
  - 2023/06/14 发布：合并目录导入和前置URL功能，修复合并BUG----感谢Java攻城狮~Linyuan
- - 
+ - 2023/06/15 发布：合并IDEA报错configfile的BUG修复----感谢Java攻城狮~Liuhaoduoduo
    
  ## 特别鸣谢
