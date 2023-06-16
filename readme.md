@@ -9,9 +9,9 @@
 
 
 ## 如何安装
-- 下载插件：（目前支持21.3以上版本安装使用哦）
+- 下载插件：（目前支持23.1以上版本安装使用哦）
 
-链接：https://pan.baidu.com/s/1wBuMxQFw2ba-a7zldXuB5A 
+最新插件更新链接：https://pan.baidu.com/s/1wBuMxQFw2ba-a7zldXuB5A 
 提取码：post
 
 - 使用压缩包安装
@@ -24,8 +24,13 @@
 
 如遇到云端地址没有或者不对情况，请填写：https://sync-project.apipost.cn/api/convert
 
-最新版本已更新可以导入前置URL域名拼接，示意图如下：
+已更新可以导入前置URL域名拼接，示意图如下：
 ![导入前置URL0612](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/37547479-0eae-45a7-a7ea-2687a95b5fca)
+使用流程：点击Add，选择文件目录，填写前置URL，如http://127.0.0.1:8080 等，点击旁边空白处，在点击Apply（必操作项），在点击确认，即可保存前置URL；
+
+已更新可以按目录导入，多目录选择导入等
+![目录导入功能](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/b215d8aa-783b-49fd-b3e8-7d111e702552)
+使用流程：1、在自定义目录中，直接写要上传的目录名称，目录和目录之间用英文逗号隔开；2、在Apipost先新建目录或者查看已有目录，将目录名写入自定义目录中；点击upgrade后，可以筛选导入的目录中；
 
 - 上传文件
 
@@ -56,7 +61,7 @@
 
 1、暂时不支持按目录导入，选择目录导入----已修复，可在IDEA中新建目录导入，感谢Java攻城狮~JouTao
 
-2、暂时不支持21.2以前版本安装，版本兼容问题
+2、暂时不支持23.1以前版本安装，版本兼容问题，21.3之后插件可安装，但无法上传，21.2之前版本插件安装不了；
 
 3、Api导入URL没有拼域名----已修复，可在IDEA中按服务输入前缀URL并拼入接口URL中，感谢Java攻城狮~Linyuan
 
@@ -66,7 +71,9 @@
 
 6、IDEA导入Api，参数格式是application/x-www-form-urlencoded，而不是From-data，需排查插件书写格式问题或者是否是个BUG；
 
-7、不支持注释提取注释；
+7、不支持注释来提取注释的目录名字导入；
+
+8、IDEA接口更新问题，如果Api在Apipost总url有更改，就会更新一个新的接口；
 
 - 以上是我们个人使用用户反馈，欢迎牛逼的Java攻城狮，一起完善好产品，做出自己的IEDA插件，让开发测试更简单；
 ## 联系我们
@@ -87,11 +94,11 @@ Apipost官方审核通过合并后，即为参与成功；
  - 信息登记：https://www.wjx.cn/vm/QCafRUd.aspx# 
  
  - 2023/05/26 发布：合并Pr项目ID不能保存的问题----感谢Java攻城狮~Zhuoyuan1 
- - 2023/05/31 发布：支持IDEA中新建目录导入的问题，已确认待合并----感谢Java攻城狮~JouTao
- - 2023/06/01 发布：支持在Apipost中新建目录，从IDEA直接导入新建的目录中，已确认待合并----感谢Java攻城狮~JouTao
+ - 2023/05/31 发布：合并支持IDEA中新建目录导入的问题----感谢Java攻城狮~JouTao
+ - 2023/06/01 发布：合并支持在Apipost中新建目录，从IDEA直接导入新建的目录中----感谢Java攻城狮~JouTao
  - 2023/06/08 发布：合并Pr项目支持Api导入URL拼域名----感谢Java攻城狮~Linyuan
- - 2023/06/12 发布：BUG修复，待验证合并----感谢Java攻城狮~Liuhaoduoduo
  - 2023/06/13 感谢：前置URL优化项目提议和Pr推送，攻城狮Linyuan已优化好，虽未被采纳，但十分感谢----感谢Java攻城狮~heart-flowing
- - 
+ - 2023/06/14 发布：合并目录导入和前置URL功能，修复合并BUG----感谢Java攻城狮~Linyuan
+ - 2023/06/15 发布：合并IDEA报错configfile的BUG修复----感谢Java攻城狮~Liuhaoduoduo
    
  ## 特别鸣谢

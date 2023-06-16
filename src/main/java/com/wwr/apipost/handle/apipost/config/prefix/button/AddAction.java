@@ -1,12 +1,12 @@
 package com.wwr.apipost.handle.apipost.config.prefix.button;
 
-import cn.hutool.core.util.StrUtil;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.IdeFrame;
 import com.intellij.openapi.wm.WindowManager;
 import com.wwr.apipost.handle.apipost.config.prefix.dialog.ChooseModuleDialog;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -44,9 +44,9 @@ public class AddAction extends AbstractAction {
 
 
     private void addRowData(String moduleName) {
-        if (StrUtil.isNotBlank(moduleName)) {
+        if (StringUtils.isNotBlank(moduleName)) {
             DefaultTableModel model = (DefaultTableModel) prefixUrl.getModel();
-            Object[] rowData = {moduleName, ""};
+            Object[] rowData = {moduleName};
             model.addRow(rowData);
             prefixUrl.repaint();
 
@@ -84,7 +84,7 @@ public class AddAction extends AbstractAction {
         List<String> tableModuleName = new ArrayList<>();
         for (int i = 0; i < rowCount; i++) {
             Object name = prefixUrl.getModel().getValueAt(i, 0);
-            if (!StrUtil.isBlankIfStr(name)) {
+            if (name != null && !"".equals(name)) {
                 tableModuleName.add(name.toString());
             }
         }

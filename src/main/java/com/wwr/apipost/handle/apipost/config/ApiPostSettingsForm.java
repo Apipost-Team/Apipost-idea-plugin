@@ -25,6 +25,9 @@ public class ApiPostSettingsForm extends JDialog {
         settings.setProjectId(projectId.getText().trim());
         settings.setRemoteUrl(remoteUrl.getText().trim());
         settings.setWorkDir(workDir.getText().trim());
+        if (urlSettingsForm != null) {
+            urlSettingsForm.get(settings);
+        }
         return settings;
     }
 
@@ -40,6 +43,9 @@ public class ApiPostSettingsForm extends JDialog {
         }
         if (StringUtils.isNotBlank(settings.getWorkDir())){
             workDir.setText(settings.getWorkDir());
+        }
+        if (urlSettingsForm != null) {
+            urlSettingsForm.set(settings);
         }
     }
 }
