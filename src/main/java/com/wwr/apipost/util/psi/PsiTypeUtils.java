@@ -53,6 +53,9 @@ public class PsiTypeUtils {
      */
     public static boolean isCollection(PsiType type, Project project, Module module) {
         PsiClass mapPsiClass = PsiUtils.findPsiClass(project, module, Collection.class.getName());
+        if (mapPsiClass == null) {
+            return false;
+        }
         PsiClassType mapPsiType = PsiTypesUtil.getClassType(mapPsiClass);
         return mapPsiType.isAssignableFrom(type);
     }
@@ -62,6 +65,9 @@ public class PsiTypeUtils {
      */
     public static boolean isMap(PsiType type, Project project, Module module) {
         PsiClass mapPsiClass = PsiUtils.findPsiClass(project, module, Map.class.getName());
+        if (mapPsiClass == null) {
+            return false;
+        }
         PsiClassType mapPsiType = PsiTypesUtil.getClassType(mapPsiClass);
         return mapPsiType.isAssignableFrom(type);
     }
