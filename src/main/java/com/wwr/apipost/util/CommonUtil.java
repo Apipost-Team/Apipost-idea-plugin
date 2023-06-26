@@ -6,15 +6,14 @@ import cn.hutool.json.JSONUtil;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.psi.search.GlobalSearchScope;
 import com.wwr.apipost.config.domain.PrefixUrl;
 import com.wwr.apipost.handle.apipost.config.ApiPostSettings;
 import lombok.experimental.UtilityClass;
+import org.apache.commons.lang3.StringUtils;
 import org.yaml.snakeyaml.Yaml;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.InetAddress;
 import java.nio.file.Files;
 import java.util.List;
@@ -63,7 +62,7 @@ public class CommonUtil {
 
 
     public static String getServerIp() {
-        String prefix = "http://";
+        String prefix = "https://";
         try {
             InetAddress localHost = InetAddress.getLocalHost();
             return prefix + localHost.getHostAddress();
@@ -98,4 +97,54 @@ public class CommonUtil {
         }
         return null;
     }
+
+    public static String getPrefixUrl(Module module,ApiPostSettings setting) throws Exception {
+        //获取模块访问路径,默认 bootstrap.yml的优先级大于application.yml的优先级大于application.properties
+        String contentPath="";
+        Integer port = null;
+        VirtualFile[] contentRoots = ModuleRootManager.getInstance(module).getContentRoots();
+        if (contentRoots.length != 0) {
+            String projectRootPath = contentRoots[0].getPath();
+            File file;
+            if(StringUtils.isNotBlank(setting.getProfile())){
+                file=new File(projectRootPath, "src/main/resources/bootstrap-"+setting.getProfile()+".yml");
+                if(!file.exists()){
+                    file=new File(projectRootPath, "src/main/resources/application-"+setting.getProfile()+".yml");
+                    if(!file.exists()){
+                        file=new File(projectRootPath, "src/main/resources/application-"+setting.getProfile()+".properties");
+                    }
+                }
+            }else{
+                file=new File(projectRootPath, "src/main/resources/bootstrap.yml");
+                if(!file.exists()){
+                    file=new File(projectRootPath, "src/main/resources/application.yml");
+                    if(!file.exists()){
+                        file=new File(projectRootPath, "src/main/resources/application.properties");
+                    }
+                }
+            }
+            if(file.getName().endsWith(".properties")){
+                FileInputStream inputStream = new FileInputStream(file);
+                Properties properties = new Properties();
+                properties.load(inputStream);
+                contentPath=properties.getProperty("server.servlet.context-path");
+                port= Integer.valueOf(properties.getProperty("server.port"));
+            }
+            if(file.getName().endsWith(".yml")){
+                InputStream inputStream = Files.newInputStream(file.toPath());
+                Yaml yaml = new Yaml();
+                Map<String, Object> data = yaml.load(inputStream);
+                JSONObject server = JSONUtil.parseObj(data).getJSONObject("server");
+                if(null!=server){
+                    port= Integer.valueOf(server.getStr("port"));
+                    server = (JSONObject) server.get("servlet");
+                    if (server != null) {
+                        contentPath=server.getStr("context-path");
+                    }
+                }
+            }
+        }
+        return getServerIp()+":"+(port == null ? SERVER_DEFAULT_PORT : port)+contentPath;
+    }
+
 }
