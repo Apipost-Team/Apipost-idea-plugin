@@ -10,6 +10,7 @@ import com.wwr.apipost.config.DefaultConstants;
 import com.wwr.apipost.handle.apipost.config.ApiPostSettingsDialog;
 import com.wwr.apipost.parse.util.NotificationUtils;
 import com.wwr.apipost.util.FileUtilsExt;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -39,22 +40,25 @@ public class CreateConfigFileAction extends NotificationAction {
     @Override
     public void actionPerformed(@NotNull AnActionEvent event, @NotNull Notification notification) {
         // 参数校验
-        File moduleRoot = new File(module.getModuleFilePath()).getParentFile();
-        String rootPath = moduleRoot.getPath();
-        String cachePath = ".idea";
-        if (!rootPath.contains(cachePath)) {
-            rootPath = rootPath + "/" + cachePath;
-        }
-        File file = Paths.get(rootPath, DefaultConstants.DEFAULT_PROPERTY_FILE_CACHE).toFile();
-        try {
-            String content = FileUtilsExt.readTextInResource(TEMPLATE_FILE);
-            FileUtilsExt.writeText(file, content);
-        } catch (IOException ex) {
-            NotificationUtils.notifyError("Create config file error: " + ex.getMessage());
-        }
-        finally {
-            Project project = event.getData(CommonDataKeys.PROJECT);
-            ApiPostSettingsDialog.show(project, event.getPresentation().getText());
+        String rootPath = project.getBasePath();
+        if (StringUtils.isBlank(rootPath)) {
+            NotificationUtils.notifyError("Create config file error: not found project");
+        } else {
+            String cachePath = ".idea";
+            if (!rootPath.contains(cachePath)) {
+                rootPath = rootPath + "/" + cachePath;
+            }
+            File file = Paths.get(rootPath, DefaultConstants.DEFAULT_PROPERTY_FILE_CACHE).toFile();
+            try {
+                String content = FileUtilsExt.readTextInResource(TEMPLATE_FILE);
+                FileUtilsExt.writeText(file, content);
+            } catch (IOException ex) {
+                NotificationUtils.notifyError("Create config file error: " + ex.getMessage());
+            }
+            finally {
+                Project project = event.getData(CommonDataKeys.PROJECT);
+                ApiPostSettingsDialog.show(project, event.getPresentation().getText());
+            }
         }
     }
 }

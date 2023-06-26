@@ -21,7 +21,7 @@ Features:
 1.3 Supports popular frameworks Spring MVC, Spring Flux, Swagger.
       ]]></description>
 
-    <idea-version since-build="192.6262.58"/>
+    <idea-version since-build="203.5981.155"/>
 
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
@@ -33,8 +33,10 @@ Features:
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
         <!--  配置      -->
-        <applicationService serviceImplementation="com.wwr.apipost.handle.apipost.config.ApiPostSettings"/>
+        <applicationService serviceImplementation="com.wwr.apipost.handle.apipost.config.ApiPostSettings" id="test"/>
         <applicationConfigurable instance="com.wwr.apipost.handle.apipost.config.APiPostSettingsConfiguration"/>
+
+        <notificationGroup displayType="BALLOON" id="ApiPost"/>
     </extensions>
     <actions>
         <!--    上传动作      -->

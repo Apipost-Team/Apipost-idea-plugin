@@ -1,9 +1,7 @@
 package com.wwr.apipost.handle.apipost.config;
 
-import com.intellij.openapi.components.PersistentStateComponent;
-import com.intellij.openapi.components.ServiceManager;
-import com.intellij.openapi.components.State;
-import com.intellij.openapi.components.Storage;
+import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.components.*;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import com.wwr.apipost.config.domain.PrefixUrl;
 import lombok.Getter;
@@ -59,7 +57,7 @@ public class ApiPostSettings implements PersistentStateComponent<ApiPostSettings
 
 
     public static ApiPostSettings getInstance() {
-        ApiPostSettings settings = ServiceManager.getService(ApiPostSettings.class);
+        ApiPostSettings settings = ApplicationManager.getApplication().getService(ApiPostSettings.class);
         if (org.codehaus.plexus.util.StringUtils.isBlank(settings.getRemoteUrl())){
             settings.setRemoteUrl("https://sync-project.apipost.cn/api/convert"); //设置默认值
         }

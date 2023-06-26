@@ -1,6 +1,5 @@
 package com.wwr.apipost.util.psi;
 
-import com.intellij.lang.jvm.JvmModifier;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
@@ -25,7 +24,7 @@ public class PsiUtils {
 
 
     public static boolean isNeedField(PsiField field) {
-        return !field.hasModifier(JvmModifier.STATIC);
+        return !field.hasModifierProperty(PsiModifier.STATIC);
     }
 
     /**
@@ -43,7 +42,7 @@ public class PsiUtils {
     public static PsiField[] getStaticOrFinalFields(PsiClass t) {
         PsiField[] fields = t.getAllFields();
         return Arrays.stream(fields)
-                .filter(f -> f.hasModifier(JvmModifier.STATIC) || f.hasModifier(JvmModifier.FINAL))
+                .filter(f -> f.hasModifierProperty(PsiModifier.STATIC) || f.hasModifierProperty(PsiModifier.FINAL))
                 .toArray(PsiField[]::new);
     }
 

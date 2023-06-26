@@ -9,10 +9,10 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.*;
 import com.intellij.psi.util.PsiTreeUtil;
-import com.wwr.apipost.action.AbstractAction;
 import com.wwr.apipost.config.DefaultConstants;
 import com.wwr.apipost.util.psi.PsiFileUtils;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -96,13 +96,14 @@ public class EventData {
 
 
     public File getLocalDefaultFileCache() {
-        File moduleRoot = new File(module.getModuleFilePath()).getParentFile();
-        String rootPath = moduleRoot.getPath();
-        String cachePath = ".idea";
-        if (!rootPath.contains(cachePath)) {
-            rootPath = rootPath + "/" + cachePath;
+        String rootPath = project.getBasePath();
+        if (StringUtils.isNotBlank(rootPath)) {
+            String cachePath = ".idea";
+            if (!rootPath.contains(cachePath)) {
+                rootPath = rootPath + "/" + cachePath;
+            }
+            return Paths.get(rootPath, DefaultConstants.DEFAULT_PROPERTY_FILE_CACHE).toFile();
         }
-        return Paths.get(rootPath, DefaultConstants.DEFAULT_PROPERTY_FILE_CACHE).toFile();
+        return null;
     }
-
 }

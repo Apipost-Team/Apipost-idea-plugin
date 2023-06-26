@@ -3,20 +3,10 @@ package com.wwr.apipost.openapi;
 import com.google.common.collect.Sets;
 import com.google.gson.*;
 import io.swagger.v3.oas.models.OpenAPI;
-import org.jetbrains.annotations.NotNull;
-import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.DumperOptions.FlowStyle;
-import org.yaml.snakeyaml.DumperOptions.ScalarStyle;
-import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.introspector.BeanAccess;
 import org.yaml.snakeyaml.introspector.Property;
 import org.yaml.snakeyaml.introspector.PropertyUtils;
-import org.yaml.snakeyaml.nodes.MappingNode;
-import org.yaml.snakeyaml.nodes.NodeTuple;
-import org.yaml.snakeyaml.nodes.Tag;
-import org.yaml.snakeyaml.representer.Representer;
 
-import java.io.StringWriter;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -32,46 +22,46 @@ public class OpenApiGenerator {
         return jsonElement.getAsJsonObject();
     }
 
-    @NotNull
-    private static Yaml buildYaml() {
-        DumperOptions dumperOptions = new DumperOptions();
-        dumperOptions.setCanonical(false);
-        dumperOptions.setDefaultScalarStyle(ScalarStyle.PLAIN);
-        dumperOptions.setDefaultFlowStyle(FlowStyle.BLOCK);
-        dumperOptions.setPrettyFlow(true);
+//    @NotNull
+//    private static Yaml buildYaml() {
+//        DumperOptions dumperOptions = new DumperOptions();
+//        dumperOptions.setCanonical(false);
+//        dumperOptions.setDefaultScalarStyle(ScalarStyle.PLAIN);
+//        dumperOptions.setDefaultFlowStyle(FlowStyle.BLOCK);
+//        dumperOptions.setPrettyFlow(true);
+//
+//        CustomRepresent represent = new CustomRepresent();
+//        represent.setPropertyUtils(new CustomPropertyUtils());
+//        represent.getPropertyUtils().setBeanAccess(BeanAccess.FIELD);
+//        return new Yaml(represent, dumperOptions);
+//    }
 
-        CustomRepresent represent = new CustomRepresent();
-        represent.setPropertyUtils(new CustomPropertyUtils());
-        represent.getPropertyUtils().setBeanAccess(BeanAccess.FIELD);
-        return new Yaml(represent, dumperOptions);
-    }
-
-    private static class CustomRepresent extends Representer {
-
-        @Override
-        protected NodeTuple representJavaBeanProperty(Object javaBean, Property property, Object propertyValue, Tag customTag) {
-            // if value of property is null, ignore it.
-            if (propertyValue == null) {
-                return null;
-            }
-
-            // ignore specified property
-            if (property.getName().equals("exampleSetFlag") || property.getName().equals("specVersion")) {
-                return null;
-            }
-
-            return super.representJavaBeanProperty(javaBean, property, propertyValue, customTag);
-        }
-
-        @Override
-        protected MappingNode representJavaBean(Set<Property> properties, Object javaBean) {
-            if (!classTags.containsKey(javaBean.getClass())) {
-                addClassTag(javaBean.getClass(), Tag.MAP);
-            }
-
-            return super.representJavaBean(properties, javaBean);
-        }
-    }
+//    private static class CustomRepresent extends Representer {
+//
+//        @Override
+//        protected NodeTuple representJavaBeanProperty(Object javaBean, Property property, Object propertyValue, Tag customTag) {
+//            // if value of property is null, ignore it.
+//            if (propertyValue == null) {
+//                return null;
+//            }
+//
+//            // ignore specified property
+//            if (property.getName().equals("exampleSetFlag") || property.getName().equals("specVersion")) {
+//                return null;
+//            }
+//
+//            return super.representJavaBeanProperty(javaBean, property, propertyValue, customTag);
+//        }
+//
+//        @Override
+//        protected MappingNode representJavaBean(Set<Property> properties, Object javaBean) {
+//            if (!classTags.containsKey(javaBean.getClass())) {
+//                addClassTag(javaBean.getClass(), Tag.MAP);
+//            }
+//
+//            return super.representJavaBean(properties, javaBean);
+//        }
+//    }
 
     private static class CustomPropertyUtils extends PropertyUtils {
 

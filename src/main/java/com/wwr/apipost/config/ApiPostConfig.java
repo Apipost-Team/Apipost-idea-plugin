@@ -235,7 +235,11 @@ public class ApiPostConfig {
      * 合并配置
      */
     public static ApiPostConfig getMergedInternalConfig(ApiPostConfig settings, File fileCache) {
-        Properties customProperties = PropertiesLoader.getProperties(fileCache);
+        Properties customProperties = null;
+        if (fileCache != null) {
+            customProperties = PropertiesLoader.getProperties(fileCache);
+        }
+
         Properties defaultProperties = PropertiesLoader.getProperties(DEFAULT_PROPERTY_FILE);
         ApiPostConfig internal = ApiPostConfig.fromProperties(defaultProperties);
         // 自定义配置
@@ -257,13 +261,18 @@ public class ApiPostConfig {
         config.setDateFormat(settings.getDateFormat());
         config.setTimeFormat(settings.getTimeFormat());
         config.setRequestBodyParamType(settings.getRequestBodyParamType());
-        config.setApiPostProjectId(customProperties.getProperty(API_POST_PROJECT_ID_PREFIX, ""));
+        if (customProperties != null) {
+            config.setApiPostProjectId(customProperties.getProperty(API_POST_PROJECT_ID_PREFIX, ""));
+        }
+
         if (StringUtils.isNotBlank(customSetting.getProjectId())) {
             config.setApiPostProjectId(customSetting.getProjectId());
-            try {
-                FileUtilsExt.writeText(fileCache, API_POST_PROJECT_ID_PREFIX + "=" + customSetting.getProjectId());
-            } catch (IOException e) {
-                NotificationUtils.notifyError("apipost", "配置写入失败");
+            if (fileCache != null) {
+                try {
+                    FileUtilsExt.writeText(fileCache, API_POST_PROJECT_ID_PREFIX + "=" + customSetting.getProjectId());
+                } catch (IOException e) {
+                    NotificationUtils.notifyError("apipost", "配置写入失败");
+                }
             }
         }
 
