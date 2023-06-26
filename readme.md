@@ -69,7 +69,7 @@
 
 5、暂时不支持导入Apipost已存在的目录中----已修复，可在Apipost中新建目录，从IDEA直接导入新建的目录中，感谢Java攻城狮~JouTao
 
-6、IDEA导入Api，参数格式是application/x-www-form-urlencoded，而不是From-data，需排查插件书写格式问题或者是否是个BUG；
+6、IDEA导入Api，参数格式是application/x-www-form-urlencoded，而不是From-data，需排查插件书写格式问题或者是否是个BUG；----用户已验证，此问题是IDEA中书写规范问题，感谢Java攻城狮~JouTao；
 
 7、不支持注释来提取注释的目录名字导入；
 
