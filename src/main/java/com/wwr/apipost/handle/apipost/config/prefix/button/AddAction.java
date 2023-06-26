@@ -94,34 +94,9 @@ public class AddAction extends AbstractAction {
         List<String> tableModuleNameList = getTableModuleNameList();
         List<String> moduleNameList = new ArrayList<>();
         for (Module module : modules) {
-            VirtualFile[] contentRoots = ModuleRootManager.getInstance(module).getContentRoots();
-            if (contentRoots.length != 0) {
-                String projectRootPath = contentRoots[0].getPath();
-                File file = new File("");
-                if(StringUtils.isNotBlank(setting.getProfile())){
-                    file=new File(projectRootPath, "src/main/resources/bootstrap-"+setting.getProfile()+".yml");
-                    if(!file.exists()){
-                        file=new File(projectRootPath, "src/main/resources/application-"+setting.getProfile()+".yml");
-                        if(!file.exists()){
-                            file=new File(projectRootPath, "src/main/resources/application-"+setting.getProfile()+".properties");
-                        }
-                    }
-                }
-                if(!file.exists()){
-                    file=new File(projectRootPath, "src/main/resources/bootstrap.yml");
-                    if(!file.exists()){
-                        file = new File(projectRootPath, "src/main/resources/application.yml");
-                        if(!file.exists()){
-                            file = new File(projectRootPath, "src/main/resources/application.properties");
-                        }
-                    }
-                }
-                if(file.exists()){
-                    String name = module.getName();
-                    if (!tableModuleNameList.contains(name)) {
-                        moduleNameList.add(name);
-                    }
-                }
+            String name = module.getName();
+            if (!tableModuleNameList.contains(name)) {
+                moduleNameList.add(name);
             }
         }
         return moduleNameList;

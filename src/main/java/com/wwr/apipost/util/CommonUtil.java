@@ -6,7 +6,6 @@ import cn.hutool.json.JSONUtil;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.search.GlobalSearchScope;
 import com.wwr.apipost.config.domain.PrefixUrl;
 import com.wwr.apipost.handle.apipost.config.ApiPostSettings;
 import lombok.experimental.UtilityClass;
@@ -34,6 +33,9 @@ public class CommonUtil {
         List<PrefixUrl> prefixUrlList = settings.getPrefixUrlList();
         if (prefixUrlList != null && !prefixUrlList.isEmpty()) {
             Map<String, String> nameAndUrlMap = prefixUrlList.stream().collect(Collectors.toMap(PrefixUrl::getModuleName, PrefixUrl::getPrefixUrl));
+            if(nameAndUrlMap.size()==1){
+                return (String)nameAndUrlMap.values().toArray()[0];
+            }
             return nameAndUrlMap.get(module.getName());
         }
         return null;
@@ -62,7 +64,7 @@ public class CommonUtil {
 
 
     public static String getServerIp() {
-        String prefix = "https://";
+        String prefix = "http://";
         try {
             InetAddress localHost = InetAddress.getLocalHost();
             return prefix + localHost.getHostAddress();

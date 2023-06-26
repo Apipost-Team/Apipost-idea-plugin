@@ -83,7 +83,7 @@ public class ApiPostPrefixUrlSettingsForm {
                 prefixUrlList.add(prefixUrl);
             }
         }
-//        settings.setProfile(profile.getText().trim());
+        settings.setProfile(profile.getText().trim());
         settings.setPrefixUrlList(prefixUrlList);
     }
 
