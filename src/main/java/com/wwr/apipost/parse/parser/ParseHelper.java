@@ -3,7 +3,6 @@ package com.wwr.apipost.parse.parser;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.intellij.lang.jvm.JvmParameter;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
@@ -364,7 +363,7 @@ public class ParseHelper {
                 // 解析枚举表达式
                 int fieldIndex = -1;
                 for (PsiMethod constructor : psiClass.getConstructors()) {
-                    JvmParameter[] parameters = constructor.getParameters();
+                    PsiParameter[] parameters = constructor.getParameterList().getParameters();
                     for (int i = 0; i < parameters.length; i++) {
                         if (parameters[i].getName().equals(fieldName)) {
                             fieldIndex = i;

@@ -5,7 +5,7 @@ import cn.hutool.http.HttpResponse;
 import com.google.gson.JsonObject;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
-import com.intellij.openapi.components.ServiceManager;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.IconLoader;
@@ -27,9 +27,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -63,7 +61,7 @@ public class ApiPostUploadAction extends AbstractAction {
     @Override
     public boolean before(AnActionEvent event, ApiPostConfig config) {
         Project project = event.getData(CommonDataKeys.PROJECT);
-        ApiPostSettings settings = ServiceManager.getService(ApiPostSettings.class);
+        ApiPostSettings settings = ApplicationManager.getApplication().getService(ApiPostSettings.class);
         settings.setProjectId(config.getApiPostProjectId());
         if (!settings.isValidate()) {
             ApiPostSettingsDialog dialog = ApiPostSettingsDialog.show(project, event.getPresentation().getText());
@@ -74,11 +72,16 @@ public class ApiPostUploadAction extends AbstractAction {
 
     @Override
     public boolean after(AnActionEvent event, ApiPostConfig config, EventData data) {
-        ApiPostSettings settings = ServiceManager.getService(ApiPostSettings.class);
+        ApiPostSettings settings = ApplicationManager.getApplication().getService(ApiPostSettings.class);
         if (StringUtils.isNotBlank(settings.getProjectId())) {
             config.setApiPostProjectId(settings.getProjectId());
             try {
-                FileUtilsExt.writeText(data.getLocalDefaultFileCache(), API_POST_PROJECT_ID_PREFIX + "=" + settings.getProjectId());
+                File localDefaultFileCache = data.getLocalDefaultFileCache();
+                if (localDefaultFileCache == null) {
+                    NotificationUtils.notifyError("apipost", "配置写入失败");
+                } else {
+                    FileUtilsExt.writeText(localDefaultFileCache, API_POST_PROJECT_ID_PREFIX + "=" + settings.getProjectId());
+                }
             } catch (IOException e) {
                 NotificationUtils.notifyError("apipost", "配置写入失败");
                 return false;
