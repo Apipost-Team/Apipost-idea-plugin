@@ -55,7 +55,7 @@ public class AddAction extends AbstractAction {
     }
 
 
-    private void addRowData(String moduleName,ApiPostSettings setting) throws Exception {
+    private void addRowData(String moduleName,ApiPostSettings setting) {
         if (StringUtils.isNotBlank(moduleName)) {
             DefaultTableModel model = (DefaultTableModel) prefixUrl.getModel();
             Object[] rowData = {moduleName};
@@ -74,9 +74,19 @@ public class AddAction extends AbstractAction {
                 Module[] modules = moduleManager.getModules();
                 List<Module> modulesList = Arrays.asList(modules);
                 Module module = modulesList.stream().filter(t -> t.getName().equals(moduleName)).collect(Collectors.toList()).get(0);
-                prefixUrl.getModel().setValueAt(CommonUtil.getPrefixUrl(module,setting),newRow, 1);
+                String prefixUrl1 = null;
+                try {
+                    prefixUrl1 = CommonUtil.getPrefixUrl(module, setting);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    prefixUrl.editCellAt(newRow, 1);
+                }
+                if(null!=prefixUrl1 && !"".equals(prefixUrl1)){
+                    prefixUrl.getModel().setValueAt(prefixUrl1,newRow, 1);
+                }else{
+                    prefixUrl.editCellAt(newRow, 1);
+                }
             }
-            prefixUrl.editCellAt(newRow, 1);
         }
     }
 
