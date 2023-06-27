@@ -63,6 +63,9 @@ public class APiPostSettingsConfiguration implements Configurable {
         if (!Objects.equals(settings.getPrefixUrlList(), apiPostSettings.getPrefixUrlList())) {
             return Boolean.TRUE;
         }
+        if (!Objects.equals(settings.getProfile(), apiPostSettings.getProfile())) {
+            return Boolean.TRUE;
+        }
         return !Objects.equals(settings.getProjectId(), apiPostSettings.getProjectId());
     }
 

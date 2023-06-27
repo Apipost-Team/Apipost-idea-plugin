@@ -54,6 +54,10 @@ public class ApiPostSettings implements PersistentStateComponent<ApiPostSettings
      * 服务前置URL配置信息
      */
     private List<PrefixUrl> prefixUrlList;
+    /**
+     * 开发环境
+     */
+    private String profile;
 
 
     public static ApiPostSettings getInstance() {

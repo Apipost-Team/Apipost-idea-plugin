@@ -6,6 +6,7 @@ import com.wwr.apipost.handle.apipost.config.prefix.button.AddAction;
 import com.wwr.apipost.handle.apipost.config.prefix.button.RemoveAction;
 import com.wwr.apipost.handle.apipost.config.prefix.table.PrefixUrlTable;
 import lombok.Getter;
+import org.codehaus.plexus.util.StringUtils;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -22,6 +23,8 @@ public class ApiPostPrefixUrlSettingsForm {
     private JTable prefixUrlTable;
     private JButton addButton;
     private JButton removeButton;
+    private JLabel profiles;
+    private JTextField profile;
 
     public ApiPostPrefixUrlSettingsForm() {
         addButton.addActionListener(new AddAction(prefixUrlTable));
@@ -51,6 +54,15 @@ public class ApiPostPrefixUrlSettingsForm {
                 }
             }
         });
+
+        profile.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                super.focusLost(e);
+                ApiPostSettings instance = ApiPostSettings.getInstance();
+                instance.setProfile(profile.getText().trim());
+            }
+        });
     }
 
     private void createUIComponents() {
@@ -71,6 +83,7 @@ public class ApiPostPrefixUrlSettingsForm {
                 prefixUrlList.add(prefixUrl);
             }
         }
+        settings.setProfile(profile.getText().trim());
         settings.setPrefixUrlList(prefixUrlList);
     }
 
@@ -85,6 +98,9 @@ public class ApiPostPrefixUrlSettingsForm {
                 model.addRow(rowData);
             }
             prefixUrlTable.repaint();
+        }
+        if(StringUtils.isNotBlank(settings.getProfile())){
+            profile.setText(settings.getProfile().trim());
         }
     }
 }
