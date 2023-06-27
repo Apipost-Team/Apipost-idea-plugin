@@ -136,7 +136,12 @@ public class CommonUtil {
                 InputStream inputStream = Files.newInputStream(file.toPath());
                 Yaml yaml = new Yaml();
                 Map<String, Object> data = yaml.load(inputStream);
-                JSONObject server = JSONUtil.parseObj(data).getJSONObject("server");
+                JSONObject server = JSONUtil.parseObj(data).getJSONObject("spring");
+                if(null!=setting.getProfile() && !"".equals(setting.getProfile())){
+                    server = JSONUtil.parseObj(data).getJSONObject("server");
+                }else{
+                    server=(JSONObject) server.get("server");
+                }
                 if(null!=server){
                     port= Integer.valueOf(server.getStr("port"));
                     server = (JSONObject) server.get("servlet");
