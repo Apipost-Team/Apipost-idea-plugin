@@ -1,15 +1,17 @@
 ## 介绍
 - Apipost IDEA 插件 「Apipost IDEA Helper」现已开源 ！自动解析注解、快速同步文档、高效协作，现在只需一个「Apipost IDEA Helper」！
-- 同时，Apipost发起召集牛逼的Java攻城狮活动！一起自创 IDEA插件，贡献代码即可获得精美礼品，更有机会获得妙控键盘！（活动详情请阅读整个内容）
-
+- 同时，Apipost发起召集牛逼的Java攻城狮活动！一起自创 IDEA插件，贡献代码即可获得精美礼品，更有机会获得妙控键盘！
+  
 - Apipost IDEA Helper 集成在于IDEA 中，基于 javadoc（Java）、KDoc（Kotlin）、ScalaDoc（Scala）解析 API 文档。在后端研发完成API编写后，只需在IDEA中右键点击“Upload to Apipost”，即可快速生成完整的API文档并同步到Apipost项目中，无需导出操作。
 
 - 召集牛逼的Java攻城狮，教你做自己的IDEA插件
-![开源github活动海报](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/cec357e6-d7c0-4476-92d8-dcfd861002fe)
+- 活动已结束，也欢迎大家随时共创，提交Pr，我们审核通过，会继续合并优秀作品~~~
+![获奖海报](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/b3449cb1-43ab-4ee0-9a3b-a81d008c73d7)
 
 
-## 如何安装
-- 下载插件：（目前支持2019--2023版本安装使用哦，下载0619最新日期插件，更新使用）
+
+## 如何安装（已上架IDEA插件市场，搜索Apipost即可安装使用）
+- 下载插件：（目前支持2020.03--2023版本安装使用哦，下载0619最新日期插件，更新使用）
 
 最新插件更新链接：https://pan.baidu.com/s/1wBuMxQFw2ba-a7zldXuB5A 
 提取码：post
@@ -77,15 +79,7 @@
 
 - 以上是我们个人使用用户反馈，欢迎牛逼的Java攻城狮，一起完善好产品，做出自己的IEDA插件，让开发测试更简单；
 ## 联系我们
-- 活动规则：
-
-1、提交自己设计的IDEA插件功能；
-
-2、提交修复Pr BUG；
-
-Apipost官方审核通过合并后，即为参与成功；
-
-- 活动详情与报名，请扫码二维码↓
+- 请扫码二维码↓
 
 ![image](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/31d77f0d-ab63-4d1b-bf28-242fa8306069)
    
@@ -101,6 +95,12 @@ Apipost官方审核通过合并后，即为参与成功；
  - 2023/06/14 发布：合并目录导入和前置URL功能，修复合并BUG----感谢Java攻城狮~Linyuan
  - 2023/06/15 发布：合并IDEA报错configfile的BUG修复----感谢Java攻城狮~Liuhaoduoduo
  - 2023/06/19 发布：合并bug修复和可支持19--21.3之间版本的IDEA了----感谢Java攻城狮~Linyuan
+ - 2023/06/26 发布：IDEA应用市场插件Api兼容问题修复----感谢Java攻城狮~Linyuan
  - 
    
  ## 特别鸣谢
+ - 感谢Java攻城狮~Zhuoyuan1
+ - 感谢Java攻城狮~JouTao
+ - 感谢Java攻城狮~Linyuan
+ - 感谢Java攻城狮~Liuhaoduoduo
+ - 感谢Java攻城狮~heart-flowing
