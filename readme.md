@@ -6,8 +6,7 @@
 
 - 召集牛逼的Java攻城狮，教你做自己的IDEA插件
 - 活动已结束，也欢迎大家随时共创，提交Pr，我们审核通过，会继续合并优秀作品~~~
-![获奖海报](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/b3449cb1-43ab-4ee0-9a3b-a81d008c73d7)
-
+![获奖海报最终](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/1c65750b-d395-4ec8-9194-1bc108a206f4)
 
 
 ## 如何安装（已上架IDEA插件市场，搜索Apipost即可安装使用）
