@@ -1,12 +1,10 @@
 ## 介绍
 - Apipost IDEA 插件 「Apipost IDEA Helper」现已开源 ！自动解析注解、快速同步文档、高效协作，现在只需一个「Apipost IDEA Helper」！
-- 同时，Apipost发起召集牛逼的Java攻城狮活动！一起自创 IDEA插件，贡献代码即可获得精美礼品，更有机会获得妙控键盘！
   
 - Apipost IDEA Helper 集成在于IDEA 中，基于 javadoc（Java）、KDoc（Kotlin）、ScalaDoc（Scala）解析 API 文档。在后端研发完成API编写后，只需在IDEA中右键点击“Upload to Apipost”，即可快速生成完整的API文档并同步到Apipost项目中，无需导出操作。
 
-- 召集牛逼的Java攻城狮，教你做自己的IDEA插件
-- 活动已结束，也欢迎大家随时共创，提交Pr，我们审核通过，会继续合并优秀作品~~~
-![获奖海报最终](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/1c65750b-d395-4ec8-9194-1bc108a206f4)
+- 欢迎大家随时共创，提交Pr，我们审核通过，会继续合并优秀作品~~~
+
 
 
 ## 如何安装（已上架IDEA插件市场，搜索Apipost即可安装使用）
@@ -95,11 +93,11 @@
  - 2023/06/15 发布：合并IDEA报错configfile的BUG修复----感谢Java攻城狮~Liuhaoduoduo
  - 2023/06/19 发布：合并bug修复和可支持19--21.3之间版本的IDEA了----感谢Java攻城狮~Linyuan
  - 2023/06/26 发布：IDEA应用市场插件Api兼容问题修复----感谢Java攻城狮~Linyuan
- - 
+ - 2023/06/26 发布：前置URL通过YML文件配置开发环境----感谢Java攻城狮~JouTao
    
  ## 特别鸣谢
- - 感谢Java攻城狮~Zhuoyuan1
- - 感谢Java攻城狮~JouTao
+ - 感谢Java攻城狮~Zhuoyuan1：https://github.com/Zhuoyuan1/Apipost-idea-plugin
+ - 感谢Java攻城狮~JouTao：
  - 感谢Java攻城狮~Linyuan
  - 感谢Java攻城狮~Liuhaoduoduo
  - 感谢Java攻城狮~heart-flowing
