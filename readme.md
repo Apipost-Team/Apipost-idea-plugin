@@ -97,7 +97,7 @@
    
  ## 特别鸣谢
  - 感谢Java攻城狮~Zhuoyuan1：https://github.com/Zhuoyuan1/Apipost-idea-plugin
- - 感谢Java攻城狮~JouTao：
- - 感谢Java攻城狮~Linyuan
- - 感谢Java攻城狮~Liuhaoduoduo
+ - 感谢Java攻城狮~JouTao：https://github.com/JouTao/Apipost-idea-plugin
+ - 感谢Java攻城狮~Linyuan：https://github.com/linyuan-design/Apipost-idea-plugin
+ - 感谢Java攻城狮~Liuhaoduoduo：https://github.com/liuhaoduoduo/Apipost-idea-plugin
  - 感谢Java攻城狮~heart-flowing
