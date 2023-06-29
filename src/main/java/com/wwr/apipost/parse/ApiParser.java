@@ -1,13 +1,17 @@
 package com.wwr.apipost.parse;
 
 import com.intellij.openapi.module.Module;
+import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.*;
 import com.wwr.apipost.config.ApiPostConfig;
 import com.wwr.apipost.config.domain.Api;
+import com.wwr.apipost.config.domain.EventData;
 import com.wwr.apipost.parse.constant.SpringConstants;
 import com.wwr.apipost.parse.model.*;
 import com.wwr.apipost.parse.parser.ParseHelper;
+import com.wwr.apipost.parse.parser.PathParser;
 import com.wwr.apipost.parse.parser.RequestParser;
 import com.wwr.apipost.parse.parser.ResponseParser;
 import com.wwr.apipost.parse.util.InternalUtils;
@@ -22,8 +26,6 @@ import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Objects.isNull;
-
-import com.wwr.apipost.parse.parser.PathParser;
 
 /**
  * Api接口解析器
@@ -73,10 +75,43 @@ public class ApiParser {
     /**
      * 解析接口
      */
-    public MethodApiData parse(PsiMethod method) {
-        PsiClass psiClass = method.getContainingClass();
-        return doParseMethod(method, doParseClassLevelApiInfo(psiClass));
+    public ClassApiData parseV1(EventData data1) {
+        PsiClass psiClass = data1.getSelectedClass();
+        ClassApiData data = new ClassApiData();
+        if (!isParseTargetPsiClass(psiClass) || parseHelper.isClassIgnored(psiClass)) {
+            data.setValid(false);
+            return data;
+        }
+        PsiFile psiFile = psiClass.getContainingFile();
+        VirtualFile virtualFile = psiFile.getVirtualFile();
+        Module module = ModuleUtilCore.findModuleForFile(virtualFile, data1.getProject());
+        ClassLevelApiInfo classLevelApiInfo = doParseClassLevelApiInfo(psiClass);
+
+        List<PsiMethod> methods = filterMethodsToParse(psiClass);
+        List<MethodApiData> methodApiDataList = methods.stream()
+                .map(method -> doParseMethod(method, classLevelApiInfo))
+                .collect(Collectors.toList());
+
+        data.setDeclaredCategory(classLevelApiInfo.getDeclareCategory());
+        data.setMethodDataList(methodApiDataList);
+        data.setModule(module);
+        return data;
     }
+
+    /**
+     * 解析接口
+     */
+    public MethodApiData parse(EventData data) {
+        PsiMethod method = data.getSelectedMethod();
+        PsiClass psiClass = method.getContainingClass();
+        PsiFile psiFile = psiClass.getContainingFile();
+        VirtualFile virtualFile = psiFile.getVirtualFile();
+        Module module = ModuleUtilCore.findModuleForFile(virtualFile, data.getProject());
+        MethodApiData methodApiData = doParseMethod(method, doParseClassLevelApiInfo(psiClass));
+        methodApiData.setModule(module);
+        return methodApiData;
+    }
+
 
     /**
      * 解析类级别信息，包括路径前缀、分类等
