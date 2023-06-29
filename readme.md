@@ -9,8 +9,7 @@
 ## 如何安装（已上架IDEA插件市场，搜索Apipost即可安装使用）
 - IDEA插件市场安装：
 小伙伴们现在可以在IDEA > Settings > Plugins 中自行搜索安装，如下图：
-<img width="540" alt="640" src="https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/9fbc7187-c4eb-4776-b3ce-9201512daf6f">
-
+  <img width="540" alt="640" src="https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/d38c05c7-c143-4503-8a5b-d7d94d5f4ecd">
 
 - 下载插件安装：（目前支持2020.03--2023版本安装使用哦）
 
