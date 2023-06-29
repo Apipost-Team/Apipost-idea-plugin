@@ -6,10 +6,13 @@
 
 - 欢迎大家随时共创，提交Pr，我们审核通过，会继续合并优秀作品~~~
 
-
-
 ## 如何安装（已上架IDEA插件市场，搜索Apipost即可安装使用）
-- 下载插件：（目前支持2020.03--2023版本安装使用哦）
+- IDEA插件市场安装：
+小伙伴们现在可以在IDEA > Settings > Plugins 中自行搜索安装，如下图：
+<img width="540" alt="640" src="https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/9fbc7187-c4eb-4776-b3ce-9201512daf6f">
+
+
+- 下载插件安装：（目前支持2020.03--2023版本安装使用哦）
 
 最新插件更新链接：https://pan.baidu.com/s/1wBuMxQFw2ba-a7zldXuB5A 
 提取码：post
@@ -20,17 +23,20 @@
 - 配置方法
 
 安装成功后要将 IDEA 内的项目与 Apipost的项目进行关联。在Apipost 「项目设置」>「对外能力」>「open API」中复制 API-token、项目ID，再进入IDEA设置界面 >「Apipost Config」 中填写 API-token、项目ID。
-![image](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/587886cb-e8e8-4138-b1d8-b1a3b1dabc53)
+![640](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/7fbb55a6-b955-4351-8f94-dd613b124eee)
 
 如遇到云端地址没有或者不对情况，请填写：https://sync-project.apipost.cn/api/convert
 
-已更新可以导入前置URL域名拼接，示意图如下：
-![导入前置URL0612](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/37547479-0eae-45a7-a7ea-2687a95b5fca)
-使用流程：点击Add，选择文件目录，填写前置URL，如http://127.0.0.1:8080 等，点击旁边空白处，在点击Apply（必操作项），在点击确认，即可保存前置URL；
+同步API时可选择同步目录：
+可以在 Settings > Apipost Config 「自定义目录」中配置。多目录可以用英文逗号分隔，子目录可以用斜杠分隔。
+示例：Test1/Test1.2,Test2
+<img width="540" alt="6410" src="https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/ac5dc965-fc10-4a80-8690-08ccdbb6ce71">
 
-已更新可以按目录导入，多目录选择导入等
-![目录导入功能](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/b215d8aa-783b-49fd-b3e8-7d111e702552)
-使用流程：1、在自定义目录中，直接写要上传的目录名称，目录和目录之间用英文逗号隔开；2、在Apipost先新建目录或者查看已有目录，将目录名写入自定义目录中；点击upgrade后，可以筛选导入的目录中；
+前置URL配置：
+可以根据所选模块的配置文件获取对应的访问前缀，没有对应的配置文件，则需要自己填写，若配置文件中未配置端口号以及访问总路径则使用默认端口号8080。
+
+配置方法：同样在Settings > Apipost Config 「前置URL配置」中配置，配置完成后，同步API时，会根据选择的目录将Perfix Url自动填入到Apipost接口中。
+<img width="540" alt="6430" src="https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/840c8816-3e06-43a8-934e-aaf50c2773b1">
 
 - 上传文件
 
@@ -71,7 +77,7 @@
 
 6、IDEA导入Api，参数格式是application/x-www-form-urlencoded，而不是From-data，需排查插件书写格式问题或者是否是个BUG；----用户已验证，此问题是IDEA中书写规范问题，感谢Java攻城狮~JouTao；
 
-7、不支持注释来提取注释的目录名字导入；
+7、Controller太大了，导致传不上去；
 
 8、IDEA接口更新问题，如果Api在Apipost总url有更改，就会更新一个新的接口；----已验证，更新跟随url变更，url不变则不会新增接口，会在原接口基础上更新；
 
