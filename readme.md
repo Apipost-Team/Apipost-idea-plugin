@@ -27,15 +27,22 @@
 如遇到云端地址没有或者不对情况，请填写：https://sync-project.apipost.cn/api/convert
 
 同步API时可选择同步目录：
+
 可以在 Settings > Apipost Config 「自定义目录」中配置。多目录可以用英文逗号分隔，子目录可以用斜杠分隔。
+
 示例：Test1/Test1.2,Test2
-<img width="540" alt="6410" src="https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/ac5dc965-fc10-4a80-8690-08ccdbb6ce71">
+ 
+   <img width="540" alt="6410" src="https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/ac5dc965-fc10-4a80-8690-08ccdbb6ce71">
 
 前置URL配置：
+
 可以根据所选模块的配置文件获取对应的访问前缀，没有对应的配置文件，则需要自己填写，若配置文件中未配置端口号以及访问总路径则使用默认端口号8080。
 
-配置方法：同样在Settings > Apipost Config 「前置URL配置」中配置，配置完成后，同步API时，会根据选择的目录将Perfix Url自动填入到Apipost接口中。
-<img width="540" alt="6430" src="https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/840c8816-3e06-43a8-934e-aaf50c2773b1">
+配置方法：
+
+同样在Settings > Apipost Config 「前置URL配置」中配置，配置完成后，同步API时，会根据选择的目录将Perfix Url自动填入到Apipost接口中。
+
+   <img width="540" alt="6430" src="https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/840c8816-3e06-43a8-934e-aaf50c2773b1">
 
 - 上传文件
 
