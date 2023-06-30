@@ -71,23 +71,11 @@
 ## 问题反馈
 - 现存问题：
 
-1、暂时不支持按目录导入，选择目录导入----已修复，可在IDEA中新建目录导入，感谢Java攻城狮~JouTao
+1、Controller太大了，导致传不上去；
 
-2、暂时不支持23.1以前版本安装，版本兼容问题，21.3之后插件可安装，但无法上传，21.2之前版本插件安装不了；----已修复，可支持19--21.3之间版本的IDEA了，感谢Java攻城狮~Linyuan
+2、IDEA接口更新问题，如果Api在Apipost总url有更改，就会更新一个新的接口；----已验证，更新跟随url变更，url不变则不会新增接口，会在原接口基础上更新；
 
-3、Api导入URL没有拼域名----已修复，可在IDEA中按服务输入前缀URL并拼入接口URL中，感谢Java攻城狮~Linyuan
-
-4、项目ID不能保存----已修复，感谢Java攻城狮~Zhuoyuan1 
-
-5、暂时不支持导入Apipost已存在的目录中----已修复，可在Apipost中新建目录，从IDEA直接导入新建的目录中，感谢Java攻城狮~JouTao
-
-6、IDEA导入Api，参数格式是application/x-www-form-urlencoded，而不是From-data，需排查插件书写格式问题或者是否是个BUG；----用户已验证，此问题是IDEA中书写规范问题，感谢Java攻城狮~JouTao；
-
-7、Controller太大了，导致传不上去；
-
-8、IDEA接口更新问题，如果Api在Apipost总url有更改，就会更新一个新的接口；----已验证，更新跟随url变更，url不变则不会新增接口，会在原接口基础上更新；
-
-9、插件的代码,clone的时候异常了；出现在这种controller就会异常,同步不了接口；
+3、插件的代码,clone的时候异常了；出现在这种controller就会异常,同步不了接口；
 ![e41d37e7-de04-4a96-bfb6-1cb3677dc057](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/a6d789a1-a0d8-4cf1-893b-97711b1195d4)
 
 
