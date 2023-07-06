@@ -17,6 +17,7 @@ import java.net.InetAddress;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
@@ -130,7 +131,10 @@ public class CommonUtil {
                 Properties properties = new Properties();
                 properties.load(inputStream);
                 contentPath=properties.getProperty("server.servlet.context-path");
-                port= Integer.valueOf(properties.getProperty("server.port"));
+                String property = properties.getProperty("server.port");
+                if(Objects.nonNull(property)){
+                    port= Integer.valueOf(property);
+                }
             }
             if(file.getName().endsWith(".yml")){
                 InputStream inputStream = Files.newInputStream(file.toPath());
@@ -143,7 +147,10 @@ public class CommonUtil {
                     server=(JSONObject) server.get("server");
                 }
                 if(null!=server){
-                    port= Integer.valueOf(server.getStr("port"));
+                    String port1 = server.getStr("port");
+                    if(Objects.nonNull(port1)){
+                        port= Integer.valueOf(port1);
+                    }
                     server = (JSONObject) server.get("servlet");
                     if (server != null) {
                         contentPath=server.getStr("context-path");
@@ -151,6 +158,7 @@ public class CommonUtil {
                 }
             }
         }
+        contentPath = StringUtils.isEmpty(contentPath)?"":contentPath;
         return getServerIp()+":"+(port == null ? SERVER_DEFAULT_PORT : port)+contentPath;
     }
 
