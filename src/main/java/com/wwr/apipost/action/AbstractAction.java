@@ -6,12 +6,15 @@ import com.intellij.notification.NotificationType;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
+import com.intellij.openapi.module.Module;
+import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiFile;
 import com.wwr.apipost.config.ApiPostConfig;
 import com.wwr.apipost.config.ApiPostConfigUtils;
 import com.wwr.apipost.config.DefaultConstants;
@@ -19,6 +22,7 @@ import com.wwr.apipost.config.domain.Api;
 import com.wwr.apipost.config.domain.EventData;
 import com.wwr.apipost.handle.apipost.config.ApiPostSettings;
 import com.wwr.apipost.parse.ApiParser;
+import com.wwr.apipost.parse.model.ApiModule;
 import com.wwr.apipost.parse.model.ClassApiData;
 import com.wwr.apipost.parse.model.MethodApiData;
 import com.wwr.apipost.parse.util.NotificationUtils;
@@ -30,7 +34,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -64,7 +70,7 @@ public abstract class AbstractAction extends AnAction {
     }
 
     protected AbstractAction() {
-         this.requiredConfigFile = true;
+        this.requiredConfigFile = true;
 //        this.requiredConfigFile = false;
     }
 
@@ -93,14 +99,25 @@ public abstract class AbstractAction extends AnAction {
         if (!after(event, config, data)) {
             return;
         }
-        // 3.解析文档
-        StepResult<List<Api>> apisResult = parse(data, config);
+        // 3.分模块解析文档
+        StepResult<Map<String, ApiModule>> apisResult = parse(data, config);
         if (!apisResult.isContinue()) {
             return;
         }
         // 4.文档处理
-        List<Api> apis = apisResult.getData();
-        handle(event, config, apis);
+        Map<String, ApiModule> apiMap = apisResult.getData();
+        for (ApiModule apiModule : apiMap.values()) {
+            int batchSize = 10; // 每个批次的大小
+            List<Api> apis = apiModule.getApis();
+            int totalBatches = (int) Math.ceil((double) apis.size() / batchSize);
+            for (int batch = 0; batch < totalBatches; batch++) {
+                int startIndex = batch * batchSize;
+                int endIndex = Math.min(startIndex + batchSize, apis.size());
+                List<Api> batchData = apis.subList(startIndex, endIndex);
+                // 在这里对批次数据进行处理
+                handle(event, apiModule.getModule(), config, batchData);
+            }
+        }
     }
 
     /**
@@ -123,13 +140,19 @@ public abstract class AbstractAction extends AnAction {
     public abstract void handle(AnActionEvent event, ApiPostConfig config, List<Api> apis);
 
     /**
+     * 文档处理
+     */
+    public abstract void handle(AnActionEvent event, Module module, ApiPostConfig config, List<Api> apis);
+
+    /**
      * 解析文档模型数据
      */
-    private StepResult<List<Api>> parse(EventData data, ApiPostConfig config) {
+    private StepResult<Map<String, ApiModule>> parse(EventData data, ApiPostConfig config) {
         ApiParser parser = new ApiParser(data.getProject(), data.getModule(), config);
+        Map<String, ApiModule> apiModuleMap = new HashMap<>(8);
         // 选中方法
         if (data.getSelectedMethod() != null) {
-            MethodApiData methodData = parser.parse(data.getSelectedMethod());
+            MethodApiData methodData = parser.parse(data);
             if (!methodData.isValid()) {
                 NotificationUtils.notifyWarning(DefaultConstants.NAME,
                         "The current method is not a valid api or ignored");
@@ -139,12 +162,13 @@ public abstract class AbstractAction extends AnAction {
                 NotificationUtils.notifyWarning(DefaultConstants.NAME, "The current method must declare summary");
                 return StepResult.stop();
             }
-            return StepResult.ok(methodData.getApis());
+            apiModuleMap.put(methodData.getModule().getName(), new ApiModule(methodData.getApis(), methodData.getModule()));
+            return StepResult.ok(apiModuleMap);
         }
 
         // 选中类
         if (data.getSelectedClass() != null) {
-            ClassApiData controllerData = parser.parse(data.getSelectedClass());
+            ClassApiData controllerData = parser.parseV1(data);
             if (!controllerData.isValid()) {
                 NotificationUtils.notifyWarning(DefaultConstants.NAME,
                         "The current class is not a valid controller or ignored");
@@ -154,7 +178,8 @@ public abstract class AbstractAction extends AnAction {
                 NotificationUtils.notifyWarning(DefaultConstants.NAME, "The current class must declare category");
                 return StepResult.stop();
             }
-            return StepResult.ok(controllerData.getApis());
+            apiModuleMap.put(controllerData.getModule().getName(), new ApiModule(controllerData.getApis(), controllerData.getModule()));
+            return StepResult.ok(apiModuleMap);
         }
 
         // 批量
@@ -163,7 +188,7 @@ public abstract class AbstractAction extends AnAction {
             NotificationUtils.notifyWarning(DefaultConstants.NAME, "Not found valid controller class");
             return StepResult.stop();
         }
-        List<Api> apis = Lists.newLinkedList();
+
         for (PsiClass controller : controllers) {
             ClassApiData controllerData = parser.parse(controller);
             if (!controllerData.isValid()) {
@@ -177,9 +202,23 @@ public abstract class AbstractAction extends AnAction {
                 controllerApis = controllerApis.stream().filter(o -> StringUtils.isNotEmpty(o.getSummary()))
                         .collect(Collectors.toList());
             }
+            PsiFile psiFile = controller.getContainingFile();
+            VirtualFile virtualFile = psiFile.getVirtualFile();
+            Module module = ModuleUtilCore.findModuleForFile(virtualFile, data.getProject());
+            if (module == null) {
+                continue;
+            }
+            ApiModule apiModule = apiModuleMap.get(module.getName());
+            if (apiModule == null) {
+                apiModule = new ApiModule();
+            }
+            List<Api> apis = apiModule.getApis();
             apis.addAll(controllerApis);
+            apiModule.setModule(module);
+            apiModule.setApis(apis);
+            apiModuleMap.put(module.getName(), apiModule);
         }
-        return StepResult.ok(apis);
+        return StepResult.ok(apiModuleMap);
     }
 
     /**

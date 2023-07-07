@@ -1,5 +1,6 @@
 package com.wwr.apipost.parse.model;
 
+import com.intellij.openapi.module.Module;
 import com.intellij.psi.PsiMethod;
 import com.wwr.apipost.config.domain.Api;
 import lombok.Data;
@@ -28,6 +29,10 @@ public class MethodApiData {
      * 指定的接口名称
      */
     private String declaredApiSummary;
+    /**
+     * 模块
+     */
+    private Module module;
 
     /**
      * 接口列表

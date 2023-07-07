@@ -1,6 +1,8 @@
 package com.wwr.apipost.util.psi;
 
 import com.google.common.collect.Lists;
+import com.intellij.openapi.module.Module;
+import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.*;
@@ -23,6 +25,10 @@ public class PsiFileUtils {
         List<PsiJavaFile> files = Lists.newArrayListWithExpectedSize(psiFiles.length);
         PsiManager psiManager = PsiManager.getInstance(project);
         for (VirtualFile f : psiFiles) {
+            Module module = ModuleUtilCore.findModuleForFile(f, project);
+            if (module == null) {
+                continue;
+            }
             if (f.isDirectory()) {
                 VirtualFile[] children = f.getChildren();
                 List<PsiJavaFile> theFiles = getPsiJavaFiles(project, children);

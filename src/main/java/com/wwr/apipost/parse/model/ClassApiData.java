@@ -1,6 +1,7 @@
 package com.wwr.apipost.parse.model;
 
 import com.google.common.collect.Lists;
+import com.intellij.openapi.module.Module;
 import com.wwr.apipost.config.domain.Api;
 import lombok.Data;
 
@@ -24,6 +25,10 @@ public class ClassApiData {
     private String declaredCategory;
 
     private List<MethodApiData> methodDataList;
+    /**
+     * 模块
+     */
+    private Module module;
 
     public List<Api> getApis() {
         if (methodDataList == null || methodDataList.isEmpty()) {
