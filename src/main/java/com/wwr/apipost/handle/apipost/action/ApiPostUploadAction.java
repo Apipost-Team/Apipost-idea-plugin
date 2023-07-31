@@ -46,7 +46,6 @@ import static com.wwr.apipost.util.JsonUtils.toJson;
  * @author wwr
  * @version 1.0
  * @date 2023/3/24
- *
  * @since 1.0.1
  */
 public class ApiPostUploadAction extends AbstractAction {
@@ -99,18 +98,70 @@ public class ApiPostUploadAction extends AbstractAction {
         String projectId = settings.getProjectId();
         String remoteUrl = settings.getRemoteUrl();
         String workDir = settings.getWorkDir();
-        if(null!=workDir&&!"".equals(workDir)&&workDir.contains(",")){
+        if (null != workDir && !"".equals(workDir) && workDir.contains(",")) {
             ApiPostWorkDirDialog.show(event.getData(CommonDataKeys.PROJECT), event.getPresentation().getText(), module, apis);
-        }else{
-            if(null!=workDir && !"".equals(workDir)){
+        } else {
+            if (null != workDir && !"".equals(workDir)) {
                 for (Api api : apis) {
                     api.setCategory(workDir);
                 }
             }
             OpenAPI openApi = new OpenApiDataConvert().convert(apis);
-            int apiNum =  openApi.getPaths().size();
-            if (apiNum < 1){
-                notifyInfo("Upload Result","Api not found!");
+            int apiNum = openApi.getPaths().size();
+            if (apiNum < 1) {
+                notifyInfo("Upload Result", "Api not found!");
+                return;
+            }
+            openApi.getInfo().setTitle(module.getName());
+            JsonObject apiJsonObject = new OpenApiGenerator().generate(openApi);
+            // 上传到ApiPost
+            ApiPostSyncRequestEntity entity = new ApiPostSyncRequestEntity();
+            entity.setOpenApi(apiJsonObject);
+            entity.setProjectId(projectId);
+            String requestBodyJson = toJson(entity);
+            String responseBody;
+            try {
+                HttpResponse response = HttpRequest.post(remoteUrl)
+                        .header("Content-Type", "application/json")
+                        .header("token", token)
+                        .body(requestBodyJson)
+                        .execute();
+                responseBody = response.body();
+            } catch (Exception e) {
+                notifyError("upload error: network error!");
+                return;
+            }
+            ApiPostSyncResponseVO responseVO = fromJson(responseBody, ApiPostSyncResponseVO.class);
+
+            if (responseVO.isSuccess()) {
+                notifyInfo("Upload Result", String.format("Upload %d Api success!", apiNum));
+            } else {
+                notifyError("Upload Result", "Upload failed!" + responseVO.getMessage());
+            }
+        }
+    }
+
+    @Override
+    public void handle(AnActionEvent event, Module module, ApiPostConfig config, List<Api> apis) {
+        // 获取当前类所在模块名
+        ApiPostSettings settings = ApiPostSettings.getInstance();
+        String token = settings.getToken();
+        String projectId = settings.getProjectId();
+        String remoteUrl = settings.getRemoteUrl();
+        String workDir = settings.getWorkDir();
+        if (null != workDir && !"".equals(workDir) && workDir.contains(",")) {
+            ApiPostWorkDirDialog.show(event.getData(CommonDataKeys.PROJECT), event.getPresentation().getText(), module, apis);
+        } else {
+            if (null == workDir || "".equals(workDir)) {
+                workDir = module.getName() + "/" + workDir;
+            }
+            for (Api api : apis) {
+                api.setCategory(workDir + api.getCategory());
+            }
+            OpenAPI openApi = new OpenApiDataConvert().convert(apis);
+            int apiNum = openApi.getPaths().size();
+            if (apiNum < 1) {
+                notifyInfo("Upload Result", "Api not found!");
                 return;
             }
             openApi.getInfo().setTitle(module.getName());
