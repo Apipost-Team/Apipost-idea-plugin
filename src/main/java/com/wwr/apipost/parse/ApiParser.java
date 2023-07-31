@@ -121,10 +121,16 @@ public class ApiParser {
 
         // 4.多路径处理
         List<Api> apis = pathInfo.getPaths().stream().map(path -> {
-            Api api = methodApi;
-            if (pathInfo.getPaths().size() > 1) {
-                api = InternalUtils.clone(methodApi);
-            }
+            Api api = new Api();
+            api.setSummary(methodApi.getSummary());
+            api.setDescription(methodApi.getDescription());
+            api.setTags(methodApi.getTags());
+            api.setDeprecated(methodApi.getDeprecated());
+            api.setParameters(methodApi.getParameters());
+            api.setRequestBodyType(methodApi.getRequestBodyType());
+            api.setRequestBody(methodApi.getRequestBody());
+            api.setRequestBodyForm(methodApi.getRequestBodyForm());
+            api.setResponses(methodApi.getResponses());
             api.setMethod(pathInfo.getMethod());
             api.setPath(PathUtils.path(classLevelInfo.getPath(), path));
             if (this.settings.getPath() != null) {

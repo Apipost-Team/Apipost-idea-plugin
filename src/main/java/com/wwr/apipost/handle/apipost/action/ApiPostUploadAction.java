@@ -120,25 +120,28 @@ public class ApiPostUploadAction extends AbstractAction {
             entity.setOpenApi(apiJsonObject);
             entity.setProjectId(projectId);
             String requestBodyJson = toJson(entity);
-            String responseBody;
             try {
                 HttpResponse response = HttpRequest.post(remoteUrl)
                         .header("Content-Type", "application/json")
                         .header("token", token)
                         .body(requestBodyJson)
                         .execute();
-                responseBody = response.body();
+                String responseBody = response.body();
+                if (!response.isOk()) {
+                    notifyError("Upload Result", "Upload failed!" + responseBody);
+                    return;
+                }
+                ApiPostSyncResponseVO responseVO = fromJson(responseBody, ApiPostSyncResponseVO.class);
+
+                if (responseVO.isSuccess()) {
+                    notifyInfo("Upload Result", String.format("Upload %d Api success!", apiNum));
+                } else {
+                    notifyError("Upload Result", "Upload failed!" + responseVO.getMessage());
+                }
             } catch (Exception e) {
                 notifyError("upload error: network error!");
-                return;
             }
-            ApiPostSyncResponseVO responseVO = fromJson(responseBody, ApiPostSyncResponseVO.class);
 
-            if (responseVO.isSuccess()) {
-                notifyInfo("Upload Result", String.format("Upload %d Api success!", apiNum));
-            } else {
-                notifyError("Upload Result", "Upload failed!" + responseVO.getMessage());
-            }
         }
     }
 

@@ -35,7 +35,7 @@ public class PathParser {
     }
 
     /**
-     * 解析请求映射信息
+     * 解析请求映射信息,解析路径和类型（get、post等）
      */
     public static PathInfo parse(PsiMethod method) {
         PathInfo pathInfo = null;
