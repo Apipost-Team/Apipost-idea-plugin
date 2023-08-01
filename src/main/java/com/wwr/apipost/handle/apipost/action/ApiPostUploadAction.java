@@ -1,5 +1,6 @@
 package com.wwr.apipost.handle.apipost.action;
 
+import cn.hutool.core.collection.ListUtil;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import com.google.gson.JsonObject;
@@ -29,7 +30,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.wwr.apipost.config.DefaultConstants.API_POST_PROJECT_ID_PREFIX;
 import static com.wwr.apipost.parse.util.NotificationUtils.notifyError;
@@ -107,41 +112,72 @@ public class ApiPostUploadAction extends AbstractAction {
                     api.setCategory(workDir);
                 }
             }
-            OpenAPI openApi = new OpenApiDataConvert().convert(apis);
-            int apiNum =  openApi.getPaths().size();
-            if (apiNum < 1){
+            if (apis.size() < 1){
                 notifyInfo("Upload Result","Api not found!");
                 return;
             }
-            openApi.getInfo().setTitle(module.getName());
-            JsonObject apiJsonObject = new OpenApiGenerator().generate(openApi);
-            // 上传到ApiPost
-            ApiPostSyncRequestEntity entity = new ApiPostSyncRequestEntity();
-            entity.setOpenApi(apiJsonObject);
-            entity.setProjectId(projectId);
-            String requestBodyJson = toJson(entity);
-            try {
-                HttpResponse response = HttpRequest.post(remoteUrl)
-                        .header("Content-Type", "application/json")
-                        .header("token", token)
-                        .body(requestBodyJson)
-                        .execute();
-                String responseBody = response.body();
-                if (!response.isOk()) {
-                    notifyError("Upload Result", "Upload failed!" + responseBody);
-                    return;
-                }
-                ApiPostSyncResponseVO responseVO = fromJson(responseBody, ApiPostSyncResponseVO.class);
+            //分片上传
+            AtomicInteger success = new AtomicInteger(0);
+            AtomicInteger fail = new AtomicInteger(0);
+            Set<String> resultSet = new CopyOnWriteArraySet<>();
+            List<List<Api>> split = ListUtil.split(apis, 200);
+            ExecutorService executorService= Executors.newFixedThreadPool(split.size());
+            List<CompletableFuture> completableFutureList = new ArrayList<>();
+            for (int i = 0; i < split.size(); i++) {
+                List<Api> apiList = split.get(i);
+                int size = apiList.size();
+                CompletableFuture<Void> uploadResult = CompletableFuture.runAsync(() -> {
+                    OpenAPI openApi = new OpenApiDataConvert().convert(apiList);
 
-                if (responseVO.isSuccess()) {
-                    notifyInfo("Upload Result", String.format("Upload %d Api success!", apiNum));
-                } else {
-                    notifyError("Upload Result", "Upload failed!" + responseVO.getMessage());
-                }
-            } catch (Exception e) {
-                notifyError("upload error: network error!");
+                    openApi.getInfo().setTitle(module.getName());
+                    JsonObject apiJsonObject = new OpenApiGenerator().generate(openApi);
+                    // 上传到ApiPost
+                    ApiPostSyncRequestEntity entity = new ApiPostSyncRequestEntity();
+                    entity.setOpenApi(apiJsonObject);
+                    entity.setProjectId(projectId);
+                    String requestBodyJson = toJson(entity);
+                    try {
+                        HttpResponse response = HttpRequest.post(remoteUrl)
+                                .header("Content-Type", "application/json")
+                                .header("token", token)
+                                .body(requestBodyJson)
+                                .execute();
+
+                        if (!response.isOk()) {
+                            fail.addAndGet(size);
+                            resultSet.add("Upload failed! system error");
+                            return;
+                        }
+                        String responseBody = response.body();
+                        ApiPostSyncResponseVO responseVO = fromJson(responseBody, ApiPostSyncResponseVO.class);
+
+                        if (responseVO.isSuccess()) {
+                            success.addAndGet(size);
+                        } else {
+                            fail.addAndGet(size);
+                            resultSet.add("Upload failed!" + responseVO.getMessage());
+                        }
+                    } catch (Exception e) {
+                        fail.addAndGet(size);
+                        resultSet.add("upload error: network error!");
+                    }
+                },executorService);
+                completableFutureList.add(uploadResult);
             }
 
+            try {
+                CompletableFuture.allOf(completableFutureList.toArray(new CompletableFuture[0])).get();
+            } catch (InterruptedException | ExecutionException e) {
+                NotificationUtils.notifyInfo("Upload Result", "Upload fail");
+            }
+            String result = "";
+            if (success.get() != 0) {
+                result += String.format("Upload %d Api success!", success.get());
+            }
+            if (fail.get() != 0) {
+                result += String.format("Upload %s Api fail! %s", fail.get(), resultSet);
+            }
+            NotificationUtils.notifyInfo("Upload Result", result);
         }
     }
 
