@@ -75,6 +75,7 @@
 1、IDEA接口更新问题，如果Api在Apipost总url有更改，就会更新一个新的接口；----已验证，更新跟随url变更，url不变则不会新增接口，会在原接口基础上更新；
 
 2、字段为list<str>时候，上传Apipost参数展示bug
+
 [图片]![image](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/35a58880-ab85-40a5-b0f0-cf35e1a2ec15)
 
 
