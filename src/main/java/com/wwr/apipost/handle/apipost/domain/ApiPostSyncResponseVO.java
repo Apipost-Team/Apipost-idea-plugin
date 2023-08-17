@@ -46,7 +46,7 @@ public class ApiPostSyncResponseVO<T> {
 
 
     public Boolean isSuccess() {
-        return this.code == 0;
+        return this.code == 0 || 10000 == this.code;
     }
 
 

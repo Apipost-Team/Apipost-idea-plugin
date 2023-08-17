@@ -145,7 +145,7 @@ public class ApiPostUploadAction extends AbstractAction {
 
                         if (!response.isOk()) {
                             fail.addAndGet(size);
-                            resultSet.add("Upload failed! system error");
+                            resultSet.add("Upload failed! system error,error code "+response.getStatus());
                             return;
                         }
                         String responseBody = response.body();
