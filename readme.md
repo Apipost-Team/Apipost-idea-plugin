@@ -72,12 +72,10 @@
 ## 问题反馈
 - 现存问题：
 
-1、Controller太大了，导致传不上去；
+1、IDEA接口更新问题，如果Api在Apipost总url有更改，就会更新一个新的接口；----已验证，更新跟随url变更，url不变则不会新增接口，会在原接口基础上更新；
 
-2、IDEA接口更新问题，如果Api在Apipost总url有更改，就会更新一个新的接口；----已验证，更新跟随url变更，url不变则不会新增接口，会在原接口基础上更新；
-
-3、插件的代码,clone的时候异常了；出现在这种controller就会异常,同步不了接口；
-![e41d37e7-de04-4a96-bfb6-1cb3677dc057](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/a6d789a1-a0d8-4cf1-893b-97711b1195d4)
+2、字段为list<str>时候，上传Apipost参数展示bug
+[图片]![image](https://github.com/Apipost-Team/Apipost-idea-plugin/assets/134056636/35a58880-ab85-40a5-b0f0-cf35e1a2ec15)
 
 
 - 以上是我们个人使用用户反馈，欢迎牛逼的Java攻城狮，一起完善好产品，做出自己的IEDA插件，让开发测试更简单；
